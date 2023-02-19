@@ -11,7 +11,6 @@ function Home() {
       backgroundSize: "cover"
     }}>
       <Header/>
-      <Decks/>
     </div>
   );
 }
