@@ -8,7 +8,7 @@ We first need to install MongoDB, and NodeJs. Then we install packages in server
    $ cd client
    $ npm install
    $ cd ..
-   $ cd client
+   $ cd server
    $ npm install
    
 ```
