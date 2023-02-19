@@ -5,11 +5,16 @@ function Header() {
   return (
     <div className="header">
     <Text size="lg" weight={700} sx={{ fontSize: '29px' }} className="header-text">
-      The Flashcard App
+      HOP-OUT
     </Text>
-    <Button className="login-button">
-      Login
-    </Button>
+    <div>
+        <Button className="login-button">
+        Login
+        </Button>
+        <Button className="login-button">
+        Sign Up
+        </Button>
+    </div>
     </div>
   );
 }
