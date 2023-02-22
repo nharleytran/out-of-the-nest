@@ -14,55 +14,29 @@ function Path() {
   // if (!paths) {
   //   return null;
   // }
+
+  const paths = [
+    { title: "Medical School" },
+    { title: "Software Engineering" },
+    { title: "Consulting" },
+    { title: "Graduate Programs" },
+    { title: "Other Engineering Professions" }
+  ];
   
 
   return (
     <div className = "paths-container">
+    {paths.map((path,index) => (
       <Link to={`/feed`}>
         <Button className="path-box" shadow="sm">
           <div className="path-content">
             <Text size="xl" weight={700} className="path-title">
-              Medical Schools
+              {path.title}
             </Text>
           </div>
           </Button>
       </Link>
-      <Link to={`/feed`}>
-        <Button className="path-box" shadow="sm">
-          <div className="path-content">
-            <Text size="xl" weight={700} className="path-title">
-              Medical Schools
-            </Text>
-          </div>
-          </Button>
-      </Link>
-      <Link to={`/feed`}>
-        <Button className="path-box" shadow="sm">
-          <div className="path-content">
-            <Text size="xl" weight={700} className="path-title">
-              Medical Schools
-            </Text>
-          </div>
-          </Button>
-      </Link>
-      <Link to={`/feed`}>
-        <Button className="path-box" shadow="sm">
-          <div className="path-content">
-            <Text size="xl" weight={700} className="path-title">
-              Medical Schools
-            </Text>
-          </div>
-          </Button>
-      </Link>
-      <Link to={`/feed`}>
-        <Button className="path-box" shadow="sm">
-          <div className="path-content">
-            <Text size="xl" weight={700} className="path-title">
-              Medical Schools
-            </Text>
-          </div>
-          </Button>
-      </Link>
+    ))}
     </div>
   );
 }
