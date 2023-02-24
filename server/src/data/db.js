@@ -1,18 +1,25 @@
-const mongoose = require("mongoose");
-const category = require("./category.js");
-const post = require("./post.js");
-const dbUri = "mongodb://localhost:27017/hopout";
-mongoose.set('strictQuery', false);
+import mongoose from "mongoose";
+import dotenv from 'dotenv';
 
+dotenv.config()
 
+const URI = "mongodb+srv://outofthenest:IBf1pTvKcdAvOtgm@outofthenest.3ji0djw.mongodb.net/?retryWrites=true&w=majority";
+// process.env.DB_URI;
 
-main().catch(err => console.log(err));
-
-async function main() {
-    await mongoose.connect(dbUri);
-}
-
-module.exports = {
-    category,
-    post  
+const option = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 };
+
+export function connect() {
+  mongoose.connect(URI, option);
+
+  mongoose.connection.on("error", (err) => {
+    console.log("Could not connect to MongoDB");
+    console.log(err);
+  });
+  
+  mongoose.connection.on("open", () => {
+    console.log("Connected to MongoDB!");
+  });
+}
