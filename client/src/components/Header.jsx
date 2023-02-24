@@ -5,7 +5,7 @@ function Header() {
   return (
     <div className="header">
     <Text size="lg" weight={700} sx={{ fontSize: '29px' }} className="header-text">
-      The Flashcard App
+      HopOut Forum
     </Text>
     <Button className="login-button">
       Login
