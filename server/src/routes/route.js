@@ -1,22 +1,17 @@
-import * as DB from '../data/db.js';
+const express = require('express');
+const router = express.Router();
+const DB = require('../data/db.js');
 
-// Anh's code:
-export const getRoute = function(app){
-
-    app.get('/getCategory', (req, res) => {
-        DB.getCategory().then((result) => {
-            res.send(result);
-        });
+router.get('/createCategory', (req, res) => {
+    DB.category.createCategory(req.query.categoryName).then((result) => {
+        res.send("hello");
     });
-    app.get('/getPost', (req, res) => {
-        DB.getPost(req.category).then((result) => {
-            console.log(req.category);
+});
 
-            res.send({cat:req.category});
-            res.send(result);
-        });
+router.get('/getCategory', (req, res) => {
+    DB.category.getCategory().then((result) => {
+        res.send(result);
     });
-    
+});
 
-    //other routes..
-}
+module.exports = router;
