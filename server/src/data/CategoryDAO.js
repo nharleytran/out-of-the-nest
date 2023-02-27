@@ -1,13 +1,13 @@
 import Category from "../model/Category.js"
 
-class CategoryDAO {
-    async createCategory({categoryName}) {
-        const doc = new Category({ name: categoryName });
-        await doc.save();
-    }
-    
+class CategoryDAO {  
     async getCategory() {
-        return await Category.find({});
+        const filter = {};
+        if (name) {
+          filter.name = name;
+        }
+        const decks = await Deck.find(filter);
+        return decks;
     }
 }
 
