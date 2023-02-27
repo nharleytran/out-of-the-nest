@@ -28,6 +28,14 @@ class PostDAO {
         }
         return post;
       }
+
+    async getPostsByCategory(categoryId) {
+      const post =  await Post.find({category_id: categoryId})
+      if (!post) {
+        throw new Error('Post not found');
+      }
+      return post;
+    }
     
     async  deletePost(postId) {
         const post = await Post.findById(postId);
