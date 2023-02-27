@@ -1,21 +1,33 @@
 import mongoose from "mongoose";
 
 const PostSchema = new mongoose.Schema({
-    title: String,
-    content: String,
-    author: String,
-    date: {
-        type: Date,
-        default: Date.now
+    title: {
+      type: String,
+      required: true
     },
-    category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category'
+    outcome: String,
+    content: {
+      type: String,
+      required: true
+    },
+    author: {
+      type: String,
+      required: true
+    },
+    date: {
+      type: Date,
+      default: Date.now
+    },
+    category_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Category'
     },
     gpa: Number,
-    resume: String, // assuming that you will store the file path here
+    testscore: String,
+    resume: String,
     extracurriculars: [String]
-});
+  });
+  
 
 const Post = mongoose.model('Post', PostSchema);
 
