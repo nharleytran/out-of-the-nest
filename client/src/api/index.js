@@ -48,5 +48,3 @@ export async function updatePost(postId, updatedFields) {
     throw err;
   }
 }
-
-export { getAllCategories, createPost, deletePost, getPost, updatePost };

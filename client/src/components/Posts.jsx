@@ -13,7 +13,7 @@ function Posts() {
   return (
     <div className="posts-container">
       {posts.map((post, index) => (
-        <Link to={`/feed/post${index}`} key={index}>
+        <Link to={`/feed/post`} key={index}>
           <Card className="post-box" shadow="sm">
             <div className="post-content">
               <Text size="xl" weight={700} className="post-title">
