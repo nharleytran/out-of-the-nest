@@ -49,4 +49,3 @@ export async function updatePost(postId, updatedFields) {
   }
 }
 
-export { getAllCategories, createPost, deletePost, getPost, updatePost };

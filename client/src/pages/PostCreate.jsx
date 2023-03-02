@@ -1,23 +1,14 @@
 import Header from '../components/Header';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Container, Menu, TextInput, Textarea, FileInput, Divider, Button, Checkbox, Select } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import * as postapi from "../api/index"
 
 function PostCreate() {
-    // const [title, setTitle] = useState("");
-    // const [outcome, setOutcome] = useState("");
-    // const [content, setContent] = useState("");
-    // const [author, setAuthor] = useState("");
-    // const [category_id, setCategoryId] = useState("");
-    // const [gpa, setGpa] = useState(0);
-    // const [testscore, setTestscore] = useState("");
-    // const [resume, setResume] = useState("");
-    // const [extracurriculars, setExtracurriculars] = useState("");
-    const [checked, setChecked] = useState(false);    
     const [outcomevalue] = useState('');
     const [categoryvalue] = useState('');
     const navigate = useNavigate();
+    // const [categories, setCategories] = useState([]);
     const [postData, setPostdata] = useState({
         title: "",
         outcome: "",
@@ -29,7 +20,17 @@ function PostCreate() {
         resume: "",
         extracurriculars: ""
     });
+
+    // useEffect(() => {
+    //     postapi.getAllCategories()
+    //     .then((categories) => setCategories(categories))
+    // }, []);
+    
     console.log(postapi.getAllCategories())
+    // if (!categories) {
+    //     return null;
+    // }
+
     const handlePost = async () => {
         try {
             await postapi.createPost(postData)
@@ -39,14 +40,6 @@ function PostCreate() {
         }
     }
 
-    const getCategories = async () => {
-        try {
-            await postapi.getAllCategories()
-        } catch (err) {
-            console.log(err)
-        }
-    }
-    
     return (
         <>
             <Container size="lg">
@@ -54,7 +47,6 @@ function PostCreate() {
 
                 <h2>Create a post</h2>
                 </Container>
-                <Button onClick={getCategories}>test</Button>
                 <Container>
                 <Select
                     label="Categories"
@@ -70,6 +62,8 @@ function PostCreate() {
                     onChange={(categoryvalue) => setPostdata({ ...postData, category_id: categoryvalue})}
                     withAsterisk
                 />
+
+                
                 <TextInput
                     placeholder="Your post title"
                     label="Post title"
