@@ -29,10 +29,22 @@ function PostCreate() {
         resume: "",
         extracurriculars: ""
     });
-
+    console.log(postapi.getAllCategories())
     const handlePost = async () => {
-        await postapi.createPost(postData)
-        navigate("/feed", { state: { postData } });
+        try {
+            await postapi.createPost(postData)
+            navigate("/feed", { state: { postData } });
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const getCategories = async () => {
+        try {
+            await postapi.getAllCategories()
+        } catch (err) {
+            console.log(err)
+        }
     }
     
     return (
@@ -42,6 +54,7 @@ function PostCreate() {
 
                 <h2>Create a post</h2>
                 </Container>
+                <Button onClick={getCategories}>test</Button>
                 <Container>
                 <Select
                     label="Categories"
@@ -61,6 +74,12 @@ function PostCreate() {
                     placeholder="Your post title"
                     label="Post title"
                     onChange={(e) => setPostdata({ ...postData, title: e.target.value})}
+                    withAsterisk
+                />
+                <TextInput
+                    placeholder="Your author"
+                    label="Author"
+                    onChange={(e) => setPostdata({ ...postData, author: e.target.value})}
                     withAsterisk
                 />
                 <Select
@@ -107,7 +126,6 @@ function PostCreate() {
                     onChange={(e) => setPostdata({ ...postData, extracurriculars: e.target.value})}
                     withAsterisk
                 />
-                <Checkbox label="Anonymous?" checked={checked} onChange={(event) => setChecked(event.currentTarget.checked)}/>
 
             </Container>
             <Divider my="sm" />
