@@ -1,9 +1,15 @@
 import { useState, useEffect,} from "react";
 import { Container, TextInput, Textarea, Divider, Button, Select } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import * as postapi from "../api/index"
 
-function PostCreate() {
+function Edit() {
+
+    const location = useLocation();
+    const { from } = location.state;
+    const [id, setID] = useState('');
+
     const [outcomevalue] = useState('');
     const [categoryvalue] = useState('');
     const navigate = useNavigate();
@@ -20,17 +26,22 @@ function PostCreate() {
         extracurriculars: ""
     });
 
+    
+
     useEffect(()=>{
         const fetchData = async () => {
             const categories = await postapi.getAllCategories();
             setCategories(categories);
         }
+        postapi.getPost(from).then(data => {;
+          setID(data._id);  
+        })
         fetchData();
     }, []);
     
     const handlePost = async () => {
         try {
-            await postapi.createPost(postData)
+            await postapi.updatePost(id, postData);
             navigate("/feed", { state: { postData } });
         } catch (err) {
             console.log(err)
@@ -128,4 +139,4 @@ function PostCreate() {
     )
 }
 
-export default PostCreate;
+export default Edit;

@@ -40,6 +40,15 @@ export async function getPost(postId) {
   }
 }
 
+export async function getPostsByCategory(categoryId) {
+  try {
+    const response = await axiosInstance.get(`/posts/category/${categoryId}`);
+    return response.data.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
 export async function updatePost(postId, updatedFields) {
   try {
     const response = await axiosInstance.put(`/posts/${postId}`, updatedFields);
@@ -48,5 +57,3 @@ export async function updatePost(postId, updatedFields) {
     throw err;
   }
 }
-
-export { getAllCategories, createPost, deletePost, getPost, updatePost };
