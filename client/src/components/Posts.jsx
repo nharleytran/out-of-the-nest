@@ -1,16 +1,28 @@
-import { Card, Text } from '@mantine/core';
+import { Card, Text, Grid, Badge } from '@mantine/core';
 import { Link } from "react-router-dom";
 import '../App.css';
 import * as API from '../api'
 import { useEffect } from 'react';
 import { useState } from 'react';
+import * as postApi from "../api"; 
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
-function Posts() {
+
+
+function Posts(props) {
   // Assuming you have an array of post objects with a title and description property
+  console.log(props.category_id)
 
-  const [posts, setPosts] = useState([]);
+  console.log(postApi.getPostsByCategory(props.category_id))
+    const [posts,setPosts] = useState([]);
+    useEffect(() => {
+      postApi.getPostsByCategory(props.category_id).then((posts) => setPosts(posts))
+      }, []);
 
-  API.getAllCategories().then(data => API.getPostsByCategory(data[1]._id).then(data2 => setPosts(data2)));
+    if (!posts) {
+      return null;
+    }
 
   return (
     <div className="posts-container">
@@ -22,7 +34,13 @@ function Posts() {
                 {post.title}
               </Text>
               <Text size="md" className="post-description">
-                {post.author}
+                {post.description}
+                <Grid>
+                  <Grid.Col span="content"><Badge className=".post-smallbox" color= "blue">GPA:{post.gpa}</Badge></Grid.Col>
+                  <Grid.Col span="content"><Badge className=".post-smallbox" color= "blue">Program:{post.testscore}</Badge></Grid.Col>
+                  <Grid.Col span="content"><Badge className=".post-smallbox" color= "blue">Result:{post.outcome}</Badge></Grid.Col>
+                  <Grid.Col span="content"><Badge className=".post-smallbox" color= "blue">Date:{post.date}</Badge></Grid.Col>
+                </Grid>
               </Text>
             </div>
           </Card>
