@@ -4,7 +4,7 @@ const axiosInstance = axios.create({
   baseURL: "http://localhost:6660", // replace with your server's URL
 });
 
-async function getAllCategories() {
+export async function getAllCategories() {
   try {
     const response = await axiosInstance.get("/categories");
     return response.data.data;
@@ -13,7 +13,7 @@ async function getAllCategories() {
   }
 }
 
-async function createPost(postData) {
+export async function createPost(postData) {
   try {
     const response = await axiosInstance.post("/posts", postData);
     return response.data.data;
@@ -22,7 +22,7 @@ async function createPost(postData) {
   }
 }
 
-async function deletePost(postId) {
+export async function deletePost(postId) {
   try {
     const response = await axiosInstance.delete(`/posts/${postId}`);
     return response.data.data;
@@ -31,7 +31,7 @@ async function deletePost(postId) {
   }
 }
 
-async function getPost(postId) {
+export async function getPost(postId) {
   try {
     const response = await axiosInstance.get(`/posts/${postId}`);
     return response.data.data;
@@ -40,7 +40,7 @@ async function getPost(postId) {
   }
 }
 
-async function getPostsByCategory(categoryId) {
+export async function getPostsByCategory(categoryId) {
   try {
     const response = await axiosInstance.get(`/posts/category/${categoryId}`);
     return response.data.data;
@@ -49,7 +49,7 @@ async function getPostsByCategory(categoryId) {
   }
 }
 
-async function updatePost(postId, updatedFields) {
+export async function updatePost(postId, updatedFields) {
   try {
     const response = await axiosInstance.put(`/posts/${postId}`, updatedFields);
     return response.data.data;
