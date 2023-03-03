@@ -20,6 +20,20 @@ router.get("/categories", async (req, res) => {
     }
   });
 
+router.get('/posts/category/:categoryId', async (req, res) => {
+    const categoryId = req.params.categoryId;
+    try {
+      const post = await postDao.getPostsByCategory(categoryId);
+      res.json({
+        status: 200,
+        message: `Successfully retrieved post with ID ${categoryId}`,
+        data: post
+      });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  });  
+
 router.post('/posts', async (req, res) => {
   const { title, outcome, content, author, category_id, gpa, testscore, resume, extracurriculars } = req.body;
   try {
@@ -63,6 +77,8 @@ router.get('/posts/:postId', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+
 
 router.put('/posts/:postId', async (req, res) => {
   const postId = req.params.postId;
