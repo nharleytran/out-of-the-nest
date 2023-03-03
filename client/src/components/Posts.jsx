@@ -1,9 +1,6 @@
 import { Card, Text, Grid, Badge } from '@mantine/core';
 import { Link } from "react-router-dom";
 import '../App.css';
-import * as API from '../api'
-import { useEffect } from 'react';
-import { useState } from 'react';
 import * as postApi from "../api"; 
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';

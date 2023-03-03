@@ -35,7 +35,7 @@ function Post() {
 
   const deleteHandle = (event) => {
     event.preventDefault();
-    API.deletePost(id).then(navigate("/feed"));
+    API.deletePost(id).then(navigate("/"));
   };
 
     return (
