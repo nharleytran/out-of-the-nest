@@ -7,8 +7,9 @@ import { useLocation } from 'react-router-dom';
 
 
 
-function Posts() {
+function Posts(props) {
   // Assuming you have an array of post objects with a title and description property
+  console.log(props.category_id)
 
   const obj = useLocation();
   console.log(postApi.getPostsByCategory(obj.state.cat_id))
