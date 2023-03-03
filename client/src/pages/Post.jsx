@@ -52,7 +52,9 @@ function Post() {
           <Text fz="md">Content: {content}</Text>
         </Container>
         <Divider my="sm" />
-        <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>Edit draft</Button>
+        <Link to={`/edit`} state={{ from: id }}>
+          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>Edit draft</Button>
+        </Link>
         <Link to={`/feed`}>
           <Button variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }} onClick={deleteHandle}>DeletePost</Button>
         </Link>
