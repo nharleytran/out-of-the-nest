@@ -1,6 +1,5 @@
-import Header from '../components/Header';
-import { useState, useEffect, useCallback } from "react";
-import { Container, Menu, TextInput, Textarea, FileInput, Divider, Button, Checkbox, Select } from '@mantine/core';
+import { useState, useEffect,} from "react";
+import { Container, TextInput, Textarea, Divider, Button, Select } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import * as postapi from "../api/index"
 
