@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, Text, Button } from '@mantine/core';
 import '../App.css';
 import { Link } from "react-router-dom";
+import * as postApi from "../api"; 
 
 function Path() {
   // const [paths,setPaths] = useState([]);
@@ -14,31 +15,36 @@ function Path() {
   // if (!paths) {
   //   return null;
   // }
+  console.log(postApi.getAllCategories())
+    const [paths,setPaths] = useState([]);
+    useEffect(() => {
+      postApi.getAllCategories().then((paths) => setPaths(paths))
+      }, []);
+    
 
-  const paths = [
-    { title: "Medical School" },
-    { title: "Software Engineering" },
-    { title: "Consulting" },
-    { title: "Graduate Programs" },
-    { title: "Other Engineering Professions" }
-  ];
-  
+    if (!paths) {
+      return null;
+    }
+
+    const navigate = useNavigate();
 
   return (
     <div className = "paths-container">
-    {paths.map((path,index) => (
+    {paths.map((path) => (
       <Link to={`/feed`}>
         <Button className="path-box" shadow="sm">
           <div className="path-content">
             <Text size="xl" weight={700} className="path-title">
-              {path.title}
+              {path.name}
             </Text>
           </div>
           </Button>
       </Link>
     ))}
+    <Button onClick={() => navigate("/create", {state:{cat_id:"123"}})}>Create post</Button>
     </div>
   );
+
 }
 
 export default Path;
