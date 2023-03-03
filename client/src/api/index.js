@@ -57,4 +57,3 @@ export async function updatePost(postId, updatedFields) {
     throw err;
   }
 }
-

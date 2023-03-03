@@ -42,7 +42,7 @@ class PostDAO {
         if (!post) {
           throw new Error('Post not found');
         }
-        await Category.updateOne({ _id: post.category }, { $pull: { posts: post._id } });
+        await Category.updateOne({ _id: post.category_id }, { $pull: { posts: post._id } });
         await post.delete();
         return post;
     }
