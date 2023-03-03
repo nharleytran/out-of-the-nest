@@ -1,5 +1,5 @@
 import Header from '../components/Header';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Container, Menu, TextInput, Textarea, FileInput, Divider, Button, Checkbox, Select } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import * as postapi from "../api/index"
@@ -8,7 +8,7 @@ function PostCreate() {
     const [outcomevalue] = useState('');
     const [categoryvalue] = useState('');
     const navigate = useNavigate();
-    // const [categories, setCategories] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [postData, setPostdata] = useState({
         title: "",
         outcome: "",
@@ -21,16 +21,14 @@ function PostCreate() {
         extracurriculars: ""
     });
 
-    // useEffect(() => {
-    //     postapi.getAllCategories()
-    //     .then((categories) => setCategories(categories))
-    // }, []);
+    useEffect(()=>{
+        const fetchData = async () => {
+            const categories = await postapi.getAllCategories();
+            setCategories(categories);
+        }
+        fetchData();
+    }, []);
     
-    console.log(postapi.getAllCategories())
-    // if (!categories) {
-    //     return null;
-    // }
-
     const handlePost = async () => {
         try {
             await postapi.createPost(postData)
@@ -43,27 +41,22 @@ function PostCreate() {
     return (
         <>
             <Container size="lg">
-            {JSON.stringify(postData)}
-
-                <h2>Create a post</h2>
+                <div className = "alignLeft">
+                    <h1>Create a post</h1>
+                </div>
                 </Container>
                 <Container>
                 <Select
-                    label="Categories"
+                    label="Select a category to submit your post to"
                     outcomevalue={categoryvalue}
                     placeholder="Pick one"
-                    data={[
-                        { value: 'Medical School', label: 'Medical School'},
-                        { value: 'Software Engineering', label: 'Software Engineering'},
-                        { value: 'Consulting', label: "Consulting"},
-                        { value: 'Graduate Programs', label: 'Graduate Programs'},
-                        { value: 'Other Engineering Professions', label: 'Other Engineering Professions'}
-                    ]}
+                    data={categories.map((category) => ({
+                        value: category._id,
+                        label: category.name
+                    }))}
                     onChange={(categoryvalue) => setPostdata({ ...postData, category_id: categoryvalue})}
                     withAsterisk
-                />
-
-                
+                />    
                 <TextInput
                     placeholder="Your post title"
                     label="Post title"
@@ -108,10 +101,11 @@ function PostCreate() {
                     onChange={(e) => setPostdata({ ...postData, testscore: e.target.value})}
                     withAsterisk
                 />
-                <FileInput
-                    placeholder="Pick file"
-                    label="Your resume"
+                <TextInput
+                    placeholder="Your resume"
+                    label="Please enter a shareable link that contains your resume (ex. Google drive)"
                     onChange={(e) => setPostdata({ ...postData, resume: e.target.value})}
+                    withAsterisk
                 />
                 <Textarea
                     placeholder="Your extracurriculars"
@@ -120,12 +114,13 @@ function PostCreate() {
                     onChange={(e) => setPostdata({ ...postData, extracurriculars: e.target.value})}
                     withAsterisk
                 />
-
             </Container>
             <Divider my="sm" />
-            <div className="flex-end">
+            <div className="alignButtonRight">
                 <Button.Group>
-                    <Button>Save draft</Button>
+                    <div className="separateButton">
+                        <Button>Save draft</Button>
+                    </div>
                     <Button onClick={handlePost}>Post</Button>
                 </Button.Group>
             </div>

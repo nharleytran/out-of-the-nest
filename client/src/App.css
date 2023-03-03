@@ -111,3 +111,17 @@
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
   overflow: auto;
 }
+
+.alignLeft {
+  padding-left: 87px;
+}
+
+.alignButtonRight {
+  padding-right: 295px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.separateButton {
+  padding-right: 20px;
+}
