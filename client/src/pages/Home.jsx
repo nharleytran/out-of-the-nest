@@ -1,12 +1,12 @@
 import Header from "../components/Header";
 import Path from "../components/Path";
-import { Button } from '@mantine/core';
+// import { Button } from '@mantine/core';
 import '../App.css';
 import { useNavigate } from 'react-router-dom';
 
 
 function Home() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   return (
     <div className="homepage" 
     style={{
@@ -15,7 +15,7 @@ function Home() {
     }}>
       <Header/>
       <Path/>
-      <Button onClick={() => navigate("/create")}>Create post</Button>
+      {/* <Button onClick={() => navigate("/create")}>Create post</Button> */}
     </div>
   );
 }
