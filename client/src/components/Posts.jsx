@@ -9,9 +9,9 @@ import { useLocation } from 'react-router-dom';
 
 function Posts(props) {
   // Assuming you have an array of post objects with a title and description property
-  console.log(props.category_id)
+  // console.log(props.category_id)
 
-  console.log(postApi.getPostsByCategory(props.category_id))
+  // console.log(postApi.getPostsByCategory(props.category_id))
     const [posts,setPosts] = useState([]);
     useEffect(() => {
       postApi.getPostsByCategory(props.category_id).then((posts) => setPosts(posts))

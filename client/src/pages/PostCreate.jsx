@@ -1,7 +1,16 @@
 import { useState, useEffect,} from "react";
-import { Container, TextInput, Textarea, Divider, Button, Select } from '@mantine/core';
+import { Container, Divider, Button } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import * as postapi from "../api/index"
+import Category from "../components/PostContent/Category"
+import Title from "../components/PostContent/Title"
+import Author from "../components/PostContent/Author"
+import Comments from "../components/PostContent/Comments"
+import Gpa from "../components/PostContent/Gpa"
+import Outcome from "../components/PostContent/Outcome"
+import Resume from "../components/PostContent/Resume"
+import Testscore from "../components/PostContent/Testscore"
+import Extracurriculars from "../components/PostContent/Extracurriculars"
 
 function PostCreate() {
     const [outcomevalue] = useState('');
@@ -31,7 +40,7 @@ function PostCreate() {
     const handlePost = async () => {
         try {
             await postapi.createPost(postData)
-            navigate("/feed", { state: { postData } });
+            navigate("/", { state: { postData } });
         } catch (err) {
             console.log(err)
         }
@@ -45,74 +54,15 @@ function PostCreate() {
                 </div>
                 </Container>
                 <Container>
-                <Select
-                    label="Select a category to submit your post to"
-                    outcomevalue={categoryvalue}
-                    placeholder="Pick one"
-                    data={categories.map((category) => ({
-                        value: category._id,
-                        label: category.name
-                    }))}
-                    onChange={(categoryvalue) => setPostdata({ ...postData, category_id: categoryvalue})}
-                    withAsterisk
-                />    
-                <TextInput
-                    placeholder="Your post title"
-                    label="Post title"
-                    onChange={(e) => setPostdata({ ...postData, title: e.target.value})}
-                    withAsterisk
-                />
-                <TextInput
-                    placeholder="Your author"
-                    label="Author"
-                    onChange={(e) => setPostdata({ ...postData, author: e.target.value})}
-                    withAsterisk
-                />
-                <Select
-                    label="Outcome"
-                    outcomevalue={outcomevalue}
-                    placeholder="Pick one"
-                    data={[
-                        { value: 'Accepted', label: 'Accepted'},
-                        { value: 'Waitlisted', label: 'Waitlisted'},
-                        { value: 'Ghosted', label: "Ghosted"},
-                        { value: 'Rejected', label: 'Rejected'}
-                    ]}
-                    onChange={(outcomevalue) => setPostdata({ ...postData, outcome: outcomevalue})}
-                    withAsterisk
-                />
-                <Textarea
-                    placeholder="Add comments"
-                    label="Comments"
-                    autosize
-                    onChange={(e) => setPostdata({ ...postData, content: e.target.value})}
-                    withAsterisk
-                />
-                <TextInput
-                    placeholder="Your GPA"
-                    label="GPA"
-                    onChange={(e) => setPostdata({ ...postData, gpa: e.target.value})}
-                    withAsterisk
-                />
-                <TextInput
-                    placeholder="Your test score"
-                    label="Test score"
-                    onChange={(e) => setPostdata({ ...postData, testscore: e.target.value})}
-                    withAsterisk
-                />
-                <TextInput
-                    placeholder="Your resume"
-                    label="Please enter a shareable link that contains your resume (ex. Google drive)"
-                    onChange={(e) => setPostdata({ ...postData, resume: e.target.value})}
-                    withAsterisk
-                />
-                <Textarea
-                    placeholder="Your extracurriculars"
-                    label="Extracurriculars"
-                    autosize
-                    onChange={(e) => setPostdata({ ...postData, extracurriculars: e.target.value})}
-                    withAsterisk
-                />
+                <Category categoryvalue={categoryvalue} postData={postData} setPostdata={setPostdata} categories={categories}/>
+                <Title postData={postData} setPostdata={setPostdata}/>
+                <Author postData={postData} setPostdata={setPostdata}/>
+                <Outcome outcomevalue={outcomevalue} postData={postData} setPostdata={setPostdata}/>
+                <Comments postData={postData} setPostdata={setPostdata}/>
+                <Gpa postData={postData} setPostdata={setPostdata}/>
+                <Testscore postData={postData} setPostdata={setPostdata}/>
+                <Resume postData={postData} setPostdata={setPostdata}/>
+                <Extracurriculars postData={postData} setPostdata={setPostdata}/>
             </Container>
             <Divider my="sm" />
             <div className="alignButtonRight">
