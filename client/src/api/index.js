@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:6660", // replace with your server's URL
+  baseURL: "https://outofthenest.fly.dev/", // replace with your server's URL
 });
 
 export async function getAllCategories() {
