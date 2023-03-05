@@ -5,29 +5,17 @@ import * as db from "../src/data/db.js";
 
 const request = new supertest(app);
 
-describe("Posts Test", () => {
+describe("Category test", () => {
     beforeAll(async () => {
         db.connect(process.env.DB_TEST_URI);
     });
-    it("Create new post and delete", async () => {
-        const response = await request.post("/posts").send({
-            title: "Test Post",
-            content: "Test Content",
-            author: "Test Author",
+    it("GET all category", async () => {
+        const response = await request.get("/categories");
+        const categories_name = ['Consulting', 'Software Engineering', 'Other Engineering Professions', 'Medical School', 'Graduate Programs'];
+        response._body.data.forEach((category) => {
+            expect(categories_name).toContain(category.name);
         });
-        expect(response.status).toBe(200);//expect to success create
-
-        const post_id = response._body.data._id;
-        let getpostReponse = await request.get("/posts/" + post_id);
-        expect(getpostReponse.status).toBe(200); //check if it is created
-
-        const delReponse = await request.delete("/posts/" + post_id);
-        expect(delReponse.status).toBe(200);
-
-        getpostReponse = await request.get("/posts/" + post_id);
-        expect(getpostReponse.status).toBe(500);//make sure it is no longer exists
-
+        expect(response.status).toBe(200);
     });
 
 });
-
