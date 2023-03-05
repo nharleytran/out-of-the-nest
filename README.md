@@ -30,7 +30,7 @@ $ npm start
 
 ## Developing
 
-For setting up the database, we use Mongo Atlas (version 5.0.15), edit `const URI="..."` (`server/src/data/db.js`) to change the url. That's all we need to start developing the app.
+For setting up the database, we use Mongo Atlas (version 5.0.15), edit `.env` to change the URL. That's all we need to start developing the app.
 
 ## Deployment
 
