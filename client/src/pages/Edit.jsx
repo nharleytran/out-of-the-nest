@@ -3,6 +3,12 @@ import { Container, TextInput, Textarea, Divider, Button, Select } from '@mantin
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
 import * as postapi from "../api/index"
+import Comments from "../components/PostContent/Comments"
+import Outcome from "../components/PostContent/Outcome"
+import Resume from "../components/PostContent/Resume"
+import Testscore from "../components/PostContent/Testscore"
+import Extracurriculars from "../components/PostContent/Extracurriculars"
+import EditGPA from "../components/PostContent/EditGPA";
 
 function Edit() {
 
@@ -16,7 +22,6 @@ function Edit() {
     const [extra, setExtra] = useState("");
     const [comment, setComment] = useState("");
 
-    const [outcomevalue] = useState('');
     const navigate = useNavigate();
     const [postData, setPostdata] = useState({
         outcome: "",
@@ -27,13 +32,7 @@ function Edit() {
         extracurriculars: ""
     });
 
-    
-
     useEffect(()=>{
-        // const fetchData = async () => {
-        //     const categories = await postapi.getAllCategories();
-        //     setCategories(categories);
-        // }
         postapi.getPost(from).then(data => {;
           setID(data._id);
           setOutcome(data.outcome);
@@ -43,7 +42,7 @@ function Edit() {
           setExtra(data.extracurriculars);
           setComment(data.content);
         })
-        // fetchData();
+        
     }, []);
     
     const handlePost = async () => {
@@ -63,50 +62,12 @@ function Edit() {
                 </div>
                 </Container>
                 <Container>   
-                <Select
-                    label="Outcome"
-                    defaultValue={outCome}
-                    data={[
-                        { value: 'Accepted', label: 'Accepted'},
-                        { value: 'Waitlisted', label: 'Waitlisted'},
-                        { value: 'Ghosted', label: 'Ghosted'},
-                        { value: 'Rejected', label: 'Rejected'}
-                    ]}
-                    onChange={(outcomevalue) => setPostdata({ ...postData, outcome: outcomevalue})}
-                    withAsterisk
-                />
-                <Textarea
-                    defaultValue={comment}
-                    label="Comments"
-                    autosize
-                    onChange={(e) => setPostdata({ ...postData, content: e.target.value})}
-                    withAsterisk
-                />
-                <TextInput
-                    defaultValue={gpa}
-                    label="GPA"
-                    onChange={(e) => setPostdata({ ...postData, gpa: e.target.value})}
-                    withAsterisk
-                />
-                <TextInput
-                    defaultValue={score}
-                    label="Test score"
-                    onChange={(e) => setPostdata({ ...postData, testscore: e.target.value})}
-                    withAsterisk
-                />
-                <TextInput
-                    defaultValue={resume}
-                    label="Please enter a shareable link that contains your resume (ex. Google drive)"
-                    onChange={(e) => setPostdata({ ...postData, resume: e.target.value})}
-                    withAsterisk
-                />
-                <Textarea
-                    defaultValue={extra}
-                    label="Extracurriculars"
-                    autosize
-                    onChange={(e) => setPostdata({ ...postData, extracurriculars: e.target.value})}
-                    withAsterisk
-                />
+                <Outcome outcomevalue={outCome} postData={postData} setPostdata={setPostdata}/>
+                <Comments postData={postData} setPostdata={setPostdata} comment={comment}/>
+                <EditGPA postData={postData} setPostdata={setPostdata} gpa={gpa}/>
+                <Testscore postData={postData} setPostdata={setPostdata} score={score}/>
+                <Resume postData={postData} setPostdata={setPostdata} res={resume}/>
+                <Extracurriculars postData={postData} setPostdata={setPostdata} extra={extra}/>
             </Container>
             <Divider my="sm" />
             <div className="alignButtonRight">
