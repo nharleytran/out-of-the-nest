@@ -1,10 +1,11 @@
+import * as dotenv from 'dotenv' 
+
 import express from "express";
 import posts from "./routes/posts.js";
 import * as db from "./data/db.js";
 import bodyParser from "body-parser";
 import cors from 'cors';
-
-db.connect();
+dotenv.config()
 
 const app = express();
 
