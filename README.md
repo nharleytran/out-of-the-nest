@@ -34,5 +34,5 @@ For setting up the database, we use Mongo Atlas (version 5.0.15), edit `const UR
 
 ## Deployment
 
-The App is deployed [here](https://sp23-oose-project-team-13.vercel.app/) <br/>
-The Back-End API is deployed [here](https://outofthenest.fly.dev/)
+The App is deployed [here](https://sp23-oose-project-team-13.vercel.app/). <br/>
+The Back-End API is deployed [here](https://outofthenest.fly.dev/).
