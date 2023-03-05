@@ -1,10 +1,10 @@
 import { Select } from '@mantine/core';
 function Outcome(props) {
-    const { postData, setPostdata, outcomevalue } = props
+    const { postData, setPostdata, outcomevalue } = props;
     return (
         <Select
         label="Outcome"
-        outcomevalue={outcomevalue}
+        defaultValue={outcomevalue}
         placeholder="Pick one"
         data={[
             { value: 'Accepted', label: 'Accepted'},
