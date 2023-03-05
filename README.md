@@ -31,3 +31,8 @@ $ npm start
 ## Developing
 
 For setting up the database, we use Mongo Atlas (version 5.0.15), edit `const URI="..."` (`server/src/data/db.js`) to change the url. That's all we need to start developing the app.
+
+## Deployment
+
+The App is deployed [here](https://sp23-oose-project-team-13.vercel.app/)
+The Back-End API is deployed [here](https://outofthenest.fly.dev/)
