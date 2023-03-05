@@ -17,6 +17,8 @@ function Post() {
   const [outcome, setOutcome] = useState("");
   const [date, setDate] = useState("");
   const [id, setID] = useState("");
+  const [resume, setResume] = useState("");
+  const [extra, setExtra] = useState("");
 
   const location = useLocation();
   const { from } = location.state;
@@ -29,7 +31,9 @@ function Post() {
     setGpa(data.gpa);
     setOutcome(data.outcome);
     setDate(data.date);
-    setID(data._id);  
+    setID(data._id);
+    setResume(data.resume);
+    setExtra(data.extracurriculars);
   })
 
 
@@ -50,6 +54,9 @@ function Post() {
           <Text fz="md">GPA: {gpa}</Text>
           <Text fz="md">Test Score: {score}</Text>
           <Text fz="md">Content: {content}</Text>
+          <Text fz="md">Resume Link:</Text> 
+          <Text fz="md" color="blue">{resume}</Text>
+          <Text fz="md">Extracurriculars: {extra}</Text>
         </Container>
         <Divider my="sm" />
         <Link to={`/edit`} state={{ from: id }}>
