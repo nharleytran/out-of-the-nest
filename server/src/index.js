@@ -15,7 +15,7 @@ app.use(cors());
 
 
 app.get("/", (req, res) => {
-  res.send("Welcome to the Flashcard API!");
+  res.send("Welcome to the Out of The Nest API!");
 });
 
 app.use(posts);
