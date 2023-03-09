@@ -96,6 +96,31 @@ router.put('/posts/:postId', async (req, res) => {
   }
 });
 
+router.get('/filters/category/:categoryId', async (req, res) => {
+  const categoryId = req.params.categoryId;
+  const { startDate, endDate, minGPA, maxGPA, testname, outcome } = req.body;
+  try {
+    const filteredPosts = await postDao.getPostsByFilters(
+      categoryId,
+      startDate ? new Date(startDate) : null,
+      endDate ? new Date(endDate) : null,
+      minGPA ? parseFloat(minGPA) : null,
+      maxGPA ? parseFloat(maxGPA) : null,
+      testname || null,
+      outcome || null
+    );
+    console.log(filteredPosts);
+    res.json({
+      status: 200,
+      message: "Successfully retrieved filtered posts",
+      data: filteredPosts,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
 
 // Add more routes to retrieve other fields as needed
 

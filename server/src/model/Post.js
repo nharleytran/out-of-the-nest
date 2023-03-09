@@ -1,47 +1,46 @@
 import mongoose from "mongoose";
 
 const PostSchema = new mongoose.Schema({
-    title: {
-      type: String,
-      required: true
-    },
+  title: {
+    type: String,
+    required: true
+  },
 
-    objective: String,
+  objective: String,
 
-    outcome: String,
+  outcome: String,
 
-    content: {
-      type: String,
-      required: true
-    },
+  content: {
+    type: String,
+    required: true
+  },
 
-    author: {
-      type: String,
-      required: true
-    },
+  author: {
+    type: String,
+    required: true
+  },
 
-    date: {
-      type: Date,
-      default: Date.now
-    },
+  date: {
+    type: Date,
+    default: Date.now
+  },
 
-    category_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Category'
-    },
+  category_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category"
+  },
 
-    gpa: Number,
+  gpa: Number,
 
-    testscore: {testname: String, score: Number},
+  testscore: { testname: String, score: Number },
 
-    resume: String,
+  resume: String,
 
-    extracurriculars: [String],
+  extracurriculars: [String],
 
-    international: Boolean
-  });
-  
+  international: Boolean
+});
 
-const Post = mongoose.model('Post', PostSchema);
+const Post = mongoose.model("Post", PostSchema);
 
 export default Post;
