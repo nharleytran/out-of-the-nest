@@ -6,15 +6,9 @@ const PostSchema = new mongoose.Schema({
       required: true
     },
 
-    objective: {
-      type: String,
-      required: true 
-    },
+    objective: String,
 
-    outcome: {
-      type: String,
-      required: true
-    },
+    outcome: String,
 
     content: {
       type: String,
