@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "https://outofthenest.fly.dev/", // replace with your server's URL
+  //baseURL: "https://outofthenest.fly.dev/", // replace with your server's URL
+    baseURL: "http://localhost:8080/", // replace with your server's URL
 });
 
 export async function getAllCategories() {
@@ -52,6 +53,16 @@ export async function getPostsByCategory(categoryId) {
 export async function updatePost(postId, updatedFields) {
   try {
     const response = await axiosInstance.put(`/posts/${postId}`, updatedFields);
+    return response.data.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+
+export async function createUser(postData) {
+  try {
+    const response = await axiosInstance.post("/user/create", postData);
     return response.data.data;
   } catch (err) {
     throw err;
