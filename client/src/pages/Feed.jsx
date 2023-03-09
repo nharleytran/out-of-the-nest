@@ -3,10 +3,13 @@ import Posts from "../components/Posts";
 import Search from "../components/Search";
 import '../App.css';
 import { useLocation } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+
 
 function Feed() {
   const obj = useLocation();
   const category_id = obj.state.category_id;
+  const [ query, setQuery ] = useState("");
 
   return (
     <div className="homepage" 
@@ -15,8 +18,8 @@ function Feed() {
       backgroundSize: "cover"
     }}>
       <Header/>
-      <Search/>
-      <Posts category_id={category_id}/>
+      <Search query={query} setQuery={setQuery}/>
+      <Posts category_id={category_id} query={query}/>
     </div>
   );
 }
