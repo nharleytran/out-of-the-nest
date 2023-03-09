@@ -5,6 +5,7 @@ class PostDAO {
     async createPost({ title, outcome, content, author, category_id, gpa, testscore, resume, extracurriculars }) {
         const post = await Post.create({
           title,
+          objective,
           outcome,
           content,
           author,
@@ -12,7 +13,8 @@ class PostDAO {
           gpa,
           testscore,
           resume,
-          extracurriculars
+          extracurriculars,
+          international
         });
 
         // Add the post to the category's "posts" array

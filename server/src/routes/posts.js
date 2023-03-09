@@ -35,9 +35,9 @@ router.get('/posts/category/:categoryId', async (req, res) => {
   });  
 
 router.post('/posts', async (req, res) => {
-  const { title, outcome, content, author, category_id, gpa, testscore, resume, extracurriculars } = req.body;
+  const { title, objective, outcome, content, author, category_id, gpa, testscore, resume, extracurriculars, international } = req.body;
   try {
-    const post = await postDao.createPost({ title, outcome, content, author, category_id, gpa, testscore, resume, extracurriculars });
+    const post = await postDao.createPost({ title, objective, outcome, content, author, category_id, gpa, testscore, resume, extracurriculars, international});
     res.json({
       status: 201,
      message: `Successfully created post with title: "${post.title}"`,

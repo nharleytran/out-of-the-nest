@@ -5,27 +5,46 @@ const PostSchema = new mongoose.Schema({
       type: String,
       required: true
     },
-    outcome: String,
+
+    objective: {
+      type: String,
+      required: true 
+    },
+
+    outcome: {
+      type: String,
+      required: true
+    },
+
     content: {
       type: String,
       required: true
     },
+
     author: {
       type: String,
       required: true
     },
+
     date: {
       type: Date,
       default: Date.now
     },
+
     category_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Category'
     },
+
     gpa: Number,
-    testscore: String,
+
+    testscore: {testname: String, score: Number},
+
     resume: String,
-    extracurriculars: [String]
+
+    extracurriculars: [String],
+
+    international: Boolean
   });
   
 
