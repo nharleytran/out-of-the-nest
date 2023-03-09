@@ -1,5 +1,5 @@
 import Header from '../components/Header';
-import { Container, Divider, Button, Text } from '@mantine/core';
+import { Container, Divider, Button, Text, Title } from '@mantine/core';
 import { Link } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
@@ -44,27 +44,26 @@ function Post() {
 
     return (
         <div>
-        <Header/>
-        <Divider my="sm" />
-        <h2 align="center">{title}</h2>
-        <Container>
-          <Text fz="md">Author: {author}</Text>
-          <Text fz="md">Date: {date}</Text>
-          <Text fz="md">Outcome: {outcome}</Text>
-          <Text fz="md">GPA: {gpa}</Text>
-          <Text fz="md">Test Score: {score}</Text>
-          <Text fz="md">Content: {content}</Text>
-          <Text fz="md">Resume Link:</Text> 
-          <Text fz="md" color="blue">{resume}</Text>
-          <Text fz="md">Extracurriculars: {extra}</Text>
-        </Container>
-        <Divider my="sm" />
-        <Link to={`/edit`} state={{ from: id }}>
-          <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>Edit draft</Button>
-        </Link>
-        <Link to={`/feed`}>
-          <Button variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }} onClick={deleteHandle}>DeletePost</Button>
-        </Link>
+          <Header/>
+          <Container className='post-page-detail'>
+            <Title size="h2">{title}</Title>
+            <Text fz="md">Author: {author}</Text>
+            <Text fz="md">Date: {date}</Text>
+            <Text fz="md">Outcome: {outcome}</Text>
+            <Text fz="md">GPA: {gpa}</Text>
+            <Text fz="md">Test Score: {score}</Text>
+            <Text fz="md">Content: {content}</Text>
+            <Text fz="md">Resume Link:</Text> 
+            <Text fz="md" color="blue">{resume}</Text>
+            <Text fz="md">Extracurriculars: {extra}</Text>
+          </Container>
+          <Divider my="sm" />
+          <Link to={`/edit`} state={{ from: id }}>
+            <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>Edit draft</Button>
+          </Link>
+          <Link to={`/feed`}>
+            <Button variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }} onClick={deleteHandle}>DeletePost</Button>
+          </Link>
         </div>
 
     )
