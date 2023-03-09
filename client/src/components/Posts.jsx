@@ -13,6 +13,7 @@ function Posts(props) {
 
   // console.log(postApi.getPostsByCategory(props.category_id))
     const [posts,setPosts] = useState([]);
+    const { query } = props;
     useEffect(() => {
       postApi.getPostsByCategory(props.category_id).then((posts) => setPosts(posts))
       }, []);
@@ -23,26 +24,31 @@ function Posts(props) {
 
   return (
     <div className="posts-container">
-      {posts.map((post, index) => (
-        <Link to={`/feed/post`} key={index} state={{ from: post._id }}>
-          <Card className="post-box" shadow="sm">
-            <div className="post-content">
-              <Text size="xl" weight={700} className="post-title">
-                {post.title}
-              </Text>
-              <Text size="md" className="post-description">
-                {post.description}
-                <Grid>
-                  <Grid.Col span="content"><Badge className=".post-smallbox" color= "blue">GPA:{post.gpa}</Badge></Grid.Col>
-                  <Grid.Col span="content"><Badge className=".post-smallbox" color= "blue">Program:{post.testscore}</Badge></Grid.Col>
-                  <Grid.Col span="content"><Badge className=".post-smallbox" color= "blue">Result:{post.outcome}</Badge></Grid.Col>
-                  <Grid.Col span="content"><Badge className=".post-smallbox" color= "blue">Date:{post.date}</Badge></Grid.Col>
-                </Grid>
-              </Text>
-            </div>
-          </Card>
-        </Link>
-      ))}
+      {posts
+        .filter(
+          (post) =>
+            post.title.toLowerCase().includes(query.trim().toLowerCase()) ||
+            post.content.toLowerCase().includes(query.trim().toLowerCase())
+        ).map((post, index) => (
+          <Link to={`/feed/post`} key={index} state={{ from: post._id }}>
+            <Card className="post-box" shadow="sm">
+              <div className="post-content">
+                <Text size="xl" weight={700} className="post-title">
+                  {post.title}
+                </Text>
+                <Text size="md" className="post-description">
+                  {post.description}
+                  <Grid>
+                    <Grid.Col span="content"><Badge className=".post-smallbox" color= "blue">GPA:{post.gpa}</Badge></Grid.Col>
+                    <Grid.Col span="content"><Badge className=".post-smallbox" color= "blue">Program:{post.testscore}</Badge></Grid.Col>
+                    <Grid.Col span="content"><Badge className=".post-smallbox" color= "blue">Result:{post.outcome}</Badge></Grid.Col>
+                    <Grid.Col span="content"><Badge className=".post-smallbox" color= "blue">Date:{post.date}</Badge></Grid.Col>
+                  </Grid>
+                </Text>
+              </div>
+            </Card>
+          </Link>
+        ))}
     </div>
   );
 }
