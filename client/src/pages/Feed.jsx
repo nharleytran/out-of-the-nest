@@ -17,8 +17,7 @@ function Feed() {
       backgroundRepeat: "no-repeat",
       backgroundSize: "cover"
     }}>
-      <Header/>
-      <Search query={query} setQuery={setQuery}/>
+      <Header query ={query} setQuery={setQuery}/>
       <Posts category_id={category_id} query={query}/>
     </div>
   );
