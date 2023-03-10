@@ -4,8 +4,7 @@ function Outcome(props) {
     return (
         <Select
         label="Outcome"
-        defaultValue={outcomevalue}
-        placeholder="Pick one"
+        placeholder={outcomevalue}
         data={[
             { value: 'Accepted', label: 'Accepted'},
             { value: 'Waitlisted', label: 'Waitlisted'},
