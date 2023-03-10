@@ -1,6 +1,7 @@
 import express from "express";
 import UserDAO from "../data/UserDAO.js";
 import ApiError from "../model/ApiError.js";
+import { createToken, decodeToken } from "../util/token.js";
 
 const router = express.Router();
 const userDao = new UserDAO();
@@ -16,6 +17,7 @@ router.post("/login", async (req, res, next) => {
     }
 
     const user = await userDao.findUserByEmail(email);
+    const token = createToken({ user: { id: user.id } });
     if (password_hash != user.password_hash) {
       throw new ApiError(403, "Wrong email or password!");
     }
@@ -27,6 +29,7 @@ router.post("/login", async (req, res, next) => {
         name: user.name,
         email: user.email,
       },
+      token,
     });
     debug(`Done with ${req.method} ${req.path}`);
   } catch (err) {

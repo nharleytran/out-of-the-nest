@@ -47,7 +47,6 @@ function Login() {
   };
   return (
     <>
-      Login Page
       <Box maw={300} mx="auto">
         <form onSubmit={form.onSubmit(handleLogin)}>
           <TextInput
