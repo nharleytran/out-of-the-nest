@@ -1,6 +1,6 @@
-import { Button, Text } from '@mantine/core';
+import { Button, Text, Title } from '@mantine/core';
 import '../App.css';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import Search from "../components/Search";
 
 function Header(props) {
@@ -13,20 +13,20 @@ function Header(props) {
 
   return (
     <div className="header">
-    <Text size="lg" weight={700} sx={{ fontSize: '29px' }} className="header-text">
-      Out of the Nest
-    </Text>
-    <div style={{ display: "flex", gap: "10px" }}>
-        {searchComponent}
+      <Link to={`/`} style={{ textDecoration: 'none' }}>
+        <Title order={3}> OUT OF THE <Text span c="blue" inherit>NEXT</Text></Title>
+      </Link>
+      <div style={{ display: "flex", gap: "10px" }}>
+          {searchComponent}
 
-        <Button onClick={() => navigate("/create")}>Create post</Button>
-        <Button className="login-button">
-        Login
-        </Button>
-        <Button className="login-button">
-        Sign Up
-        </Button>
-    </div>
+          <Button onClick={() => navigate("/create")}>Create post</Button>
+          <Button className="login-button">
+          Login
+          </Button>
+          <Button className="login-button">
+          Sign Up
+          </Button>
+      </div>
     </div>
   );
 }
