@@ -51,15 +51,8 @@ describe("User Test", () => {
     });
     expect(response.status).toBe(500);
   });
-});
 
-describe("Login Test", () => {
-  beforeAll(async () => {
-    db.connect(process.env.DB_TEST_URI);
-    userDao.dropAll();
-  });
-
-  it("create new user and login", async () => {
+  it("create new user and login success", async () => {
     const email = "email1@gmail.com";
     const name = "Test user";
       const password_hash = "123456";
@@ -76,4 +69,24 @@ describe("Login Test", () => {
     });
     expect(response.status).toBe(200);
   });
+
+  it("create new user and login fail", async () => {
+    const email = "email1@gmail.com";
+    const name = "Test user";
+      const password_hash = "123456";
+    let response = await request.post("/user/create").send({
+      name: name,
+      email: email,
+      password_hash: password_hash,
+    });
+    expect(response.status).toBe(200);
+
+    response = await request.post("/login").send({
+      email: email,
+      password_hash: "1",
+    });
+      console.log(response.body);
+    expect(response.status).toBe(403);
+  });
+
 });

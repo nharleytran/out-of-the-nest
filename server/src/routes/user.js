@@ -6,7 +6,6 @@ export const userDao = new UserDAO();
 
 router.post("/user/create", async (req, res) => {
   const { email, name, password_hash } = req.body;
-    console.log(9, req.body);
   try {
     const user = await userDao.createUser({ email, name, password_hash });
     res.json({

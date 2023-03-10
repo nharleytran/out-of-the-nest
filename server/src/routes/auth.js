@@ -1,31 +1,22 @@
 import express from "express";
-import UserDao from "../data/UserDao.js";
+import UserDAO from "../data/UserDAO.js";
 import ApiError from "../model/ApiError.js";
 
 const router = express.Router();
-export const userDao = new UserDao();
+const userDao = new UserDAO();
 
 router.post("/login", async (req, res, next) => {
   try {
-    const { email, password } = req.body;
-      console.log(13, req.body);
-      console.log(14, email, password);
-    if (!email || !password) {
+    const { email, password_hash } = req.body;
+    if (!email || !password_hash) {
       throw new ApiError(
         400,
         "You must provide an email and a password to login."
       );
     }
 
-    const users = await userDao.readAll({ email });
-      console.log(22, users);
-    if (users.length === 0) {
-      throw new ApiError(403, "Wrong email or password!");
-    }
-    // Since emails are unique, there will be only one matching user
-    const user = users[0];
-
-    if (password != user.password) {
+    const user = await userDao.findUserByEmail(email);
+    if (password_hash != user.password_hash) {
       throw new ApiError(403, "Wrong email or password!");
     }
 
