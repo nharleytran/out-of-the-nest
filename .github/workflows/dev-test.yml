@@ -1,0 +1,40 @@
+name: NodeJS with Grunt
+
+on:
+  push:
+    branches: [ "dev" ]
+  pull_request:
+    branches: [ "dev" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [19.x]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install client package
+      run: npm install
+      working-directory: client
+      
+    - name: Front-End test
+      run: npm test
+      working-directory: client
+
+    - name: Install server package
+      run: npm install
+      working-directory: server
+      
+    - name: Back-End test
+      run: npm test
+      working-directory: server
+

@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 
 function Posts(props) {
     const [posts,setPosts] = useState([]);
+    const { query } = props;
     useEffect(() => {
       postApi.getPostsByCategory(props.category_id).then((posts) => setPosts(posts))
       }, []);
@@ -15,7 +16,12 @@ function Posts(props) {
 
   return (
     <div className="posts-container">
-      {posts.map((post, index) => (
+         {posts
+        .filter(
+          (post) =>
+            post.title.toLowerCase().includes(query.trim().toLowerCase()) ||
+            post.content.toLowerCase().includes(query.trim().toLowerCase())
+        ).map((post, index) => (
         <Link to={`/feed/post`} key={index} state={{ from: post._id }} style={{ textDecoration: 'none' }}>
           <Card className="post-box" shadow="sm" radius="md" withBorder>
             <div className="post-content">
