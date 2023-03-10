@@ -22,7 +22,7 @@ describe("User Test", () => {
     });
     expect(response.status).toBe(200);
 
-    user = await userDao.findUserByEmail(email);
+    const user = await userDao.findUserByEmail(email);
     expect(user.email).toBe(email);
     expect(user.name).toBe(name);
 
