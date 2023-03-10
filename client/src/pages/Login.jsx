@@ -31,15 +31,15 @@ function Login() {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
     },
   });
-  const handleCreateUser = async (userFormData) => {
+  const handleLogin = async (userFormData) => {
     try {
       userFormData.password_hash = hashPassword(userFormData.password_hash);
-      const user = await postapi.createUser(userFormData);
+      const user = await postapi.login(userFormData);
       //Create user successfully then move to login page
       notifications.show({
-        title: "Create new user successfully",
+        title: "Login successfully",
         message: "Welcome to Out of the nest",
-        onClose: () => navigate("/login"),
+        onClose: () => navigate("/"),
       });
     } catch (err) {
       console.log(err);
@@ -49,7 +49,7 @@ function Login() {
     <>
       Login Page
       <Box maw={300} mx="auto">
-        <form onSubmit={form.onSubmit(handleCreateUser)}>
+        <form onSubmit={form.onSubmit(handleLogin)}>
           <TextInput
             withAsterisk
             label="Email"

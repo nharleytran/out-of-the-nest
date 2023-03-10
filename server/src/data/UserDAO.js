@@ -7,7 +7,6 @@ class UserDAO {
             name,
             password_hash
         });
-        console.log("User created: ", user);
 
         return user;
       }

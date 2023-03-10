@@ -68,6 +68,16 @@ export async function createUser(postData) {
   }
 }
 
+
+export async function login(postData) {
+  try {
+    const response = await axiosInstance.post("/login", postData);
+    return response.data.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
 export async function getPostsByFilters(
   categoryId,
   startDate,
