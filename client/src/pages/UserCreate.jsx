@@ -75,19 +75,6 @@ function UserCreate() {
           </Group>{" "}
         </form>{" "}
       </Box>
-      <Group position="center">
-        <Button
-          variant="outline"
-          onClick={() =>
-            notifications.show({
-              title: "default notification",
-              message: "hey there, your code is awesome! 🤥",
-            })
-          }
-        >
-          Show notification
-        </Button>
-      </Group>
     </>
   );
 }
