@@ -3,6 +3,7 @@ import supertest from "supertest";
 import { expect, describe, it, beforeAll, beforeEach, afterEach } from "vitest";
 import * as db from "../src/data/db.js";
 import UserDAO from "../src/data/UserDAO.js";
+import { hashPassword, verifyPassword } from "../src/util/password.js";
 
 const request = new supertest(app);
 
@@ -18,7 +19,6 @@ describe("User Test", () => {
   });
 
   afterEach(async () => {
-    await userDao.dropAll();
   });
 
   it("Create new user", async () => {
@@ -27,7 +27,7 @@ describe("User Test", () => {
     let response = await request.post("/user/create").send({
       name: name,
       email: email,
-      password_hash: "123456",
+      password: "123456",
     });
     expect(response.status).toBe(200);
 
@@ -41,13 +41,13 @@ describe("User Test", () => {
     let response = await request.post("/user/create").send({
       name: "Test user",
       email: "abc@gmail.com",
-      password_hash: "123456",
+      password: "123456",
     });
     expect(response.status).toBe(200);
     response = await request.post("/user/create").send({
       name: "Test user2",
       email: "abc@gmail.com",
-      password_hash: "123456",
+      password: "123456",
     });
     expect(response.status).toBe(500);
   });
@@ -55,38 +55,46 @@ describe("User Test", () => {
   it("create new user and login success", async () => {
     const email = "email1@gmail.com";
     const name = "Test user";
-      const password_hash = "123456";
+    const password = "123456";
     let response = await request.post("/user/create").send({
       name: name,
       email: email,
-      password_hash: password_hash,
+      password: password,
     });
     expect(response.status).toBe(200);
 
     response = await request.post("/login").send({
       email: email,
-      password_hash: password_hash,
+      password: password,
     });
+      console.log('response', response.body);
     expect(response.status).toBe(200);
   });
 
   it("create new user and login fail", async () => {
     const email = "email1@gmail.com";
     const name = "Test user";
-      const password_hash = "123456";
+    const password = "123456";
     let response = await request.post("/user/create").send({
       name: name,
       email: email,
-      password_hash: password_hash,
+      password: password,
     });
     expect(response.status).toBe(200);
 
     response = await request.post("/login").send({
       email: email,
-      password_hash: "1",
+      password: "1",
     });
-      console.log(response.body);
     expect(response.status).toBe(403);
   });
 
+  it("hash password test", async () => {
+    const password = "123";
+    const hash = hashPassword(password);
+    expect(verifyPassword(password, hash)).toBe(true);
+
+    const password2 = "1234";
+    expect(verifyPassword(password2, hash)).toBe(false);
+  });
 });

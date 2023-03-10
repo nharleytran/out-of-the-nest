@@ -33,16 +33,16 @@ const checkPermission = (req, res, next) => {
 };
 
 router.post("/user/create", async (req, res) => {
-  const { email, name, password_hash } = req.body;
+    console.log('req.body user create', req.body);
+  const { email, name, password} = req.body;
   try {
-    const user = await userDao.createUser({ email, name, password_hash });
+    const user = await userDao.createUser({ email, name, password});
     res.json({
-      status: 201,
+      status: 200,
       message: `Successfully created user "${user.email}"`,
       data: user,
     });
   } catch (error) {
-    //console.log('router post error', error);
     res.status(500).json({ message: error.message });
   }
 });

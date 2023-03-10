@@ -33,14 +33,14 @@ function Login() {
   });
   const handleLogin = async (userFormData) => {
     try {
-      userFormData.password_hash = hashPassword(userFormData.password_hash);
-      const user = await postapi.login(userFormData);
-      //Create user successfully then move to login page
-      notifications.show({
-        title: "Login successfully",
-        message: "Welcome to Out of the nest",
-        onClose: () => navigate("/"),
-      });
+        console.log(userFormData);
+//      const user = await postapi.login(userFormData);
+//      //Create user successfully then move to login page
+//      notifications.show({
+//        title: "Login successfully",
+//        message: "Welcome to Out of the nest",
+//        onClose: () => navigate("/"),
+//      });
     } catch (err) {
       console.log(err);
     }
@@ -68,7 +68,7 @@ function Login() {
           </Flex>
           <Group position="right" mt="md">
             <Button type="submit"> Sign in </Button>{" "}
-            <Button type="submit"> Cancel </Button>{" "}
+            <Button> Cancel </Button>{" "}
           </Group>{" "}
         </form>{" "}
       </Box>

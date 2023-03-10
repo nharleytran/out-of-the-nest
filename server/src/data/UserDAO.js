@@ -1,11 +1,11 @@
 import User from "../model/User.js";
 
 class UserDAO {
-  async createUser({ email, name, password_hash }) {
+  async createUser({ email, name, password}) {
     const user = await User.create({
       email,
       name,
-      password_hash,
+      password,
     });
 
     return user;

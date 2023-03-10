@@ -8,8 +8,8 @@ const userDao = new UserDAO();
 
 router.post("/login", async (req, res, next) => {
   try {
-    const { email, password_hash } = req.body;
-    if (!email || !password_hash) {
+    const { email, password} = req.body;
+    if (!email || !password) {
       throw new ApiError(
         400,
         "You must provide an email and a password to login."
@@ -18,7 +18,8 @@ router.post("/login", async (req, res, next) => {
 
     const user = await userDao.findUserByEmail(email);
     const token = createToken({ user: { id: user.id } });
-    if (password_hash != user.password_hash) {
+      console.log('user', password, user.password);
+    if (password != user.password) {
       throw new ApiError(403, "Wrong email or password!");
     }
 
