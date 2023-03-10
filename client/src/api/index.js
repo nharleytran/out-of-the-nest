@@ -63,6 +63,7 @@ export async function updatePost(postId, updatedFields) {
 export async function createUser(postData) {
   try {
     const response = await axiosInstance.post("/user/create", postData);
+      console.log(response.data.data);
     return response.data.data;
   } catch (err) {
     throw err;

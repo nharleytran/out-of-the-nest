@@ -22,7 +22,6 @@ class PostDAO {
 
     async getPost(postId) {
         const post = await Post.findById(postId);
-        console.log(post);
         if (!post) {
           throw new Error('Post not found');
         }
@@ -49,7 +48,6 @@ class PostDAO {
 
     async updatePost(postId, updatedFields) {
         const post = await Post.findById(postId);
-        console.log(post);
         if (!post) {
           throw new Error('Post not found');
         }

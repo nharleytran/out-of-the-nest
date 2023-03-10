@@ -2,17 +2,25 @@ import User from "../model/User.js"
 
 class UserDAO {
     async createUser({ email, name, password_hash }) {
-        const user = await User.create({
+         const user = await User.create({
             email,
             name,
             password_hash
         });
+        console.log("User created: ", user);
 
-        await User.updateOne({ _id: category_id }, { $push: { posts: post._id } });
         return user;
       }
-      
+
+     async dropAll() { 
+        await User.deleteMany({});
+     }
+
+    async findUserByEmail(email) {
+        const user = await User.findOne({ email:email }); 
+        return user;
+    }
+
 }
 
-export default PostDAO;
-
+export default UserDAO;
