@@ -10,6 +10,7 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe('Header component', () => {
+  
   beforeEach(() => {
     useNavigate.mockClear();
     useLocation.mockClear();
