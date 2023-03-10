@@ -1,5 +1,5 @@
 import Header from '../components/Header';
-import { Container, Divider, Button, Text, Title } from '@mantine/core';
+import { Container, Blockquote, Button, MantineProvider, Title, Group, Badge } from '@mantine/core';
 import { Link } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
@@ -24,6 +24,7 @@ function Post() {
   const { from } = location.state;
 
   API.getPost(from).then(data => {
+    setExtra(data.extracurriculars[0]);
     setAuthor(data.author);
     setContent(data.content);
     setTitle(data.title);
@@ -33,7 +34,6 @@ function Post() {
     setDate(data.date);
     setID(data._id);
     setResume(data.resume);
-    setExtra(data.extracurriculars);
   })
 
 
@@ -46,24 +46,51 @@ function Post() {
         <div>
           <Header/>
           <Container className='post-page-detail'>
-            <Title size="h2">{title}</Title>
-            <Text fz="md">Author: {author}</Text>
-            <Text fz="md">Date: {date}</Text>
-            <Text fz="md">Outcome: {outcome}</Text>
-            <Text fz="md">GPA: {gpa}</Text>
-            <Text fz="md">Test Score: {score}</Text>
-            <Text fz="md">Content: {content}</Text>
-            <Text fz="md">Resume Link:</Text> 
-            <Text fz="md" color="blue">{resume}</Text>
-            <Text fz="md">Extracurriculars: {extra}</Text>
+            <Title size="h2" color={'blue'}>{title}</Title>
+            <Group position='apart'>
+                <Badge color="pink" variant="light">
+                  {outcome}
+                </Badge>
+                <Badge color="gray" variant="light">
+                  GPA {gpa}
+                </Badge>
+                <Badge color="gray" variant="light">
+                  Test Score {score}
+                </Badge>
+                <Badge color="gray" variant="light">
+                  {date}
+                </Badge>
+                <Badge color="blue" variant="light">
+                  <a href={resume}>Resume Link</a>
+                </Badge>
+                <Link to={`/edit`} state={{ from: id }}>
+                  <Button color='yellow'>Edit draft</Button>
+                </Link>
+                <Link to={`/feed`}>
+                  <Button color='red' onClick={deleteHandle}>DeletePost</Button>
+                </Link>
+              </Group>
+              <MantineProvider
+                theme={{
+                  fontFamily: 'Verdana, sans-serif',
+                  fontFamilyMonospace: 'Monaco, Courier, monospace',
+                  headings: { fontFamily: 'Greycliff CF, sans-serif' },
+                }}
+              >
+                <Blockquote cite={`— Author: ${author}`}>
+                  {content}
+                </Blockquote>
+              </MantineProvider>
+            <Group mt="md" mb="xs">
+              {
+                extra.split(",").map((activity, index) => (
+                  <Badge color="green" key={index}>
+                    {activity}
+                  </Badge>
+                ))
+              }
+            </Group>
           </Container>
-          <Divider my="sm" />
-          <Link to={`/edit`} state={{ from: id }}>
-            <Button variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}>Edit draft</Button>
-          </Link>
-          <Link to={`/feed`}>
-            <Button variant="gradient" gradient={{ from: 'teal', to: 'lime', deg: 105 }} onClick={deleteHandle}>DeletePost</Button>
-          </Link>
         </div>
 
     )
