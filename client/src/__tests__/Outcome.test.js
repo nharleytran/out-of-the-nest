@@ -18,7 +18,7 @@ describe('Outcome component', () => {
 
     const selectField = getByLabelText('Outcome *');
     expect(selectField).toBeInTheDocument();
-    expect(selectField).toHaveAttribute('placeholder', 'Pick one');
+    expect(selectField).toHaveAttribute('placeholder', '');
     expect(selectField).toHaveAttribute('value', '');
   });
   
