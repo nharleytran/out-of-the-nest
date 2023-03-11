@@ -38,12 +38,12 @@ function Login() {
     if (response.status === 200) {
         const token = response.data.token;
         localStorage.setItem("token", token);
-        console.log(token);
-        postapi.setAuthToken(token);
+        postapi.axiosInstance.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem("token")}`;
         postapi.testAuthorize();
         notifications.show({
           title: "Login successfully",
           message: "Welcome to Out of the nest",
+            onClose: () => navigate("/"),
         });
       }
     } catch (err) {

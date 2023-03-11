@@ -3,6 +3,7 @@ import UserDAO from "../data/UserDAO.js";
 import ApiError from "../model/ApiError.js";
 import { createToken, decodeToken } from "../util/token.js";
 import { hashPassword, verifyPassword } from "../util/password.js";
+import jwt from "jsonwebtoken";
 
 const authRouter = express.Router();
 const userDao = new UserDAO();
@@ -50,12 +51,9 @@ const checkPermission = (req, res, next) => {
             console.log('err', err);
             next(new ApiError(401, "Unauthorized"));
         }
-        console.log('success authorize');
         console.log('decoded', decoded);
         next();
     });
-
-    next(new ApiError(403, "Forbidden"));
   } catch (err) {
       console.log('err', err);
     next(new ApiError(401, "Unauthorized"));

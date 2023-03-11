@@ -1,9 +1,22 @@
 import axios from "axios";
 
-const axiosInstance = axios.create({
+export const axiosInstance = axios.create({
   //baseURL: "https://outofthenest.fly.dev/", // replace with your server's URL
-  baseURL: "http://localhost:8080/", // replace with your server's URL
+    baseURL: "http://localhost:8080/", // replace with your server's URL
+    headers: {
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
+    }
 });
+const getInstance = () => {
+    const axiosInstance = axios.create({
+      //baseURL: "https://outofthenest.fly.dev/", // replace with your server's URL
+        baseURL: "http://localhost:8080/", // replace with your server's URL
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+    });
+    return axiosInstance;
+}
  
 export const setAuthToken = token => {
    if (token) {
@@ -88,6 +101,7 @@ export async function login(postData) {
 
 export async function testAuthorize(postData) {
   try {
+      console.log('axios', axiosInstance.defaults.headers['Authorization']);
     const response = await axiosInstance.post("/testAuthorize", postData);
     return response.data;
   } catch (err) {
