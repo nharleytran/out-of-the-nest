@@ -8,7 +8,7 @@ import { Notifications } from '@mantine/notifications';
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <MantineProvider withGlobalStyles withNormalizeCSS>
-    <Notifications />
+    <Notifications position="top-right"/>
       <App />
     </MantineProvider>
   </BrowserRouter>

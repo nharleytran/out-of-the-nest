@@ -31,6 +31,7 @@ export async function getAllCategories() {
     const response = await axiosInstance.get("/categories");
     return response.data.data;
   } catch (err) {
+      window.location = '/login';
     throw err;
   }
 }

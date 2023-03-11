@@ -42,8 +42,10 @@ function Login() {
         postapi.testAuthorize();
         notifications.show({
           title: "Login successfully",
-          message: "Welcome to Out of the nest",
+          message: "Redirecting to home page",
             onClose: () => navigate("/"),
+            loading:true,
+            position: "top-right",
         });
       }
     } catch (err) {
