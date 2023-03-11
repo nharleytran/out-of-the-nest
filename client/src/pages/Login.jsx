@@ -24,7 +24,7 @@ function Login() {
   const form = useForm({
     initialValues: {
       email: "",
-      password_hash: "",
+      password: "",
     },
 
     validate: {
@@ -34,7 +34,8 @@ function Login() {
   const handleLogin = async (userFormData) => {
     try {
         console.log(userFormData);
-//      const user = await postapi.login(userFormData);
+      const response = await postapi.login(userFormData);
+        console.log(response);
 //      //Create user successfully then move to login page
 //      notifications.show({
 //        title: "Login successfully",
@@ -60,7 +61,7 @@ function Login() {
             placeholder="password"
             label="Password"
             value="sfdf"
-            {...form.getInputProps("password_hash")}
+            {...form.getInputProps("password")}
             withAsterisk
           />
           <Flex justify="flex-end">

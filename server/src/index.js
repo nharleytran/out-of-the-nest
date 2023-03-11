@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv'
 import express from "express";
 import posts from "./routes/posts.js";
 import users from "./routes/user.js";
-import auth from "./routes/auth.js";
+import {authRouter, checkPermission} from "./routes/auth.js";
 import * as db from "./data/db.js";
 import bodyParser from "body-parser";
 import cors from 'cors';
@@ -11,10 +11,10 @@ dotenv.config()
 
 const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-//app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded({extended: true}));
+//app.use(express.json());
+//app.use(express.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 app.use(cors());
 
 
@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
 
 app.use(posts);
 app.use(users);
-app.use(auth);
+app.use(authRouter);
 
 app.use((err, req, res, next) => {
   if (err) {

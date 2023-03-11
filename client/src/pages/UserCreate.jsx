@@ -23,7 +23,7 @@ function UserCreate() {
     initialValues: {
       email: "",
       name: "",
-      password_hash: "",
+      password: "",
     },
 
     validate: {
@@ -33,7 +33,6 @@ function UserCreate() {
 
   const handleCreateUser = async (userFormData) => {
     try {
-      userFormData.password_hash = hashPassword(userFormData.password_hash);
       const user = await postapi.createUser(userFormData);
       //Create user successfully then move to login page
       notifications.show({
@@ -65,8 +64,7 @@ function UserCreate() {
           <PasswordInput
             placeholder="password"
             label="Password"
-            value="sfdf"
-            {...form.getInputProps("password_hash")}
+            {...form.getInputProps("password")}
             withAsterisk
           />
           <Group position="right" mt="md">
