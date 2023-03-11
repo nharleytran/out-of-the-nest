@@ -22,8 +22,6 @@ authRouter.post("/login", async (req, res, next) => {
     if (!verifyPassword(password, user.password)) {
       throw new ApiError(403, "Wrong email or password!");
     }
-    console.log("verify success", password, user.password);
-
     res.json({
       status: 200,
       message: `Successfully signed in!`,
@@ -42,27 +40,29 @@ authRouter.post("/login", async (req, res, next) => {
 
 const checkPermission = (req, res, next) => {
   try {
-    if (req.method === "POST") {
-      return next();
-    }
-
+      console.log(req.headers);
     const bearerHeader = req.headers["authorization"];
     const bearer = bearerHeader.split(" ");
     const token = bearer[1];
+    console.log('token', token);
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
+            console.log('err', err);
             next(new ApiError(401, "Unauthorized"));
         }
+        console.log('success authorize');
+        console.log('decoded', decoded);
         next();
     });
 
     next(new ApiError(403, "Forbidden"));
   } catch (err) {
+      console.log('err', err);
     next(new ApiError(401, "Unauthorized"));
   }
 };
 
-authRouter.post("/register", checkPermission, async (req, res, next) => {
+authRouter.post("/testAuthorize", checkPermission, async (req, res, next) => {
 });
 
 export {authRouter, checkPermission};

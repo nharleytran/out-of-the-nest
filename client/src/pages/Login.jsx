@@ -33,15 +33,19 @@ function Login() {
   });
   const handleLogin = async (userFormData) => {
     try {
-        console.log(userFormData);
       const response = await postapi.login(userFormData);
-        console.log(response);
-//      //Create user successfully then move to login page
-//      notifications.show({
-//        title: "Login successfully",
-//        message: "Welcome to Out of the nest",
-//        onClose: () => navigate("/"),
-//      });
+      console.log(response);
+    if (response.status === 200) {
+        const token = response.data.token;
+        localStorage.setItem("token", token);
+        console.log(token);
+        postapi.setAuthToken(token);
+        postapi.testAuthorize();
+        notifications.show({
+          title: "Login successfully",
+          message: "Welcome to Out of the nest",
+        });
+      }
     } catch (err) {
       console.log(err);
     }
@@ -68,8 +72,7 @@ function Login() {
             <Anchor href="/user/create">Create new account</Anchor>
           </Flex>
           <Group position="right" mt="md">
-            <Button type="submit"> Sign in </Button>{" "}
-            <Button> Cancel </Button>{" "}
+            <Button type="submit"> Sign in </Button> <Button> Cancel </Button>{" "}
           </Group>{" "}
         </form>{" "}
       </Box>

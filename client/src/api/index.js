@@ -4,6 +4,14 @@ const axiosInstance = axios.create({
   //baseURL: "https://outofthenest.fly.dev/", // replace with your server's URL
   baseURL: "http://localhost:8080/", // replace with your server's URL
 });
+ 
+export const setAuthToken = token => {
+   if (token) {
+       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+   }
+   else
+       delete axios.defaults.headers.common["Authorization"];
+}
 
 export async function getAllCategories() {
   try {
@@ -72,7 +80,16 @@ export async function createUser(postData) {
 export async function login(postData) {
   try {
     const response = await axiosInstance.post("/login", postData);
-    return response.data.data;
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function testAuthorize(postData) {
+  try {
+    const response = await axiosInstance.post("/testAuthorize", postData);
+    return response.data;
   } catch (err) {
     throw err;
   }

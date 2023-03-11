@@ -6,7 +6,12 @@ import UserCreate from "./pages/UserCreate";
 import Login from "./pages/Login";
 import Post from "./pages/Post";
 import Edit from "./pages/Edit";
+import { setAuthToken } from "./api/index.js";
 function App() {
+  const token = localStorage.getItem("token");
+  if (token) {
+      setAuthToken(token);
+  }
 
 
   return (
