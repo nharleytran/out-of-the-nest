@@ -8,6 +8,7 @@ import axios from "axios";
 // }
 // console.log('baseURL', baseURL);
 //
+console.log('process.env.REACT_APP_API_URL', process.env.REACT_APP_API_URL);
 export const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_API_URL, // replace with your server's URL
     headers: {
