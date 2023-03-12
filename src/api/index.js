@@ -15,16 +15,6 @@ export const axiosInstance = axios.create({
         "Authorization": `Bearer ${localStorage.getItem("token")}`
     }
 });
-const getInstance = () => {
-    const axiosInstance = axios.create({
-      //baseURL: "https://outofthenest.fly.dev/", // replace with your server's URL
-        baseURL: "http://localhost:8080/", // replace with your server's URL
-        headers: {
-            "Authorization": `Bearer ${localStorage.getItem("token")}`
-        }
-    });
-    return axiosInstance;
-}
  
 export const setAuthToken = token => {
    if (token) {
