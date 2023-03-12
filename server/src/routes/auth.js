@@ -1,15 +1,10 @@
-import express from "express";
-import UserDAO from "../data/UserDAO.js";
-import ApiError from "../model/ApiError.js";
-import {
-    createToken,
-    decodeToken
-} from "../util/token.js";
-import {
-    hashPassword,
-    verifyPassword
-} from "../util/password.js";
-import jwt from "jsonwebtoken";
+const express = require("express");
+const UserDAO = require("../data/UserDAO.js");
+const ApiError = require("../model/ApiError.js");
+
+const {createToken, decodeToken} = require("../util/token.js");
+const {hashPassword, verifyPassword} = require("../util/password.js");
+const jwt = require("jsonwebtoken");
 
 const authRouter = express.Router();
 const userDao = new UserDAO();
@@ -56,10 +51,9 @@ authRouter.post("/login", async (req, res, next) => {
 const checkPermission = (req, res, next) => {
     try {
         const bearerHeader = req.headers["authorization"];
-        console.log('bearerHeader', bearerHeader);
         const bearer = bearerHeader.split(" ");
         const token = bearer[1];
-        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        jwt.verify(token, process.env.REACT_APP_JWT_SECRET, (err, decoded) => {
             if (err) {
                 console.log('err', err);
                 next(new ApiError(401, "Unauthorized"));
@@ -74,7 +68,7 @@ const checkPermission = (req, res, next) => {
 
 authRouter.post("/testAuthorize", checkPermission, async (req, res, next) => {});
 
-export {
+module.exports = {
     authRouter,
     checkPermission
 };

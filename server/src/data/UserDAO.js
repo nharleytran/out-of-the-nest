@@ -1,4 +1,4 @@
-import User from "../model/User.js";
+const User = require("../model/User.js");
 
 class UserDAO {
   async createUser({ email, name, password}) {
@@ -21,4 +21,4 @@ class UserDAO {
   }
 }
 
-export default UserDAO;
+module.exports = UserDAO;

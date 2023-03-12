@@ -1,5 +1,5 @@
-import Post from "../model/Post.js";
-import Category from "../model/Category.js";
+const Post = require("../model/Post.js");
+const Category = require("../model/Category.js");
 
 class PostDAO {
   async createPost({
@@ -62,7 +62,7 @@ class PostDAO {
       { _id: post.category_id },
       { $pull: { posts: post._id } }
     );
-    await post.delete();
+    await Post.findOneAndDelete({ _id: postId });
     return post;
   }
 
@@ -127,4 +127,4 @@ class PostDAO {
   // Add more functions to retrieve other fields as needed
 }
 
-export default PostDAO;
+module.exports = PostDAO;

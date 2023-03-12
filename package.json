@@ -2,9 +2,6 @@
   "name": "vercel",
   "version": "0.1.0",
   "private": true,
-  "jest":{
-       "setupFiles": ["dotenv/config"]
-  },
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
@@ -33,6 +30,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "server": "node server/index.js",
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false",
     "test-backend": "jest server --runInBand",

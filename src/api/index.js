@@ -1,8 +1,14 @@
 import axios from "axios";
 
+let baseURL = `${process.env.REACT_APP_API_URL}`;
+if (process.env.REACT_APP_PORT) {
+    baseURL = `${process.env.REACT_APP_API_URL}:${process.env.PORT}`;
+}
+console.log('baseURL', baseURL);
+
 export const axiosInstance = axios.create({
   //baseURL: "https://outofthenest.fly.dev/", // replace with your server's URL
-    baseURL: "http://localhost:8080/", // replace with your server's URL
+    baseURL: baseURL, // replace with your server's URL
     headers: {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
     }
@@ -93,6 +99,7 @@ export async function createUser(postData) {
 
 export async function login(postData) {
   try {
+      console.log(postData);
     const response = await axiosInstance.post("/login", postData);
     return response.data;
   } catch (err) {

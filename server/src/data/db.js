@@ -1,12 +1,12 @@
-import * as dotenv from 'dotenv' 
-import mongoose from "mongoose";
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
 
 const option = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 };
 
-export function connect(URI) {
+function connect(URI) {
   mongoose.connect(URI, option);
 
   mongoose.connection.on("error", (err) => {
@@ -18,3 +18,5 @@ export function connect(URI) {
     console.log("Connected to MongoDB!");
   });
 }
+
+module.exports = {connect}

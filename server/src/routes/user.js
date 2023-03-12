@@ -1,10 +1,11 @@
-import express from "express";
-import UserDAO from "../data/UserDAO.js";
-import { hashPassword } from "../util/password.js";
-import jwt from "jsonwebtoken";
+const express = require("express");
+const UserDAO = require("../data/UserDAO.js");
+const { hashPassword } = require("../util/password.js");
+const jwt = require("jsonwebtoken");
+
 
 const router = express.Router();
-export const userDao = new UserDAO();
+const userDao = new UserDAO();
 
 
 router.post("/user/create", async (req, res) => {
@@ -19,8 +20,7 @@ router.post("/user/create", async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
-    console.log(error);
   }
 });
 
-export default router;
+module.exports = router;

@@ -1,4 +1,4 @@
-import Category from "../model/Category.js"
+const Category = require("../model/Category.js");
 
 class CategoryDAO {  
     async getCategory() {
@@ -8,6 +8,4 @@ class CategoryDAO {
     }
 }
 
-export default CategoryDAO;
-
-
+module.exports = CategoryDAO;

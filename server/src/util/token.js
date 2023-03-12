@@ -1,15 +1,17 @@
-import jsonWebToken from "jsonwebtoken";
+const jsonWebToken = require("jsonwebtoken");
 
-export const createToken = ({ user, expiresIn }) => {
-  return jsonWebToken.sign(user, process.env.JWT_SECRET, {
+const createToken = ({ user, expiresIn }) => {
+  return jsonWebToken.sign(user, process.env.REACT_APP_JWT_SECRET, {
     algorithm: "HS256",
     expiresIn: expiresIn || "50s",
   });
 };
 
-export const decodeToken = (token) => {
-  return jsonWebToken.verify(token, process.env.JWT_SECRET, {
+const decodeToken = (token) => {
+  return jsonWebToken.verify(token, process.env.REACT_APP_JWT_SECRET, {
     algorithm: "HS256",
     ignoreNotBefore: true,
   });
 };
+
+module.exports = {createToken, decodeToken};

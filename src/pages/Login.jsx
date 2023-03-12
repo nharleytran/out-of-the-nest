@@ -4,9 +4,6 @@ import {
 } from "react";
 import * as postapi from "../api/index";
 import {
-    hashPassword
-} from "../api/util/password.js";
-import {
     useNavigate
 } from "react-router-dom";
 import {
@@ -23,10 +20,6 @@ import {
     Button,
     PasswordInput,
 } from "@mantine/core";
-import {
-    sha256,
-    sha224
-} from "js-sha256";
 import {
     useForm
 } from "@mantine/form";
@@ -53,7 +46,6 @@ function Login() {
     const handleLogin = async (userFormData) => {
         try {
             const response = await postapi.login(userFormData);
-            console.log(response);
             if (response.status === 200) {
                 const token = response.data.token;
                 localStorage.setItem("token", token);

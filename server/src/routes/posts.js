@@ -1,11 +1,11 @@
-import express from "express";
-import PostDAO from "../data/PostDAO.js";
-import CategoryDAO from "../data/CategoryDAO.js";
-import {checkPermission} from "./auth.js";
+const express = require('express');
+const PostDAO = require('../data/PostDAO.js');
+const CategoryDAO = require('../data/CategoryDAO.js');
+const {checkPermission} = require('./auth.js');
 
 const router = express.Router();
-export const postDao = new PostDAO();
-export const categoryDao = new CategoryDAO();
+const postDao = new PostDAO();
+const categoryDao = new CategoryDAO();
 
 
 router.get("/categories", checkPermission, async(req, res) => {
@@ -61,6 +61,7 @@ router.delete('/posts/:postId', checkPermission, async(req, res) => {
       data: deletedPost
     });
   } catch (error) {
+      console.log(error);
     res.status(500).json({ message: error.message });
   }
 });
@@ -128,4 +129,4 @@ router.get('/filters/category/:categoryId', checkPermission, async(req, res) => 
 
   
 
-export default router;
+module.exports = router;
