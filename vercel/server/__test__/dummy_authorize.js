@@ -1,6 +1,5 @@
-import supertest from "supertest";
-import app from "../src/index.js";
-
+const supertest = require('supertest');
+const app = require('../src/app');
 const request = new supertest(app);
 
 async function getAuthorizeToken() {
@@ -12,11 +11,13 @@ async function getAuthorizeToken() {
       email: email,
       password: password,
     });
+    expect(response.status).toBe(200);
     response = await request.post("/login").send({
       email: email,
       password: password,
     });
+
     const token = response.body.data.token;
     return token;
 }
-export {getAuthorizeToken};
+module.exports = {getAuthorizeToken};

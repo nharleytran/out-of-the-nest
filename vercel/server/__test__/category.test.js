@@ -1,21 +1,23 @@
-import app from "../src/index.js";
-import supertest from "supertest";
-import { expect, describe, it, beforeAll } from 'vitest'
-import * as db from "../src/data/db.js";
-import userDAO from "../src/data/UserDAO.js";
-import { getAuthorizeToken } from "./dummy_authorize.js";
+const app = require('../src/app');
+const supertest = require('supertest');
+const db = require('../src/data/db');
+const userDAO = require('../src/data/UserDAO');
+const dotenv = require('dotenv');
+const {getAuthorizeToken} = require('./dummy_authorize');
+dotenv.config();
+
 
 const request = new supertest(app);
 const userDao = new userDAO();
 
 describe("Category test", () => {
     beforeAll(async () => {
-        db.connect(process.env.REACT_APP_DB_TEST_URI);
-        userDao.dropAll();
+        db.connect(process.env.DB_TEST_URI);
+        await userDao.dropAll();
     });
     it("GET all category", async () => {
         const token = await getAuthorizeToken();
-
+        
         let response = await request.get("/categories").set('Authorization', `Bearer ${token}`);
         const categories_name = ['Consulting', 'Software Engineering', 'Other Engineering Professions', 'Medical School', 'Graduate Programs'];
         response._body.data.forEach((category) => {

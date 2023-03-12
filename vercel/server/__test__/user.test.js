@@ -1,26 +1,25 @@
-import app from "../src/index.js";
-import supertest from "supertest";
-import { expect, describe, it, beforeAll, beforeEach, afterEach } from "vitest";
-import * as db from "../src/data/db.js";
-import UserDAO from "../src/data/UserDAO.js";
-import { hashPassword, verifyPassword } from "../src/util/password.js";
+const app = require("../src/app");
+const supertest = require("supertest");
+const db = require("../src/data/db");
+const UserDAO = require("../src/data/UserDAO");
+const { hashPassword, verifyPassword } = require("../src/util/password");
 
 const request = new supertest(app);
 
-export const userDao = new UserDAO();
+const userDao = new UserDAO();
 
 describe("User Test", () => {
   beforeAll(async () => {
-    // db.connect(process.env.DB_TEST_URI);
-      console.log('log uri bd test', import.meta.env.VITE_DB_TEST_URI);
-        db.connect(import.meta.env.VITE_DB_TEST_URI);
+    db.connect(process.env.DB_TEST_URI);
   });
 
   beforeEach(async () => {
     await userDao.dropAll();
   });
 
-  afterEach(async () => {
+  afterEach(async () => {});
+  afterAll(async () => {
+    await userDao.dropAll();
   });
 
   it("Create new user", async () => {

@@ -62,7 +62,7 @@ class PostDAO {
       { _id: post.category_id },
       { $pull: { posts: post._id } }
     );
-    await post.delete();
+    await Post.findOneAndDelete({ _id: postId });
     return post;
   }
 

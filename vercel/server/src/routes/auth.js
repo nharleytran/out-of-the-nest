@@ -51,7 +51,6 @@ authRouter.post("/login", async (req, res, next) => {
 const checkPermission = (req, res, next) => {
     try {
         const bearerHeader = req.headers["authorization"];
-        console.log('bearerHeader', bearerHeader);
         const bearer = bearerHeader.split(" ");
         const token = bearer[1];
         jwt.verify(token, process.env.REACT_APP_JWT_SECRET, (err, decoded) => {
