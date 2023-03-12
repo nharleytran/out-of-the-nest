@@ -17,13 +17,13 @@ app.use(bodyParser.json());
 app.use(cors());
 
 
-app.get("/server", (req, res) => {
+app.get("/api", (req, res) => {
   res.send("Welcome to the Out of The Nest API!");
 });
 
-app.use('/server', posts);
-app.use('/server', users);
-app.use('/server', authRouter);
+app.use('/api', posts);
+app.use('/api', users);
+app.use('/api', authRouter);
 
 app.use((err, req, res, next) => {
   if (err) {
