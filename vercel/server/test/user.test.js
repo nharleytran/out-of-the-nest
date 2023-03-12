@@ -11,7 +11,9 @@ export const userDao = new UserDAO();
 
 describe("User Test", () => {
   beforeAll(async () => {
-    db.connect(process.env.DB_TEST_URI);
+    // db.connect(process.env.DB_TEST_URI);
+      console.log('log uri bd test', import.meta.env.VITE_DB_TEST_URI);
+        db.connect(import.meta.env.VITE_DB_TEST_URI);
   });
 
   beforeEach(async () => {

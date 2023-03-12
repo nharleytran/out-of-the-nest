@@ -10,7 +10,7 @@ const userDao = new userDAO();
 
 describe("Category test", () => {
     beforeAll(async () => {
-        db.connect(process.env.DB_TEST_URI);
+        db.connect(process.env.REACT_APP_DB_TEST_URI);
         userDao.dropAll();
     });
     it("GET all category", async () => {

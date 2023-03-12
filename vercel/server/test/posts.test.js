@@ -8,7 +8,7 @@ const request = new supertest(app);
 
 describe("Posts Test", () => {
     beforeAll(async () => {
-        db.connect(process.env.DB_TEST_URI);
+        db.connect(process.env.REACT_APP_DB_TEST_URI);
     });
     it("Create new post and delete", async () => {
         const token = await getAuthorizeToken();

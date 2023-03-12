@@ -31,7 +31,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll=false",
+    "test-backend": "vitest server",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -51,5 +52,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "supertest": "^6.3.3",
+    "vitest": "^0.29.2"
   }
 }
