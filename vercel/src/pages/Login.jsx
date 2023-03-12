@@ -46,11 +46,11 @@ function Login() {
     const handleLogin = async (userFormData) => {
         try {
             const response = await postapi.login(userFormData);
-            console.log(response);
             if (response.status === 200) {
                 const token = response.data.token;
                 localStorage.setItem("token", token);
                 postapi.axiosInstance.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem("token")}`;
+            console.log(response);
                 notifications.show({
                     title: "Login successfully",
                     message: "Redirecting to home page",
