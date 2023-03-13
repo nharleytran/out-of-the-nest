@@ -4,16 +4,21 @@ const db = require("../src/data/db");
 const { getAuthorizeToken, connectDB, getApiUrl } = require("./utils");
 const UserDAO = require("../src/data/UserDAO");
 const PostDAO = require("../src/data/PostDAO");
+const mongoose = require("mongoose");
+
 const userDAO = new UserDAO();
 const postDAO = new PostDAO();
-
 const request = new supertest(app);
 
 describe("Posts Test", () => {
   beforeAll(async () => {
-    connectDB();
-    await userDAO.dropAll();
+    await connectDB();
   });
+
+  afterAll(async () => {
+    await mongoose.connection.close();
+  });
+
   it("Create new post and delete", async () => {
     const token = await getAuthorizeToken();
     const api_url = getApiUrl();

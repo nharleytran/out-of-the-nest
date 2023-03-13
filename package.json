@@ -33,7 +33,7 @@
     "server": "nodemon api/index.js",
     "build": "react-scripts build",
     "test-frontend": "react-scripts test --watchAll=false",
-    "test-backend": "jest api --runInBand --config=api/jest.config.js",
+    "test-backend": "jest api --runInBand --config=api/jest.config.js --watchAll=false",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

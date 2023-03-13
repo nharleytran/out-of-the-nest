@@ -4,7 +4,7 @@ const db = require("../src/data/db");
 const userDAO = require("../src/data/UserDAO");
 const dotenv = require("dotenv");
 const { getAuthorizeToken, connectDB, getApiUrl } = require("./utils");
-dotenv.config();
+const mongoose = require("mongoose");
 
 const request = new supertest(app);
 const userDao = new userDAO();
@@ -12,8 +12,11 @@ const userDao = new userDAO();
 describe("Category test", () => {
   beforeAll(async () => {
     await connectDB();
-    await userDao.dropAll();
   });
+  afterAll(async () => {
+    await mongoose.connection.close();
+  });
+
   it("GET all category", async () => {
     const api_url = getApiUrl();
     const token = await getAuthorizeToken();

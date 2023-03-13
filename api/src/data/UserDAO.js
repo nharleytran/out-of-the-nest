@@ -19,6 +19,10 @@ class UserDAO {
     const user = await User.findOne({ email: email });
     return user;
   }
+
+  async deleteUserByEmail(email) {
+    await User.deleteOne({email});
+  }
 }
 
 module.exports = UserDAO;
