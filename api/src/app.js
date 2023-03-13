@@ -9,8 +9,9 @@ const cors = require("cors");
 dotenv.config();
 
 const app = express();
-const endpoint = process.env.END_POINT;
+const endpoint = process.env.REACT_APP_END_POINT;
 
+console.log(14, `${endpoint}`);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
