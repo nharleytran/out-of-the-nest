@@ -36,7 +36,7 @@ describe("User Test", () => {
       email: email,
       password: "123456",
     });
-    console.log(response.body);
+    console.log(response);
     expect(response.status).toBe(200);
 
     const user = await userDao.findUserByEmail(email);
