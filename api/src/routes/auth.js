@@ -18,14 +18,17 @@ authRouter.post("/login", async (req, res, next) => {
         "You must provide an email and a password to login."
       );
     }
+    console.log("email", email, password);
 
     const user = await userDao.findUserByEmail(email);
+    console.log("user", user);
     const token = createToken({
       user: {
         id: user._id,
         email: user.email,
       },
     });
+    console.log("token", token);
     if (!verifyPassword(password, user.password)) {
       throw new ApiError(403, "Wrong email or password!");
     }
@@ -49,7 +52,8 @@ const checkPermission = (req, res, next) => {
     const bearerHeader = req.headers["authorization"];
     const bearer = bearerHeader.split(" ");
     const token = bearer[1];
-    jwt.verify(token, process.env.REACT_APP_JWT_SECRET, (err, decoded) => {
+    const secret = process.env.REACT_APP_JWT_SECRET|| globalThis.__TEST_JWT_SECRET__;
+    jwt.verify(token, secret, (err, decoded) => {
       if (err) {
         console.log("err", err);
         next(new ApiError(401, "Unauthorized"));

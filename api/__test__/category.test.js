@@ -19,6 +19,7 @@ describe("Category test", () => {
 
   it("GET all category", async () => {
     const api_url = getApiUrl();
+    console.log("api_url", api_url);
     const token = await getAuthorizeToken();
 
     let response = await request

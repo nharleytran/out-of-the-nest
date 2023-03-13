@@ -6,7 +6,7 @@ const UserDAO = require("../src/data/UserDAO");
 const userDao = new UserDAO();
 
 function getApiUrl() {
-  return globalThis.__API_URL__;
+  return process.env.REACT_APP_API_URL;
 }
 
 async function getAuthorizeToken() {
@@ -28,12 +28,15 @@ async function getAuthorizeToken() {
     email: email,
     password: password,
   });
+  // console.log(response.body);
+  // console.log(response);
+  expect(response.status).toBe(200);
 
   const token = response.body.data.token;
   return token;
 }
 async function connectDB() {
-  await db.connect(globalThis.__TEST_DB_URI__);
+  await db.connect(process.env.REACT_APP_DB_TEST_URI);
 }
 
 module.exports = { getAuthorizeToken, connectDB, getApiUrl };

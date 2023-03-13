@@ -9,12 +9,14 @@ const cors = require("cors");
 dotenv.config();
 
 const app = express();
-const api_url = process.env.REACT_APP_API;
+const api_url = process.env.REACT_APP_API_URL;
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
+console.log("api_url", api_url);
 app.get(`${api_url}`, (req, res) => {
   res.send("Welcome to the Out of The Nest API!");
 });
