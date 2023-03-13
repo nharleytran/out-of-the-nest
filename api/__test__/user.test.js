@@ -3,6 +3,7 @@ const supertest = require("supertest");
 const db = require("../src/data/db");
 const UserDAO = require("../src/data/UserDAO");
 const { hashPassword, verifyPassword } = require("../src/util/password");
+const { getApiUrl, getAuthorizeToken, connectDB } = require("./utils");
 
 const request = new supertest(app);
 
@@ -10,7 +11,7 @@ const userDao = new UserDAO();
 
 describe("User Test", () => {
   beforeAll(async () => {
-    db.connect(process.env.DB_TEST_URI);
+    await connectDB();
   });
 
   beforeEach(async () => {
@@ -25,7 +26,7 @@ describe("User Test", () => {
   it("Create new user", async () => {
     const email = "abc@gmail.com";
     const name = "Test user";
-    const api_url = process.env.REACT_APP_API;
+    const api_url = getApiUrl();
     let response = await request.post(`${api_url}/user/create`).send({
       name: name,
       email: email,
@@ -40,7 +41,7 @@ describe("User Test", () => {
 
   it("Not allow duplicate user email", async () => {
     userDao.dropAll();
-    const api_url = process.env.REACT_APP_API;
+    const api_url = getApiUrl();
     let response = await request.post(`${api_url}/user/create`).send({
       name: "Test user",
       email: "abc@gmail.com",
@@ -59,7 +60,7 @@ describe("User Test", () => {
     const email = "email1@gmail.com";
     const name = "Test user";
     const password = "123456";
-    const api_url = process.env.REACT_APP_API;
+    const api_url = getApiUrl();
     let response = await request.post(`${api_url}/user/create`).send({
       name: name,
       email: email,
@@ -78,7 +79,7 @@ describe("User Test", () => {
     const email = "email1@gmail.com";
     const name = "Test user";
     const password = "123456";
-    const api_url = process.env.REACT_APP_API;
+    const api_url = getApiUrl();
     let response = await request.post(`${api_url}/user/create`).send({
       name: name,
       email: email,
