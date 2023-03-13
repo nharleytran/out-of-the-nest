@@ -9,20 +9,19 @@ const cors = require("cors");
 dotenv.config();
 
 const app = express();
-const endpoint = process.env.REACT_APP_END_POINT;
+const api_url = process.env.REACT_APP_API;
 
-console.log(14, `${endpoint}`);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get(`${endpoint}`, (req, res) => {
+app.get(`${api_url}`, (req, res) => {
   res.send("Welcome to the Out of The Nest API!");
 });
 
-app.use(`${endpoint}`, posts);
-app.use(`${endpoint}`, users);
-app.use(`${endpoint}`, authRouter);
+app.use(`${api_url}`, posts);
+app.use(`${api_url}`, users);
+app.use(`${api_url}`, authRouter);
 
 app.use((err, req, res, next) => {
   if (err) {

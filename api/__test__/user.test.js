@@ -25,8 +25,8 @@ describe("User Test", () => {
   it("Create new user", async () => {
     const email = "abc@gmail.com";
     const name = "Test user";
-    const endpoint = process.env.END_POINT;
-    let response = await request.post(`${endpoint}/user/create`).send({
+    const api_url = process.env.REACT_APP_API;
+    let response = await request.post(`${api_url}/user/create`).send({
       name: name,
       email: email,
       password: "123456",
@@ -40,14 +40,14 @@ describe("User Test", () => {
 
   it("Not allow duplicate user email", async () => {
     userDao.dropAll();
-    const endpoint = process.env.END_POINT;
-    let response = await request.post(`${endpoint}/user/create`).send({
+    const api_url = process.env.REACT_APP_API;
+    let response = await request.post(`${api_url}/user/create`).send({
       name: "Test user",
       email: "abc@gmail.com",
       password: "123456",
     });
     expect(response.status).toBe(200);
-    response = await request.post(`${endpoint}/user/create`).send({
+    response = await request.post(`${api_url}/user/create`).send({
       name: "Test user2",
       email: "abc@gmail.com",
       password: "123456",
@@ -59,15 +59,15 @@ describe("User Test", () => {
     const email = "email1@gmail.com";
     const name = "Test user";
     const password = "123456";
-    const endpoint = process.env.END_POINT;
-    let response = await request.post(`${endpoint}/user/create`).send({
+    const api_url = process.env.REACT_APP_API;
+    let response = await request.post(`${api_url}/user/create`).send({
       name: name,
       email: email,
       password: password,
     });
     expect(response.status).toBe(200);
 
-    response = await request.post(`${endpoint}/login`).send({
+    response = await request.post(`${api_url}/login`).send({
       email: email,
       password: password,
     });
@@ -78,15 +78,15 @@ describe("User Test", () => {
     const email = "email1@gmail.com";
     const name = "Test user";
     const password = "123456";
-    const endpoint = process.env.END_POINT;
-    let response = await request.post(`${endpoint}/user/create`).send({
+    const api_url = process.env.REACT_APP_API;
+    let response = await request.post(`${api_url}/user/create`).send({
       name: name,
       email: email,
       password: password,
     });
     expect(response.status).toBe(200);
 
-    response = await request.post(`${endpoint}/login`).send({
+    response = await request.post(`${api_url}/login`).send({
       email: email,
       password: "1",
     });

@@ -1,16 +1,8 @@
 import axios from "axios";
 
-// let baseURL = `${process.env.REACT_APP_API_URL}`;
-// console.log(`${process.env.PORT}`);
-// if (process.env.PORT) {
-//     baseURL = `${process.env.REACT_APP_API_URL}:${process.env.PORT}/server`;
-//     console.log(`${process.env.REACT_APP_API_URL}:${process.env.PORT}/server`);
-// }
-// console.log('baseURL', baseURL);
-//
-console.log("process.env.REACT_APP_API_URL", process.env.REACT_APP_API_URL);
+const baseURL  = process.env.REACT_APP_API? process.env.PORT : `http://localhost:${process.env.PORT}${process.env.REACT_APP_API}`;
 export const axiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_API_URL, // replace with your server's URL
+  baseURL: baseURL, // replace with your server's URL
   headers: {
     Authorization: `Bearer ${localStorage.getItem("token")}`,
   },

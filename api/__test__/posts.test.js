@@ -16,10 +16,10 @@ describe("Posts Test", () => {
   });
   it("Create new post and delete", async () => {
     const token = await getAuthorizeToken();
-    const endpoint = process.env.END_POINT;
+    const api_url = process.env.REACT_APP_API;
 
     const response = await request
-      .post(`${endpoint}/posts`)
+      .post(`${api_url}/posts`)
       .send({
         title: "Test Post",
         content: "Test Content",
@@ -30,17 +30,17 @@ describe("Posts Test", () => {
 
     const post_id = response._body.data._id;
     let getpostReponse = await request
-      .get(`${endpoint}/posts/` + post_id)
+      .get(`${api_url}/posts/` + post_id)
       .set("Authorization", `Bearer ${token}`);
     expect(getpostReponse.status).toBe(200); //check if it is created
 
     const delReponse = await request
-      .delete(`${endpoint}/posts/` + post_id)
+      .delete(`${api_url}/posts/` + post_id)
       .set("Authorization", `Bearer ${token}`);
     expect(delReponse.status).toBe(200);
 
     getpostReponse = await request
-      .get(`${endpoint}/posts/` + post_id)
+      .get(`${api_url}/posts/` + post_id)
       .set("Authorization", `Bearer ${token}`);
     expect(getpostReponse.status).toBe(500); //make sure it is no longer exists
   });

@@ -15,11 +15,11 @@ describe("Category test", () => {
     await userDao.dropAll();
   });
   it("GET all category", async () => {
-    const endpoint = process.env.END_POINT;
+    const api_url = process.env.REACT_APP_API;
     const token = await getAuthorizeToken();
 
     let response = await request
-      .get(`${endpoint}/categories`)
+      .get(`${api_url}/categories`)
       .set("Authorization", `Bearer ${token}`);
     const categories_name = [
       "Consulting",
