@@ -1,13 +1,14 @@
 import express from "express";
 import PostDAO from "../data/PostDAO.js";
 import CategoryDAO from "../data/CategoryDAO.js";
+import {checkPermission} from "./auth.js";
 
 const router = express.Router();
 export const postDao = new PostDAO();
 export const categoryDao = new CategoryDAO();
 
 
-router.get("/categories", async (req, res) => {
+router.get("/categories", checkPermission, async(req, res) => {
     try{
       const categories = await categoryDao.getCategory();
       res.json({
@@ -20,7 +21,7 @@ router.get("/categories", async (req, res) => {
     }
   });
 
-router.get('/posts/category/:categoryId', async (req, res) => {
+router.get('/posts/category/:categoryId', checkPermission, async(req, res) => {
     const categoryId = req.params.categoryId;
     try {
       const post = await postDao.getPostsByCategory(categoryId);
@@ -34,7 +35,7 @@ router.get('/posts/category/:categoryId', async (req, res) => {
     }
   });  
 
-router.post('/posts', async (req, res) => {
+router.post('/posts', checkPermission, async(req, res) => {
   const { title, objective, outcome, content, author, category_id, gpa, testscore, resume, extracurriculars, international } = req.body;
   try {
     const post = await postDao.createPost({ title, objective, outcome, content, author, category_id, gpa, testscore, resume, extracurriculars, international});
@@ -48,7 +49,7 @@ router.post('/posts', async (req, res) => {
   }
 });
 
-router.delete('/posts/:postId', async (req, res) => {
+router.delete('/posts/:postId', checkPermission, async(req, res) => {
   const postId = req.params.postId;
 
   try {
@@ -64,7 +65,7 @@ router.delete('/posts/:postId', async (req, res) => {
   }
 });
 
-router.get('/posts/:postId', async (req, res) => {
+router.get('/posts/:postId', checkPermission, async(req, res) => {
   const postId = req.params.postId;
   try {
     const post = await postDao.getPost(postId);
@@ -80,7 +81,7 @@ router.get('/posts/:postId', async (req, res) => {
 
 
 
-router.put('/posts/:postId', async (req, res) => {
+router.put('/posts/:postId', checkPermission, async(req, res) => {
   const postId = req.params.postId;
   const updatedFields = req.body;
 
@@ -96,7 +97,7 @@ router.put('/posts/:postId', async (req, res) => {
   }
 });
 
-router.get('/filters/category/:categoryId', async (req, res) => {
+router.get('/filters/category/:categoryId', checkPermission, async(req, res) => {
   const categoryId = req.params.categoryId;
   const { startDate, endDate, minGPA, maxGPA, testname, outcome } = req.body;
   try {
