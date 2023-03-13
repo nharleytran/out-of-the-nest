@@ -9,21 +9,20 @@ const cors = require('cors');
 dotenv.config()
 
 const app = express();
+const endpoint = process.env.END_POINT;
 
-//app.use(express.json());
-//app.use(express.urlencoded({extended: true}));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cors());
 
 
-app.get("/api", (req, res) => {
+app.get(`${endpoint}`, (req, res) => {
   res.send("Welcome to the Out of The Nest API!");
 });
 
-app.use('/api', posts);
-app.use('/api', users);
-app.use('/api', authRouter);
+app.use(`${endpoint}`, posts);
+app.use(`${endpoint}`, users);
+app.use(`${endpoint}`, authRouter);
 
 app.use((err, req, res, next) => {
   if (err) {

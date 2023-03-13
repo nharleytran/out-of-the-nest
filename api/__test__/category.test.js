@@ -16,9 +16,10 @@ describe("Category test", () => {
         await userDao.dropAll();
     });
     it("GET all category", async () => {
+        const endpoint = process.env.END_POINT;
         const token = await getAuthorizeToken();
         
-        let response = await request.get("/categories").set('Authorization', `Bearer ${token}`);
+        let response = await request.get(`${endpoint}/categories`).set('Authorization', `Bearer ${token}`);
         const categories_name = ['Consulting', 'Software Engineering', 'Other Engineering Professions', 'Medical School', 'Graduate Programs'];
         response._body.data.forEach((category) => {
             expect(categories_name).toContain(category.name);

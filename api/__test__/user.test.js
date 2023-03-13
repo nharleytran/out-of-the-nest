@@ -25,7 +25,8 @@ describe("User Test", () => {
   it("Create new user", async () => {
     const email = "abc@gmail.com";
     const name = "Test user";
-    let response = await request.post("/user/create").send({
+    const endpoint = process.env.END_POINT;
+    let response = await request.post(`${endpoint}/user/create`).send({
       name: name,
       email: email,
       password: "123456",
@@ -39,13 +40,14 @@ describe("User Test", () => {
 
   it("Not allow duplicate user email", async () => {
     userDao.dropAll();
-    let response = await request.post("/user/create").send({
+    const endpoint = process.env.END_POINT;
+    let response = await request.post(`${endpoint}/user/create`).send({
       name: "Test user",
       email: "abc@gmail.com",
       password: "123456",
     });
     expect(response.status).toBe(200);
-    response = await request.post("/user/create").send({
+    response = await request.post(`${endpoint}/user/create`).send({
       name: "Test user2",
       email: "abc@gmail.com",
       password: "123456",
@@ -57,14 +59,15 @@ describe("User Test", () => {
     const email = "email1@gmail.com";
     const name = "Test user";
     const password = "123456";
-    let response = await request.post("/user/create").send({
+    const endpoint = process.env.END_POINT;
+    let response = await request.post(`${endpoint}/user/create`).send({
       name: name,
       email: email,
       password: password,
     });
     expect(response.status).toBe(200);
 
-    response = await request.post("/login").send({
+    response = await request.post(`${endpoint}/login`).send({
       email: email,
       password: password,
     });
@@ -75,14 +78,15 @@ describe("User Test", () => {
     const email = "email1@gmail.com";
     const name = "Test user";
     const password = "123456";
-    let response = await request.post("/user/create").send({
+    const endpoint = process.env.END_POINT;
+    let response = await request.post(`${endpoint}/user/create`).send({
       name: name,
       email: email,
       password: password,
     });
     expect(response.status).toBe(200);
 
-    response = await request.post("/login").send({
+    response = await request.post(`${endpoint}/login`).send({
       email: email,
       password: "1",
     });

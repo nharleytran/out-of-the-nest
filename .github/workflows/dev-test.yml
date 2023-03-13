@@ -22,19 +22,12 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Install client package
+    - name: Install package
       run: npm install
-      working-directory: client
       
     - name: Front-End test
-      run: npm test
-      working-directory: client
-
-    - name: Install server package
-      run: npm install
-      working-directory: server
+      run: yarn test-frontend
       
     - name: Back-End test
-      run: npm test
-      working-directory: server
+      run: yarn test-backend
 

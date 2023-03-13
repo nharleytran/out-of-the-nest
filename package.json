@@ -32,8 +32,8 @@
     "client": "PORT=3000 react-scripts start",
     "server": "nodemon api/index.js",
     "build": "react-scripts build",
-    "test": "react-scripts test --watchAll=false",
-    "test-backend": "jest server --runInBand",
+    "test-frontend": "react-scripts test --watchAll=false",
+    "test-backend": "jest api --runInBand",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
