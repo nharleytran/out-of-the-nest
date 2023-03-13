@@ -14,4 +14,4 @@ const verifyPassword = (plainPassword, hashedPassword) => {
   return bcrypt.compareSync(plainPassword, hashedPassword);
 };
 
-module.exports = {hashPassword, verifyPassword};
+module.exports = { hashPassword, verifyPassword };

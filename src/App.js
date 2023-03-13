@@ -7,18 +7,15 @@ import Login from "./pages/Login";
 import Post from "./pages/Post";
 import Edit from "./pages/Edit";
 function App() {
-
-
   return (
-    
     <Routes>
-      <Route path="/" element={ <Home/> } />
-      <Route path="/feed" element={ <Feed/> } />
-      <Route path="/create" element={ <PostCreate/> } />
-      <Route path="/user/create" element={ <UserCreate/> } />
-      <Route path="/login" element={ <Login/> } />
-      <Route path="/feed/post" element={ <Post/> } />
-      <Route path="/edit" element={ <Edit/> } />
+      <Route path="/" element={<Home />} />
+      <Route path="/feed" element={<Feed />} />
+      <Route path="/create" element={<PostCreate />} />
+      <Route path="/user/create" element={<UserCreate />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/feed/post" element={<Post />} />
+      <Route path="/edit" element={<Edit />} />
     </Routes>
   );
 }

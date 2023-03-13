@@ -14,4 +14,4 @@ const decodeToken = (token) => {
   });
 };
 
-module.exports = {createToken, decodeToken};
+module.exports = { createToken, decodeToken };

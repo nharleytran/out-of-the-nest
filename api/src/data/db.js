@@ -1,5 +1,5 @@
-const dotenv = require('dotenv');
-const mongoose = require('mongoose');
+const dotenv = require("dotenv");
+const mongoose = require("mongoose");
 
 const option = {
   useNewUrlParser: true,
@@ -13,10 +13,10 @@ function connect(URI) {
     console.log("Could not connect to MongoDB");
     console.log(err);
   });
-  
+
   mongoose.connection.on("open", () => {
     console.log("Connected to MongoDB!");
   });
 }
 
-module.exports = {connect}
+module.exports = { connect };

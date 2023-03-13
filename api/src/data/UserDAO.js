@@ -1,7 +1,7 @@
 const User = require("../model/User.js");
 
 class UserDAO {
-  async createUser({ email, name, password}) {
+  async createUser({ email, name, password }) {
     const user = await User.create({
       email,
       name,

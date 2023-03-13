@@ -26,7 +26,7 @@ class PostDAO {
       testscore,
       resume,
       extracurriculars,
-      international
+      international,
     });
 
     // Add the post to the category's "posts" array
@@ -103,7 +103,15 @@ class PostDAO {
     return updatedPost;
   }
 
-  async getPostsByFilters(categoryId, startDate, endDate, minGPA, maxGPA, testname, outcome) {
+  async getPostsByFilters(
+    categoryId,
+    startDate,
+    endDate,
+    minGPA,
+    maxGPA,
+    testname,
+    outcome
+  ) {
     const filter = { category: categoryId };
     if (startDate && endDate) {
       filter.date = { $gte: startDate, $lte: endDate };
@@ -119,7 +127,7 @@ class PostDAO {
     if (outcome) {
       filter.outcome = outcome;
     }
-  
+
     const filteredPosts = await Post.find(filter);
     return filteredPosts;
   }

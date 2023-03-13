@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const PostSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true
+    required: true,
   },
 
   objective: String,
@@ -12,22 +12,22 @@ const PostSchema = new mongoose.Schema({
 
   content: {
     type: String,
-    required: true
+    required: true,
   },
 
   author: {
     type: String,
-    required: true
+    required: true,
   },
 
   date: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
 
   category_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Category"
+    ref: "Category",
   },
 
   gpa: Number,
@@ -38,7 +38,7 @@ const PostSchema = new mongoose.Schema({
 
   extracurriculars: [String],
 
-  international: Boolean
+  international: Boolean,
 });
 
 const Post = mongoose.model("Post", PostSchema);

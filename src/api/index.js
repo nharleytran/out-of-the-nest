@@ -8,28 +8,26 @@ import axios from "axios";
 // }
 // console.log('baseURL', baseURL);
 //
-console.log('process.env.REACT_APP_API_URL', process.env.REACT_APP_API_URL);
+console.log("process.env.REACT_APP_API_URL", process.env.REACT_APP_API_URL);
 export const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_API_URL, // replace with your server's URL
-    headers: {
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
-    }
+  baseURL: process.env.REACT_APP_API_URL, // replace with your server's URL
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  },
 });
- 
-export const setAuthToken = token => {
-   if (token) {
-       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-   }
-   else
-       delete axios.defaults.headers.common["Authorization"];
-}
+
+export const setAuthToken = (token) => {
+  if (token) {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  } else delete axios.defaults.headers.common["Authorization"];
+};
 
 export async function getAllCategories() {
   try {
     const response = await axiosInstance.get("/categories");
     return response.data.data;
   } catch (err) {
-      window.location = '/login';
+    window.location = "/login";
     throw err;
   }
 }
@@ -88,10 +86,9 @@ export async function createUser(postData) {
   }
 }
 
-
 export async function login(postData) {
   try {
-      console.log(postData);
+    console.log(postData);
     const response = await axiosInstance.post("/login", postData);
     return response.data;
   } catch (err) {
@@ -101,7 +98,7 @@ export async function login(postData) {
 
 export async function testAuthorize(postData) {
   try {
-      console.log('axios', axiosInstance.defaults.headers['Authorization']);
+    console.log("axios", axiosInstance.defaults.headers["Authorization"]);
     const response = await axiosInstance.post("/testAuthorize", postData);
     return response.data;
   } catch (err) {
