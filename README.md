@@ -6,7 +6,7 @@ We want to create a platform that allows graduates and upperclassmen to post sub
 
 ## Installing / Getting started
 
-We first need to install MongoDB, and NodeJs. Then we install packages in server and client directories.
+We first need to install the packages. 
 
 ```
   $ yarn install
@@ -24,9 +24,20 @@ and open another terminal to run the client,
 ## Developing
 
 For setting up the database, we use Mongo Atlas (version 5.0.15).  
-Copy `.env` from slack channel to the root folder.
+Copy `.env` from slack channel to the root folder.  
+
+To run the test for front-end,
+
+```
+  $ yarn test-frontend
+```
+and run the test for back-end,
+
+```
+  $ yarn test-backend
+```
 
 ## Deployment
 
-The App is deployed [here](https://sp23-oose-project-team-13.vercel.app/). <br/>
+The App is deployed [here](https://sp23-oose-project-team-13.vercel.app/).  
 The Back-End API is deployed [here](https://sp23-oose-project-team-13.vercel.app/api/).
