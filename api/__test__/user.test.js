@@ -22,14 +22,15 @@ describe("User Test", () => {
 
   afterEach(async () => {});
   afterAll(async () => {
-    await userDao.dropAll();
-    mongoose.connection.close();
+    await mongoose.connection.close();
   });
 
   it("Create new user", async () => {
     const email = "abc@gmail.com";
     const name = "Test user";
     const api_url = getApiUrl();
+    console.log(api_url);
+    console.log(globalThis.__TEST_DB_URI__, globalThis.__API_URL__);
     let response = await request.post(`${api_url}/user/create`).send({
       name: name,
       email: email,
