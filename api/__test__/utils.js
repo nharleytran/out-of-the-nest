@@ -28,14 +28,15 @@ async function getAuthorizeToken() {
     email: email,
     password: password,
   });
-  // console.log(response.body);
-  // console.log(response);
   expect(response.status).toBe(200);
 
   const token = response.body.data.token;
   return token;
 }
 async function connectDB() {
+  if (!process.env.REACT_APP_DB_TEST_URI) {
+    throw new Error("REACT_APP_DB_TEST_URI is not defined in .env.test");
+  }
   await db.connect(process.env.REACT_APP_DB_TEST_URI);
 }
 

@@ -27,7 +27,6 @@ router.post("/user/create", async (req, res) => {
 
 router.delete("/user/email/delete/:email", async (req, res) => {
   const { email } = req.params;
-  console.log(email, req.params);
 
   try {
     await userDao.deleteUserByEmail(email);

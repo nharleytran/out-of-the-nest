@@ -18,17 +18,14 @@ authRouter.post("/login", async (req, res, next) => {
         "You must provide an email and a password to login."
       );
     }
-    console.log("email", email, password);
 
     const user = await userDao.findUserByEmail(email);
-    console.log("user", user);
     const token = createToken({
       user: {
         id: user._id,
         email: user.email,
       },
     });
-    console.log("token", token);
     if (!verifyPassword(password, user.password)) {
       throw new ApiError(403, "Wrong email or password!");
     }
