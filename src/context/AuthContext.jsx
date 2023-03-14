@@ -22,18 +22,17 @@ function AuthProvider({ children }) {
   // const auth = useAuth();
   const [isAuth, setIsAuth] = useState(false);
   console.log("isAuth", isAuth);
-  console.log("RequireAuth1", useContext(AuthContext));
   useEffect(() => {
-    let ignore = false;
-    console.log("call useeffect isAuth", isAuth);
+    console.log("call useffect isAuth", isAuth);
     postApi.isAuthorized().then((res) => {
-      if (!ignore)
-        setIsAuth(res.status === 200);
+      setIsAuth(res.status === 200);
+      console.log("isAuth inside useeffect", isAuth);
+      // if (!ignore)
+      // setStatus(res.status);
     });
-    return () => {
-      ignore = true;
-    }
-  },[]);
+    return () => {};
+  });
+  // setIsAuth(status===200);
   return <AuthContext.Provider value={isAuth}>{children}</AuthContext.Provider>;
 }
 
@@ -41,11 +40,15 @@ function RequireAuth({ children }) {
   const navigate = useNavigate();
   const useAuth = useContext(AuthContext);
   useEffect(() => {
-    console.log("RequireAuth", useAuth);
+    console.log("is auth in requireAuth useeffect", useAuth);
+    if (!useAuth) {
+      console.log("redirect to login");
+      setTimeout(() => navigate("/login"), 2000);
+    }
     const target_page = useAuth ? "/" : "/login";
     navigate(target_page);
     // setTimeout(() => navigate(target_page), 2000);
-  });
+  },[useAuth]);
 
   // if (!useAuth)
   //   return (
@@ -60,7 +63,8 @@ function RequireAuth({ children }) {
   //     </Affix>
   //   );
 
-  return children;
+  // return children;
+  return <div>{children}</div>;
 }
 
 export { AuthProvider, RequireAuth };
