@@ -27,6 +27,17 @@ export async function getAllCategories() {
   }
 }
 
+export async function getAllCategoriesAuth() {
+  try {
+    const response = await axiosInstance.get("/categories");
+    return response.data.data;
+  } catch (err) {
+    console.log("error", err);
+    // window.location = "/login";
+    throw err;
+  }
+}
+
 export async function createPost(postData) {
   try {
     const response = await axiosInstance.post("/posts", postData);
@@ -90,7 +101,7 @@ export async function login(postData) {
   }
 }
 
-export async function isAuthorized() {
+export async function getAuth() {
   try {
     const response = await axiosInstance.get("/isAuthorized");
     return response.data;

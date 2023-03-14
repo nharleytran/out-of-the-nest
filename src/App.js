@@ -10,9 +10,9 @@ import {RequireAuth} from "./context/AuthContext";
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<RequireAuth> <Home /> </RequireAuth>} />
-      <Route path="/feed" element={<RequireAuth> <Feed /> </RequireAuth> } />
-      <Route path="/create" element={<PostCreate /> } />
+      <Route path="/" element={<Home />} />
+      <Route path="/feed" element={<Feed /> } />
+      <Route path="/create" element={<RequireAuth> <PostCreate /> </RequireAuth> } />
       <Route path="/user/create" element={<UserCreate />} />
       <Route path="/login" element={<Login />} />
       <Route path="/feed/post" element={<Post /> } />

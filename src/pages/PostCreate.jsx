@@ -31,7 +31,7 @@ function PostCreate() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const categories = await postapi.getAllCategories();
+      const categories = await postapi.getAllCategoriesAuth();
       setCategories(categories);
     };
     fetchData();
