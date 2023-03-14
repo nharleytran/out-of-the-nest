@@ -8,3 +8,4 @@ if (process.env.PORT) {
     console.log(`OutOfTheNest API at ${process.env.REACT_APP_API}`);
   });
 }
+module.exports = app;
