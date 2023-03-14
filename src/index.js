@@ -11,14 +11,14 @@ import { AuthProvider } from "./context/AuthContext";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
+    <AuthProvider>
     <BrowserRouter>
       <MantineProvider withGlobalStyles withNormalizeCSS>
         <Notifications position="top-right" />
-        <AuthProvider>
           <App />
-        </AuthProvider>
       </MantineProvider>
     </BrowserRouter>
+  </AuthProvider>
   </React.StrictMode>
 );
 
