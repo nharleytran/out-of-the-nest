@@ -21,6 +21,7 @@ function RequireAuth({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
   const { isAuth, setIsAuth } = useContext(AuthContext);
+  console.log(isAuth);
   useEffect(() => {
     if (!localStorage.getItem("token")) {
       postApi.getAuth().then((res) => {

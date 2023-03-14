@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import * as postapi from "../api/index";
 import { useNavigate } from "react-router-dom";
 import { Anchor, Flex } from "@mantine/core";
+import { useAuth } from "../context/AuthContext";
 
 import {
   Box,
@@ -15,12 +16,11 @@ import {
 import { useForm } from "@mantine/form";
 import { MantineProvider } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
   const location = useLocation();
-  
 
   const form = useForm({
     initialValues: {
@@ -32,6 +32,7 @@ function Login() {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
     },
   });
+  const setAuth = useAuth().setIsAuth;
   const handleLogin = async (userFormData) => {
     try {
       const response = await postapi.login(userFormData);
@@ -41,12 +42,15 @@ function Login() {
         postapi.axiosInstance.defaults.headers[
           "Authorization"
         ] = `Bearer ${localStorage.getItem("token")}`;
-        const url = location.state? location.state.from.pathname : "/";
+        const url = location.state ? location.state.from.pathname : "/";
         notifications.show({
           title: "Login successfully",
           message: `Redirecting to ${url}`,
           autoClose: 1000,
-          onClose: () => navigate(url),
+          onClose: () => { 
+            navigate(url);
+            setAuth(true);
+          },
           loading: true,
           position: "top-right",
         });
@@ -88,7 +92,16 @@ function Login() {
             <Anchor href="/user/create"> Create new account </Anchor>{" "}
           </Flex>{" "}
           <Group position="right" mt="md">
-            <Button type="submit"> Sign in </Button> <Button onClick={()=> navigate('/')}> Cancel </Button>{" "}
+            <Button type="submit"> Sign in </Button>
+            <Button
+              onClick={() => {
+                navigate("/");
+                setAuth(false);
+              }}
+            >
+              {" "}
+              Cancel{" "}
+            </Button>{" "}
           </Group>{" "}
         </form>{" "}
       </Box>{" "}
