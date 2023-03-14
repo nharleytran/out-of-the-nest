@@ -2,7 +2,7 @@ import { Button, Text, Title } from "@mantine/core";
 import "../App.css";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import Search from "../components/Search";
-import { useAuthContext } from "../context/AuthContext";
+
 
 function Header(props) {
   const navigate = useNavigate();
@@ -13,20 +13,6 @@ function Header(props) {
     <Search query={query} setQuery={setQuery} />
   ) : null;
 
-  let loginButton = null;
-  let signInButton = null;
-  if (!useAuthContext()) {
-    loginButton = (
-      <Button className="login-button" onClick={() => navigate("/login")}>
-        Login
-      </Button>
-    );
-    signInButton = (
-      <Button className="login-button" onClick={() => navigate("/user/create")}>
-        Sign Up
-      </Button>
-    );
-  }
 
   return (
     <div className="header">
@@ -43,7 +29,12 @@ function Header(props) {
         {searchComponent}
 
         <Button onClick={() => navigate("/create")}>Create post</Button>
-        {loginButton} {signInButton}
+      <Button className="login-button" onClick={() => navigate("/login")}>
+        Login
+      </Button>
+      <Button className="login-button" onClick={() => navigate("/user/create")}>
+        Sign Up
+      </Button>
       </div>
     </div>
   );

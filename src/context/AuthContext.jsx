@@ -4,8 +4,7 @@ import { Navigate } from "react-router-dom";
 import { notifications, Notifications } from "@mantine/notifications";
 import { Notification } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
-import { Affix, Button, Text, Transition, rem } from '@mantine/core';
-
+import { Affix, Button, Text, Transition, rem } from "@mantine/core";
 
 const AuthContext = createContext();
 const useAuthContext = () => useContext(AuthContext);
@@ -27,14 +26,24 @@ function AuthProvider({ children }) {
 function RequireAuth({ children }) {
   const isAuth = useAuthContext();
   const navigate = useNavigate();
-  if (!isAuth) {
-    setTimeout(() => navigate("/login"), 2000);
-    return <Affix position={{ top: 10, right: 50}}>
-      <Notification title="Login required" loading style={{ width: 350, height: 100 }}>
-        Redirecting to login page...
-      </Notification>
-    </Affix> ;
+  useEffect(() => {
+    if (!isAuth) {
+      setTimeout(() => navigate("/login"), 2000);
     }
+  }, [isAuth, navigate]);
+
+  if (!isAuth)
+    return (
+      <Affix position={{ top: 10, right: 50 }}>
+        <Notification
+          title="Login required"
+          loading
+          style={{ width: 350, height: 100 }}
+        >
+          Redirecting to login page...
+        </Notification>
+      </Affix>
+    );
 
   return children;
 }

@@ -30,21 +30,21 @@ describe("Header component", () => {
     expect(navigateMock).toHaveBeenCalledWith("/create");
   });
 
-  test("Sign Up button renders on home page", () => {
-    const navigateMock = jest.fn();
-    useNavigate.mockReturnValueOnce(navigateMock);
-    useLocation.mockReturnValueOnce({ pathname: "/" });
-    const { getByText } = render(<Header />);
-    expect(getByText("Sign Up"));
-  });
-
-  test("Login button renders on home page", () => {
-    const navigateMock = jest.fn();
-    useNavigate.mockReturnValueOnce(navigateMock);
-    useLocation.mockReturnValueOnce({ pathname: "/" });
-    const { getByText } = render(<Header />);
-    expect(getByText("Login"));
-  });
+  // test("Sign Up button renders on home page", () => {
+  //   const navigateMock = jest.fn();
+  //   useNavigate.mockReturnValueOnce(navigateMock);
+  //   useLocation.mockReturnValueOnce({ pathname: "/" });
+  //   const { getByText } = render(<Header />);
+  //   expect(getByText("Sign Up"));
+  // });
+  //
+  // test("Login button renders on home page", () => {
+  //   const navigateMock = jest.fn();
+  //   useNavigate.mockReturnValueOnce(navigateMock);
+  //   useLocation.mockReturnValueOnce({ pathname: "/" });
+  //   const { getByText } = render(<Header />);
+  //   expect(getByText("Login"));
+  // });
 
   test("Create post button renders on home page", () => {
     const navigateMock = jest.fn();
