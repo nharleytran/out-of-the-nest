@@ -33,7 +33,6 @@ const checkPermission = (req, res, next) => {
 
 authRouter.get("/isAuthorized", checkPermission, async (req, res, next) => {
   try {
-    console.log("isAuthorized");
     res.json({
       status: 200,
       message: `Authorized!`,

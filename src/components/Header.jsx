@@ -4,6 +4,7 @@ import { useNavigate, useLocation, Link } from "react-router-dom";
 import Search from "../components/Search";
 import { useAuth } from "../context/AuthContext";
 import { useState, useEffect } from "react";
+import * as postApi from "../api";
 
 function Header(props) {
   const navigate = useNavigate();
@@ -11,28 +12,6 @@ function Header(props) {
   const [showSignupButton, setShowSignupButton] = useState(false);
   const [showLogoutButton, setShowLogoutButton] = useState(false);
   const location = useLocation();
-  // const useAuthButton = (useAuth) => { 
-  //   if (!useAuth.isAuth) {
-  //     return (true, true, false);
-  //   } else {
-  //     return (false, false, true);
-  //   }
-  //   // if (!useAuth().isAuth) {
-  //   //   setShowLoginButton(true);
-  //   //   setShowSignupButton(true);
-  //   //   setShowLogoutButton(false);
-  //   // } else {
-  //   //   setShowLoginButton(false);
-  //   //   setShowSignupButton(false);
-  //   //   setShowLogoutButton(true);
-  //   // }
-  // };
-  // const {a1,a2,a3} = useAuthButton(useAuth);
-  // setShowLoginButton(a1);
-  // setShowSignupButton(a2);
-  // setShowLogoutButton(a3);
-  // useEffect(() => {
-  // }, []);
 
   const { query, setQuery, onFilterClick } = props;
   const isFeedPage = location.pathname === "/feed";
@@ -43,7 +22,7 @@ function Header(props) {
   let logoutButton = null;
   let signupButton = null;
   console.log(useAuth().isAuth);
-  if (!useAuth().isAuth ) {
+  if (!useAuth().isAuth) {
     loginButton = (
       <Button className="login-button" onClick={() => navigate("/login")}>
         Login
@@ -57,13 +36,17 @@ function Header(props) {
       </Button>
     );
   }
+  const revokeToken = () => {
+          localStorage.removeItem("token");
+          postApi.axiosInstance.defaults.headers["Authorization"] = "";
+  }
+
   if (useAuth().isAuth) {
     logoutButton = (
       <Button
         className="login-button"
         onClick={() => {
-          localStorage.removeItem("token");
-          console.log("logout", localStorage.getItem("token"));
+          revokeToken();
           navigate("/login");
         }}
       >

@@ -43,13 +43,13 @@ function Login() {
           "Authorization"
         ] = `Bearer ${localStorage.getItem("token")}`;
         const url = location.state ? location.state.from.pathname : "/";
+        setAuth(true);
         notifications.show({
           title: "Login successfully",
           message: `Redirecting to ${url}`,
           autoClose: 1000,
           onClose: () => { 
             navigate(url);
-            setAuth(true);
           },
           loading: true,
           position: "top-right",
