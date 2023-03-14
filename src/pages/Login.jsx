@@ -88,7 +88,7 @@ function Login() {
             <Anchor href="/user/create"> Create new account </Anchor>{" "}
           </Flex>{" "}
           <Group position="right" mt="md">
-            <Button type="submit"> Sign in </Button> <Button> Cancel </Button>{" "}
+            <Button type="submit"> Sign in </Button> <Button onClick={()=> navigate('/')}> Cancel </Button>{" "}
           </Group>{" "}
         </form>{" "}
       </Box>{" "}

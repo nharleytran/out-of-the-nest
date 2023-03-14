@@ -7,6 +7,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Affix, Button, Text, Transition, rem } from "@mantine/core";
 
 const AuthContext = createContext(null);
+const useAuth = () => useContext(AuthContext);
 function AuthProvider({ children }) {
   const [isAuth, setIsAuth] = useState(false);
   return (
@@ -44,4 +45,4 @@ function RequireAuth({ children }) {
   }
 }
 
-export { AuthProvider, RequireAuth };
+export { AuthProvider, RequireAuth, useAuth };
