@@ -4,7 +4,7 @@ const createToken = ({ user, expiresIn }) => {
   const secret = process.env.REACT_APP_JWT_SECRET;
   return jsonWebToken.sign(user, secret, {
     algorithm: "HS256",
-    expiresIn: expiresIn || "70s",
+    expiresIn: expiresIn || "2h",
   });
 };
 
