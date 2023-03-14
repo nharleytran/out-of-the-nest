@@ -7,7 +7,7 @@ const router = express.Router();
 const postDao = new PostDAO();
 const categoryDao = new CategoryDAO();
 
-router.get("/categories", checkPermission, async (req, res) => {
+router.get("/categories", async (req, res) => {
   try {
     const categories = await categoryDao.getCategory();
     res.json({
@@ -20,7 +20,7 @@ router.get("/categories", checkPermission, async (req, res) => {
   }
 });
 
-router.get("/posts/category/:categoryId", checkPermission, async (req, res) => {
+router.get("/posts/category/:categoryId", async (req, res) => {
   const categoryId = req.params.categoryId;
   try {
     const post = await postDao.getPostsByCategory(categoryId);
@@ -103,7 +103,7 @@ router.get("/posts/:postId", checkPermission, async (req, res) => {
   }
 });
 
-router.put("/posts/:postId", checkPermission, async (req, res) => {
+router.put("/posts/:postId", async (req, res) => {
   const postId = req.params.postId;
   const updatedFields = req.body;
 

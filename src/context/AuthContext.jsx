@@ -29,7 +29,7 @@ function RequireAuth({ children }) {
           setIsAuth(false);
           setTimeout(() => {
             navigate("/login", { state: { from: location } });
-          }, 3000);
+          }, 1000);
         }
       });
     } else {

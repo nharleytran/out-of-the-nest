@@ -41,11 +41,12 @@ function Login() {
         postapi.axiosInstance.defaults.headers[
           "Authorization"
         ] = `Bearer ${localStorage.getItem("token")}`;
+        const url = location.state? location.state.from.pathname : "/";
         notifications.show({
           title: "Login successfully",
-          message: "Redirecting to home page",
+          message: `Redirecting to ${url}`,
           autoClose: 1000,
-          onClose: () => navigate(location.state? location.state.from.pathname : "/"),
+          onClose: () => navigate(url),
           loading: true,
           position: "top-right",
         });
