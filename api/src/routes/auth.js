@@ -9,6 +9,41 @@ const jwt = require("jsonwebtoken");
 const authRouter = express.Router();
 const userDao = new UserDAO();
 
+const checkPermission = (req, res, next) => {
+  try {
+    const bearerHeader = req.headers["authorization"];
+    const bearer = bearerHeader.split(" ");
+    const token = bearer[1];
+    const secret = process.env.REACT_APP_JWT_SECRET;
+    jwt.verify(token, secret, (err, decoded) => {
+      if (err) {
+        console.log(err);
+        res.json({
+          status: 401,
+          message: `Unauthorized!`,
+        });
+      } else {
+        next();
+      }
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+authRouter.get("/isAuthorized", checkPermission, async (req, res, next) => {
+  try {
+    console.log("isAuthorized");
+    res.json({
+      status: 200,
+      message: `Authorized!`,
+    });
+  } catch (err) {
+    console.log("err isauthorize", err);
+    next(err);
+  }
+});
+
 authRouter.post("/login", async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -43,25 +78,6 @@ authRouter.post("/login", async (req, res, next) => {
     next(err);
   }
 });
-
-const checkPermission = (req, res, next) => {
-  try {
-    const bearerHeader = req.headers["authorization"];
-    const bearer = bearerHeader.split(" ");
-    const token = bearer[1];
-    const secret = process.env.REACT_APP_JWT_SECRET|| globalThis.__TEST_JWT_SECRET__;
-    jwt.verify(token, secret, (err, decoded) => {
-      if (err) {
-        console.log("err", err);
-        next(new ApiError(401, "Unauthorized"));
-      }
-      next();
-    });
-  } catch (err) {
-    console.log("err", err);
-    next(new ApiError(401, "Unauthorized"));
-  }
-};
 
 authRouter.post(
   "/testAuthorize",

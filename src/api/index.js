@@ -1,11 +1,10 @@
 import axios from "axios";
 
 
-// const baseURL = process.env.DEV
-//   ? `http://localhost:${process.env.PORT}${process.env.REACT_APP_API}`
-//   : process.env.REACT_APP_API;
 const baseURL = process.env.REACT_APP_API;
-console.log('baseURL', baseURL);
+if (!baseURL) {
+  throw new Error("REACT_APP_API is not defined");
+}
 export const axiosInstance = axios.create({
   baseURL: baseURL, // replace with your server's URL
   headers: {
@@ -24,7 +23,7 @@ export async function getAllCategories() {
     const response = await axiosInstance.get("/categories");
     return response.data.data;
   } catch (err) {
-    window.location = "/login";
+    // window.location = "/login";
     throw err;
   }
 }
@@ -85,8 +84,16 @@ export async function createUser(postData) {
 
 export async function login(postData) {
   try {
-    console.log(postData);
     const response = await axiosInstance.post("/login", postData);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function isAuthorized() {
+  try {
+    const response = await axiosInstance.get("/isAuthorized");
     return response.data;
   } catch (err) {
     throw err;

@@ -2,6 +2,8 @@ import { Button, Text, Title } from "@mantine/core";
 import "../App.css";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import Search from "../components/Search";
+import { useAuthContext } from "../context/AuthContext";
+
 function Header(props) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -10,6 +12,21 @@ function Header(props) {
   const searchComponent = isFeedPage ? (
     <Search query={query} setQuery={setQuery} />
   ) : null;
+
+  let loginButton = null;
+  let signInButton = null;
+  if (!useAuthContext()) {
+    loginButton = (
+      <Button className="login-button" onClick={() => navigate("/login")}>
+        Login
+      </Button>
+    );
+    signInButton = (
+      <Button className="login-button" onClick={() => navigate("/user/create")}>
+        Sign Up
+      </Button>
+    );
+  }
 
   return (
     <div className="header">
@@ -26,15 +43,7 @@ function Header(props) {
         {searchComponent}
 
         <Button onClick={() => navigate("/create")}>Create post</Button>
-        <Button className="login-button" onClick={() => navigate("/login")}>
-          Login
-        </Button>
-        <Button
-          className="login-button"
-          onClick={() => navigate("/user/create")}
-        >
-          Sign Up
-        </Button>
+        {loginButton} {signInButton}
       </div>
     </div>
   );

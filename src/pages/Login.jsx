@@ -41,7 +41,7 @@ function Login() {
         notifications.show({
           title: "Login successfully",
           message: "Redirecting to home page",
-          autoClose: 3000,
+          autoClose: 1000,
           onClose: () => navigate("/"),
           loading: true,
           position: "top-right",
