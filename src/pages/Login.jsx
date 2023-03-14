@@ -15,9 +15,12 @@ import {
 import { useForm } from "@mantine/form";
 import { MantineProvider } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import {useLocation} from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
+  
 
   const form = useForm({
     initialValues: {
@@ -42,7 +45,7 @@ function Login() {
           title: "Login successfully",
           message: "Redirecting to home page",
           autoClose: 1000,
-          onClose: () => navigate("/"),
+          onClose: () => navigate(location.state? location.state.from.pathname : "/"),
           loading: true,
           position: "top-right",
         });

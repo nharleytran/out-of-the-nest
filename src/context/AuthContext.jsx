@@ -1,9 +1,9 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import * as postApi from "../api";
-import { Navigate } from "react-router-dom";
+import { Navigate} from "react-router-dom";
 import { notifications, Notifications } from "@mantine/notifications";
 import { Notification } from "@mantine/core";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Affix, Button, Text, Transition, rem } from "@mantine/core";
 
 const AuthContext = createContext(null);
@@ -18,26 +18,30 @@ function AuthProvider({ children }) {
 
 function RequireAuth({ children }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const { isAuth, setIsAuth } = useContext(AuthContext);
   useEffect(() => {
     if (!localStorage.getItem("token")) {
       postApi.getAuth().then((res) => {
-        setIsAuth(res.status === 200);
+        if (res.status === 200) {
+          setIsAuth(true);
+        } else {
+          setIsAuth(false);
+          setTimeout(() => {
+            navigate("/login", { state: { from: location } });
+          }, 3000);
+        }
       });
     } else {
       setIsAuth(true);
     }
-    if (!isAuth) {
-      setTimeout(() => {
-        navigate("/login");
-      }, 3000);
-    }
   });
-  if (!isAuth) {
-    return <Notification loading> Login required! </Notification>;
+  
+  if (isAuth) {
+    return <div>{children}</div>;
+  } else {
+    return <Notification title="Login required" loading message="Please login to continue" color="red" />;
   }
-
-  return <div>{children}</div>;
 }
 
 export { AuthProvider, RequireAuth };

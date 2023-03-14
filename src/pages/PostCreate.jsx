@@ -79,7 +79,12 @@ function PostCreate() {
           <div className="separateButton">
             <Button>Save draft</Button>
           </div>
-          <Button onClick={handlePost}>Post</Button>
+          <div className="separateButton">
+            <Button onClick={handlePost}>Post</Button>
+          </div>
+          <div className="separateButton">
+            <Button onClick={() => navigate("/")}>Cancel</Button>
+          </div>
         </Button.Group>
       </div>
     </>
