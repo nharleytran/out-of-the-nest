@@ -9,7 +9,7 @@ import { Affix, Button, Text, Transition, rem } from "@mantine/core";
 const AuthContext = createContext();
 const useAuthContext = () => useContext(AuthContext);
 const useAuth = () => {
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(true);
   useEffect(() => {
     postApi.isAuthorized().then((res) => {
       setIsAuth(res.status === 200);
