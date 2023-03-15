@@ -76,22 +76,7 @@ const PostCreate = () => {
     },
   });
   const [categories, setCategories] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      const fetchData = await postapi.getAllCategories();
-      const randomId =
-        fetchData[Math.floor(Math.random() * fetchData.length)]._id;
-      form.setValues(dummy_generate());
-      form.setFieldValue("category_id", randomId);
-      setCategories(
-        fetchData.map((category) => ({
-          value: category._id,
-          label: category.name,
-        }))
-      );
-    };
-    fetchData();
-  }, []);
+
   const outcomeList = [
     {
       value: "Accepted",
@@ -110,11 +95,32 @@ const PostCreate = () => {
       label: "Rejected",
     },
   ];
+  useEffect(() => {
+    const fetchData = async () => {
+      const fetchData = await postapi.getAllCategories();
+      const randomId =
+        fetchData[Math.floor(Math.random() * fetchData.length)]._id;
+      form.setValues(dummy_generate());
+      form.setFieldValue("category_id", randomId);
+      setCategories(
+        fetchData.map((category) => ({
+          value: category._id,
+          label: category.name,
+        }))
+      );
+    };
+  form.setFieldValue("outcome", outcomeList[Math.floor(Math.random() * 4)].value);
+    fetchData();
+  }, []);
+  const handleSubmit = async (data) => {
+    // const data = await postapi.createPost(form.values);
+    // navigate(`/post/${data._id}`);
+  };
 
   return (
     <Box maw={500} mx="auto">
-      <form onSubmit={form.onSubmit((values) => console.log(values))}>
         <Title order={2}>Create a post</Title>
+      <form onSubmit={form.onSubmit((values) => {console.log(values);})}>
         <Select
           label="Select a category to submit your post to"
           value={form.values.category_id}
@@ -135,10 +141,11 @@ const PostCreate = () => {
         />
         <Select
           label="Outcome"
-          value={outcomeList[Math.floor(Math.random() * 4)].value}
+          value={form.values.outcome}
           data={outcomeList}
-          onChange={(outcomevalue) =>
-            form.setFieldValue("outcome", outcomevalue)
+          onChange={(outcomevalue) =>{
+            // form.setFieldValue("outcome", outcomevalue);
+          }
           }
           withAsterisk
         />
@@ -188,7 +195,8 @@ const PostCreate = () => {
           withAsterisk
         />
         <Group position="right" mt="md">
-          <Button>Save draft</Button> <Button type="submit"> Post </Button>{" "}
+          <Button>Save draft</Button>
+          <Button type="submit"> Post </Button>{" "}
           <Button onClick={() => navigate("/")}>Cancel</Button>
         </Group>{" "}
       </form>{" "}
