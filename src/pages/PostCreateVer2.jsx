@@ -49,11 +49,12 @@ const random_post = () => {
   };
 };
 const dummy_generate = () => {
-  if (process.env.NODE_ENV === "development") {
-    return random_post();
-  } else {
-    return empty_post;
-  }
+  return random_post();
+  // if (process.env.NODE_ENV === "development") {
+  //   return random_post();
+  // } else {
+  //   return empty_post;
+  // }
 };
 
 const PostCreate = () => {
