@@ -48,13 +48,14 @@ router.post("/posts", checkPermission, async (req, res) => {
     extracurriculars,
     international,
   } = req.body;
+  const user_id = req.user_id;
   try {
     const post = await postDao.createPost({
       title,
       objective,
       outcome,
       content,
-      author,
+      user_id,
       category_id,
       gpa,
       testscore,

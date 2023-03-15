@@ -70,10 +70,6 @@ const PostCreate = () => {
       resume: "",
       extracurriculars: "",
     },
-
-    validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
-    },
   });
   const [categories, setCategories] = useState([]);
 
@@ -115,12 +111,14 @@ const PostCreate = () => {
   const handleSubmit = async (data) => {
     // const data = await postapi.createPost(form.values);
     // navigate(`/post/${data._id}`);
+      await postapi.createPost(data);
+      navigate("/", { state: { data } });
   };
 
   return (
     <Box maw={500} mx="auto">
         <Title order={2}>Create a post</Title>
-      <form onSubmit={form.onSubmit((values) => {console.log(values);})}>
+      <form onSubmit={form.onSubmit(handleSubmit)}>
         <Select
           label="Select a category to submit your post to"
           value={form.values.category_id}

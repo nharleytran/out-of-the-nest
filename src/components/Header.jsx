@@ -22,7 +22,6 @@ function Header(props) {
   let loginButton = null;
   let logoutButton = null;
   let signupButton = null;
-  console.log(useAuth().isAuth);
   if (!useAuth().isAuth) {
     loginButton = (
       <Button className="login-button" onClick={() => navigate("/login")}>
