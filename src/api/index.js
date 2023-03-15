@@ -2,7 +2,7 @@ import axios from "axios";
 
 const baseURL = process.env.REACT_APP_API;
 if (!baseURL) {
-  throw new Error("REACT_APP_API is not defined");
+  console.error("REACT_APP_API is not defined");
 }
 export const axiosInstance = axios.create({
   baseURL: baseURL, // replace with your server's URL
