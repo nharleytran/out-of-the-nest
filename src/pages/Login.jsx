@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import * as postapi from "../api/index";
+import * as postApi from "../api/index";
 import { useNavigate } from "react-router-dom";
 import { Anchor, Flex } from "@mantine/core";
 import { useAuth } from "../context/AuthContext";
+import { afterReceiveAuth } from "../api/auth_util";
 
 import {
   Box,
@@ -35,13 +36,10 @@ function Login() {
   const setAuth = useAuth().setIsAuth;
   const handleLogin = async (userFormData) => {
     try {
-      const response = await postapi.login(userFormData);
+      const response = await postApi.login(userFormData);
       if (response.status === 200) {
-        const token = response.data.token;
-        localStorage.setItem("token", token);
-        postapi.axiosInstance.defaults.headers[
-          "Authorization"
-        ] = `Bearer ${localStorage.getItem("token")}`;
+        const user_id = response.data.user_id;
+        afterReceiveAuth(response.data.user_id, response.data.token);
         const url = location.state ? location.state.from.pathname : "/";
         setAuth(true);
         notifications.show({

@@ -23,11 +23,12 @@ const checkPermission = (req, res, next) => {
           message: `Unauthorized!`,
         });
       } else {
+        req.user_id = decoded.id;
         next();
       }
     });
   } catch (err) {
-    console.log(err);
+    throw new ApiError(401, err);
   }
 };
 
@@ -68,6 +69,7 @@ authRouter.post("/login", async (req, res, next) => {
       message: `Successfully signed in!`,
       data: {
         name: user.name,
+        user_id: user._id,
         email: user.email,
         token: token,
       },

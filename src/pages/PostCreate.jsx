@@ -11,6 +11,47 @@ import Outcome from "../components/PostContent/Outcome";
 import Resume from "../components/PostContent/Resume";
 import Testscore from "../components/PostContent/Testscore";
 import Extracurriculars from "../components/PostContent/Extracurriculars";
+import { LoremIpsum } from "lorem-ipsum";
+
+const lorem = new LoremIpsum({
+  sentencesPerParagraph: {
+    max: 8,
+    min: 4,
+  },
+  wordsPerSentence: {
+    max: 16,
+    min: 4,
+  },
+});
+
+const dummy_generate = () => {
+  if (process.env.NODE_ENV === "development") {
+    return {
+      title: lorem.generateWords(5),
+      outcome: lorem.generateWords(5),
+      content: lorem.generateParagraphs(3),
+      category_id: 1,
+      gpa: 3.5,
+      testscore: 1500,
+      resume: "https://www.google.com",
+      extracurriculars: "https://www.google.com",
+    };
+  }
+  else {
+    return {
+    title: "",
+    outcome: "",
+    content: "",
+    author: "",
+    category_id: "",
+    gpa: 0,
+    testscore: "",
+    resume: "",
+    extracurriculars: "",
+    };
+  }
+};
+
 
 function PostCreate() {
   const [outcomevalue] = useState("");
@@ -27,7 +68,8 @@ function PostCreate() {
     testscore: "",
     resume: "",
     extracurriculars: "",
-  });
+    }
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,6 +77,9 @@ function PostCreate() {
       setCategories(categories);
     };
     fetchData();
+    const dummy_data = dummy_generate();
+    console.log(dummy_data);
+    setPostdata(dummy_data);
   }, []);
 
   const handlePost = async () => {
@@ -72,7 +117,7 @@ function PostCreate() {
         <Testscore postData={postData} setPostdata={setPostdata} />
         <Resume postData={postData} setPostdata={setPostdata} />
         <Extracurriculars postData={postData} setPostdata={setPostdata} />
-      </Container>
+     </Container>
       <Divider my="sm" />
       <div className="alignButtonRight">
         <Button.Group>

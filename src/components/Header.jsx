@@ -5,6 +5,7 @@ import Search from "../components/Search";
 import { useAuth } from "../context/AuthContext";
 import { useState, useEffect } from "react";
 import * as postApi from "../api";
+import { clearAuth } from "../api/auth_util";
 
 function Header(props) {
   const navigate = useNavigate();
@@ -36,17 +37,13 @@ function Header(props) {
       </Button>
     );
   }
-  const revokeToken = () => {
-          localStorage.removeItem("token");
-          postApi.axiosInstance.defaults.headers["Authorization"] = "";
-  }
 
   if (useAuth().isAuth) {
     logoutButton = (
       <Button
         className="login-button"
         onClick={() => {
-          revokeToken();
+          clearAuth();
           navigate("/login");
         }}
       >
