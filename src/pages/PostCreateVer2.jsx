@@ -142,7 +142,7 @@ const PostCreate = () => {
           value={form.values.outcome}
           data={outcomeList}
           onChange={(outcomevalue) =>{
-            // form.setFieldValue("outcome", outcomevalue);
+            form.setFieldValue("outcome", outcomevalue);
           }
           }
           withAsterisk

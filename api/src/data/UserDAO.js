@@ -15,6 +15,10 @@ class UserDAO {
     await User.deleteMany({});
   }
 
+  async findUserById(id) {
+    const user = await User.findOne({ _id: id });
+    return user;
+  }
   async findUserByEmail(email) {
     const user = await User.findOne({ email: email });
     return user;

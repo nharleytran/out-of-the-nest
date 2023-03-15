@@ -1,10 +1,12 @@
 const express = require("express");
 const PostDAO = require("../data/PostDAO.js");
 const CategoryDAO = require("../data/CategoryDAO.js");
-const { checkPermission } = require("./auth.js");
+const UserDAO = require("../data/UserDAO.js");
+const { checkPermission, decodeTokenFromRequest } = require("./auth.js");
 
 const router = express.Router();
 const postDao = new PostDAO();
+const userDao = new UserDAO();
 const categoryDao = new CategoryDAO();
 
 router.get("/categories", async (req, res) => {
@@ -90,16 +92,27 @@ router.delete("/posts/:postId", checkPermission, async (req, res) => {
   }
 });
 
-router.get("/posts/:postId",checkPermission, async (req, res) => {
+router.get("/posts/:postId", async (req, res) => {
   const postId = req.params.postId;
   try {
     const post = await postDao.getPost(postId);
+    const user = await userDao.findUserById(post.user_id);
+
+    const decoded = decodeTokenFromRequest(req);
+
+    console.log(req.user_id, post.user_id);
+    const postUpdate = {
+      ...post._doc,
+      editable: decoded ? decoded.id == post.user_id : false,
+      user_name: user?user.name:"",
+    };
     res.json({
       status: 200,
       message: `Successfully retrieved post with ID ${postId}`,
-      data: post,
+      data: postUpdate,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: error.message });
   }
 });

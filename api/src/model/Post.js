@@ -36,7 +36,8 @@ const PostSchema = new mongoose.Schema({
 
   gpa: Number,
 
-  testscore: { testname: String, score: Number },
+  // testscore: { testname: String, score: Number },
+  testscore: String,
 
   resume: String,
 
