@@ -29,7 +29,7 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "client": "PORT=3000 react-scripts start",
+    "client": "react-scripts start",
     "server": "nodemon api/index.js",
     "build": "react-scripts build",
     "test-frontend": "react-scripts test --watchAll=false",

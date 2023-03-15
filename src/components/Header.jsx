@@ -10,18 +10,10 @@ function Header(props) {
   return (
     <div className="header">
       <Link to={`/`} style={{ textDecoration: 'none' }}>
-        <img src={logo} width= "40%"/>
+        <img src={logo} height="50vh"/>
       </Link>
       <div style={{ display: "flex", gap: "10px" }}>
-
-
           <Button onClick={() => navigate("/create")}>Create post</Button>
-          <Button className="login-button">
-          Login
-          </Button>
-          <Button className="login-button">
-          Sign Up
-          </Button>
       </div>
     </div>
   );

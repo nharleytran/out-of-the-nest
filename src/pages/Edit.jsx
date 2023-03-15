@@ -6,6 +6,9 @@ import {
   Divider,
   Button,
   Select,
+  Title,
+  Space,
+  Group
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -60,46 +63,38 @@ function Edit() {
   };
 
   return (
-    <>
-      <Container size="lg">
-        <div className="alignLeft">
-          <h1>Edit Your Post</h1>
-        </div>
-      </Container>
-      <Container>
-        <Outcome
-          outcomevalue={outCome}
-          postData={postData}
-          setPostdata={setPostdata}
-        />
-        <Comments
-          postData={postData}
-          setPostdata={setPostdata}
-          comment={comment}
-        />
-        <EditGPA postData={postData} setPostdata={setPostdata} gpa={gpa} />
-        <Testscore
-          postData={postData}
-          setPostdata={setPostdata}
-          score={score}
-        />
-        <Resume postData={postData} setPostdata={setPostdata} res={resume} />
-        <Extracurriculars
-          postData={postData}
-          setPostdata={setPostdata}
-          extra={extra}
-        />
-      </Container>
-      <Divider my="sm" />
-      <div className="alignButtonRight">
-        <Button.Group>
-          <div className="separateButton">
-            <Button>Save draft</Button>
-          </div>
-          <Button onClick={handlePost}>Post</Button>
-        </Button.Group>
-      </div>
-    </>
+    <Container>
+      <Title order={2} weight={100} align="center">
+        Edit Your Post
+      </Title>
+      <Outcome
+        outcomevalue={outCome}
+        postData={postData}
+        setPostdata={setPostdata}
+      />
+      <Comments
+        postData={postData}
+        setPostdata={setPostdata}
+        comment={comment}
+      />
+      <EditGPA postData={postData} setPostdata={setPostdata} gpa={gpa} />
+      <Testscore
+        postData={postData}
+        setPostdata={setPostdata}
+        score={score}
+      />
+      <Resume postData={postData} setPostdata={setPostdata} res={resume} />
+      <Extracurriculars
+        postData={postData}
+        setPostdata={setPostdata}
+        extra={extra}
+      />
+      <Space h="sm" />
+      <Group position="apart">
+        <Button>Save draft</Button>
+        <Button onClick={handlePost}>Post</Button>
+      </Group>
+    </Container>
   );
 }
 
