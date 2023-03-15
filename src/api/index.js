@@ -120,22 +120,16 @@ export async function testAuthorize(postData) {
   }
 }
 
-export async function getPostsByFilters(
-  categoryId,
-  startDate,
-  endDate,
-  minGPA,
-  maxGPA,
-  testname,
-  outcome
-) {
+export async function getPostsByFilters(filter) {
   try {
     const response = await axiosInstance.get(
-      `/filters/category/${categoryId}`,
-      { startDate, endDate, minGPA, maxGPA, testname, outcome }
+      "/filters/category",
+      { params: filter }
     );
     return response.data.data;
   } catch (err) {
     throw err;
   }
 }
+
+

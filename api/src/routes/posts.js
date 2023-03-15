@@ -134,22 +134,18 @@ router.put("/posts/:postId", checkPermission, async (req, res) => {
 });
 
 router.get(
-  "/filters/category/:categoryId",
+  "/filters/category",
   checkPermission,
   async (req, res) => {
-    const categoryId = req.params.categoryId;
-    const { startDate, endDate, minGPA, maxGPA, testname, outcome } = req.body;
+    const { categoryId, sortBy, outcome, international } = req.query;
     try {
       const filteredPosts = await postDao.getPostsByFilters(
         categoryId,
-        startDate ? new Date(startDate) : null,
-        endDate ? new Date(endDate) : null,
-        minGPA ? parseFloat(minGPA) : null,
-        maxGPA ? parseFloat(maxGPA) : null,
-        testname || null,
-        outcome || null
+        sortBy || null,
+        outcome || null,
+        international || null
       );
-      console.log(filteredPosts);
+
       res.json({
         status: 200,
         message: "Successfully retrieved filtered posts",

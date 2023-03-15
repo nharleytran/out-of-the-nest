@@ -6,6 +6,7 @@ import { useAuth } from "../context/AuthContext";
 import { useState, useEffect } from "react";
 import * as postApi from "../api";
 import { clearAuth } from "../api/auth_util";
+import logo from "../images/outofthenestlogo.png"
 
 function Header(props) {
   const navigate = useNavigate();
@@ -53,17 +54,10 @@ function Header(props) {
 
   return (
     <div className="header">
-      <Link to={`/`} style={{ textDecoration: "none" }}>
-        <Title order={3}>
-          {" "}
-          Out of the{" "}
-          <Text span c="blue" inherit>
-            Nest
-          </Text>
-        </Title>
+      <Link to={`/`} style={{ textDecoration: 'none' }}>
+        <img src={logo} width= "40%"/>
       </Link>
       <div style={{ display: "flex", gap: "10px" }}>
-        {searchComponent}
 
         <Button onClick={() => navigate("/create")}>Create post</Button>
         {loginButton}

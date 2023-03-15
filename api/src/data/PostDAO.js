@@ -107,30 +107,29 @@ class PostDAO {
 
   async getPostsByFilters(
     categoryId,
-    startDate,
-    endDate,
-    minGPA,
-    maxGPA,
-    testname,
-    outcome
+    sortBy,
+    outcome,
+    international
   ) {
-    const filter = { category: categoryId };
-    if (startDate && endDate) {
-      filter.date = { $gte: startDate, $lte: endDate };
-    }
-    if (minGPA || maxGPA) {
-      filter.gpa = {};
-      if (minGPA) filter.gpa.$gte = parseFloat(minGPA);
-      if (maxGPA) filter.gpa.$lte = parseFloat(maxGPA);
-    }
-    if (testname) {
-      filter["testscore.testname"] = testname;
-    }
+    const filter = { category_id: categoryId };
     if (outcome) {
       filter.outcome = outcome;
     }
-
-    const filteredPosts = await Post.find(filter);
+    if (international) {
+      filter.international = international;
+    }
+    let sortParam = {};
+    if (sortBy === "gpa_desc") {
+      sortParam = { gpa: -1 };
+    } else if (sortBy === "gpa_asc") {
+      sortParam = { gpa: 1 };
+    } else if (sortBy === "date_desc") {
+      sortParam = { date: -1 };
+    } else if (sortBy === "date_asc") {
+      sortParam = { date: 1 };
+    }
+  
+    const filteredPosts = await Post.find(filter).sort(sortParam);
     return filteredPosts;
   }
 
