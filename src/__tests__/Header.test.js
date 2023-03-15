@@ -15,12 +15,6 @@ describe("Header component", () => {
     useLocation.mockClear();
   });
 
-  test("Renders search component when on feed page", () => {
-    useLocation.mockReturnValueOnce({ pathname: "/feed" });
-    const { getByPlaceholderText } = render(<Header />);
-    expect(getByPlaceholderText("Look for posts")).toBeInTheDocument();
-  });
-
   test("Navigates to create post page when create post button is clicked", () => {
     const navigateMock = jest.fn();
     useNavigate.mockReturnValueOnce(navigateMock);

@@ -7,13 +7,15 @@ function Filter(props) {
   const { category_id, posts, setPosts } = props;
   const [sortBy, setSortBy] = useState("");
   const [outComeValue, setOutcome] = useState("");
+  const [international, setInternational] = useState(null);
   
   
   const handleSubmit = async () => {
     const filter = { 
       "categoryId" : category_id, 
       "sortBy" : sortBy, 
-      "outcome": outComeValue};
+      "outcome": outComeValue,
+      "international": international};
     try {
       const filteredPosts = await postapi.getPostsByFilters(
         filter
@@ -27,6 +29,7 @@ function Filter(props) {
   const handleReset = async () => {
     setSortBy("");
     setOutcome("");
+    setInternational("");
     try {
       const filteredPosts = await postapi.getPostsByCategory(
         category_id
@@ -70,6 +73,18 @@ function Filter(props) {
         value={outComeValue}
         nothingFound="No options"
         data={["Accepted", "Rejected", "Waitlisted", "Interviewed"]}
+      />
+
+      <Select
+        placeholder="International"
+        searchable
+        onChange={value => setInternational(value)}
+        value={international}
+        nothingFound="No options"
+        data={[
+          { value: true, label: "International" },
+          { value: false, label: "Domestic" }
+        ]}
       />
 
       <div style={{ display: "flex", gap: "10px" }}>

@@ -123,12 +123,13 @@ router.get(
   "/filters/category",
   checkPermission,
   async (req, res) => {
-    const { categoryId, sortBy, outcome } = req.query;
+    const { categoryId, sortBy, outcome, international } = req.query;
     try {
       const filteredPosts = await postDao.getPostsByFilters(
         categoryId,
         sortBy || null,
-        outcome || null
+        outcome || null,
+        international || null
       );
 
       res.json({
