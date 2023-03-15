@@ -7,10 +7,9 @@ const router = express.Router();
 const postDao = new PostDAO();
 const categoryDao = new CategoryDAO();
 
-router.get("/categories", checkPermission, async (req, res) => {
+router.get("/categories", async (req, res) => {
   try {
     const categories = await categoryDao.getCategory();
-    console.log(req.user_id);
     res.json({
       status: 200,
       message: `Successfully retrieved 5 categories!`,
