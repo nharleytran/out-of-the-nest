@@ -32,6 +32,7 @@ function Post() {
   const { from } = location.state;
 
   API.getPost(from).then((data) => {
+    console.log(data);
     setExtra(data.extracurriculars[0]);
     setAuthor(data.author);
     setContent(data.content);

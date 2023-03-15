@@ -17,6 +17,7 @@ const checkPermission = (req, res, next) => {
     const secret = process.env.REACT_APP_JWT_SECRET;
     jwt.verify(token, secret, (err, decoded) => {
       if (err) {
+        console.log(decoded);
         console.log(err);
         res.json({
           status: 401,
@@ -24,6 +25,7 @@ const checkPermission = (req, res, next) => {
         });
       } else {
         req.user_id = decoded.id;
+        req.name = decoded.name;
         next();
       }
     });
@@ -58,6 +60,7 @@ authRouter.post("/login", async (req, res, next) => {
     const token = createToken({
       user: {
         id: user._id,
+        name: user.name,
         email: user.email,
       },
     });

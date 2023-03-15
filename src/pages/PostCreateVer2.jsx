@@ -45,7 +45,7 @@ const random_post = () => {
     gpa: 3.5,
     testscore: 1500,
     resume: "https://www.google.com",
-    extracurriculars: "https://www.google.com",
+    extracurriculars: ["eng", 'club'],
   };
 };
 const dummy_generate = () => {

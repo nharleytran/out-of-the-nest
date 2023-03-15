@@ -90,7 +90,7 @@ router.delete("/posts/:postId", checkPermission, async (req, res) => {
   }
 });
 
-router.get("/posts/:postId", async (req, res) => {
+router.get("/posts/:postId",checkPermission, async (req, res) => {
   const postId = req.params.postId;
   try {
     const post = await postDao.getPost(postId);
