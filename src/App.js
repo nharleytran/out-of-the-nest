@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Feed from "./pages/Feed";
-import PostCreate from "./pages/PostCreate";
+import PostCreate from "./pages/PostCreateVer2";
 import UserCreate from "./pages/UserCreate";
 import Login from "./pages/Login";
 import Post from "./pages/Post";
