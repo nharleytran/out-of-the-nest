@@ -17,6 +17,10 @@ const PostSchema = new mongoose.Schema({
 
   author: {
     type: String,
+    required: false,
+  },
+  user_id: {
+    type: String,
     required: true,
   },
 
@@ -39,6 +43,8 @@ const PostSchema = new mongoose.Schema({
   extracurriculars: [String],
 
   international: Boolean,
+
+  anonymous: Boolean
 });
 
 const Post = mongoose.model("Post", PostSchema);

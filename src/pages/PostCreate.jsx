@@ -12,6 +12,7 @@ import Resume from "../components/PostContent/Resume";
 import Testscore from "../components/PostContent/Testscore";
 import Extracurriculars from "../components/PostContent/Extracurriculars";
 
+
 function PostCreate() {
   const [outcomevalue] = useState("");
   const [categoryvalue] = useState("");
@@ -27,7 +28,8 @@ function PostCreate() {
     testscore: "",
     resume: "",
     extracurriculars: "",
-  });
+    }
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,14 +74,19 @@ function PostCreate() {
         <Testscore postData={postData} setPostdata={setPostdata} />
         <Resume postData={postData} setPostdata={setPostdata} />
         <Extracurriculars postData={postData} setPostdata={setPostdata} />
-      </Container>
+     </Container>
       <Divider my="sm" />
       <div className="alignButtonRight">
         <Button.Group>
           <div className="separateButton">
             <Button>Save draft</Button>
           </div>
-          <Button onClick={handlePost}>Post</Button>
+          <div className="separateButton">
+            <Button onClick={handlePost}>Post</Button>
+          </div>
+          <div className="separateButton">
+            <Button onClick={() => navigate("/")}>Cancel</Button>
+          </div>
         </Button.Group>
       </div>
     </>

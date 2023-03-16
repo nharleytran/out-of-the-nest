@@ -1,13 +1,15 @@
 const express = require("express");
 const PostDAO = require("../data/PostDAO.js");
 const CategoryDAO = require("../data/CategoryDAO.js");
-const { checkPermission } = require("./auth.js");
+const UserDAO = require("../data/UserDAO.js");
+const { checkPermission, decodeTokenFromRequest } = require("./auth.js");
 
 const router = express.Router();
 const postDao = new PostDAO();
+const userDao = new UserDAO();
 const categoryDao = new CategoryDAO();
 
-router.get("/categories", checkPermission, async (req, res) => {
+router.get("/categories", async (req, res) => {
   try {
     const categories = await categoryDao.getCategory();
     res.json({
@@ -20,7 +22,7 @@ router.get("/categories", checkPermission, async (req, res) => {
   }
 });
 
-router.get("/posts/category/:categoryId", checkPermission, async (req, res) => {
+router.get("/posts/category/:categoryId", async (req, res) => {
   const categoryId = req.params.categoryId;
   try {
     const post = await postDao.getPostsByCategory(categoryId);
@@ -47,20 +49,23 @@ router.post("/posts", checkPermission, async (req, res) => {
     resume,
     extracurriculars,
     international,
+    anonymous
   } = req.body;
+  const user_id = req.user_id;
   try {
     const post = await postDao.createPost({
       title,
       objective,
       outcome,
       content,
-      author,
+      user_id,
       category_id,
       gpa,
       testscore,
       resume,
       extracurriculars,
       international,
+      anonymous
     });
     res.json({
       status: 201,
@@ -89,16 +94,27 @@ router.delete("/posts/:postId", checkPermission, async (req, res) => {
   }
 });
 
-router.get("/posts/:postId", checkPermission, async (req, res) => {
+router.get("/posts/:postId", async (req, res) => {
   const postId = req.params.postId;
   try {
     const post = await postDao.getPost(postId);
+    const user = await userDao.findUserById(post.user_id);
+
+    const decoded = decodeTokenFromRequest(req);
+
+    console.log(req.user_id, post.user_id);
+    const postUpdate = {
+      ...post._doc,
+      editable: decoded ? decoded.id == post.user_id : false,
+      user_name: user?user.name:"",
+    };
     res.json({
       status: 200,
       message: `Successfully retrieved post with ID ${postId}`,
-      data: post,
+      data: postUpdate,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: error.message });
   }
 });

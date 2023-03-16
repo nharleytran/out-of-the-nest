@@ -9,6 +9,15 @@ const jwt = require("jsonwebtoken");
 const authRouter = express.Router();
 const userDao = new UserDAO();
 
+const decodeTokenFromRequest = (req) => {
+    const bearerHeader = req.headers["authorization"];
+    const bearer = bearerHeader.split(" ");
+    const token = bearer[1];
+    const secret = process.env.REACT_APP_JWT_SECRET;
+  console.log("token", token);
+    return (token!== 'null' ? jwt.verify(token, secret): null);
+};
+
 const checkPermission = (req, res, next) => {
   try {
     const bearerHeader = req.headers["authorization"];
@@ -17,23 +26,25 @@ const checkPermission = (req, res, next) => {
     const secret = process.env.REACT_APP_JWT_SECRET;
     jwt.verify(token, secret, (err, decoded) => {
       if (err) {
+        console.log(decoded);
         console.log(err);
         res.json({
           status: 401,
           message: `Unauthorized!`,
         });
       } else {
+        req.user_id = decoded.id;
+        req.name = decoded.name;
         next();
       }
     });
   } catch (err) {
-    console.log(err);
+    throw new ApiError(401, err);
   }
 };
 
 authRouter.get("/isAuthorized", checkPermission, async (req, res, next) => {
   try {
-    console.log("isAuthorized");
     res.json({
       status: 200,
       message: `Authorized!`,
@@ -58,6 +69,7 @@ authRouter.post("/login", async (req, res, next) => {
     const token = createToken({
       user: {
         id: user._id,
+        name: user.name,
         email: user.email,
       },
     });
@@ -69,6 +81,7 @@ authRouter.post("/login", async (req, res, next) => {
       message: `Successfully signed in!`,
       data: {
         name: user.name,
+        user_id: user._id,
         email: user.email,
         token: token,
       },
@@ -88,4 +101,5 @@ authRouter.post(
 module.exports = {
   authRouter,
   checkPermission,
+  decodeTokenFromRequest
 };

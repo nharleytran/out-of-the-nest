@@ -8,12 +8,14 @@ class PostDAO {
     outcome,
     content,
     author,
+    user_id,
     category_id,
     gpa,
     testscore,
     resume,
     extracurriculars,
     international,
+    anonymous
   }) {
     const post = await Post.create({
       title,
@@ -21,12 +23,14 @@ class PostDAO {
       outcome,
       content,
       author,
+      user_id,
       category_id,
       gpa,
       testscore,
       resume,
       extracurriculars,
       international,
+      anonymous
     });
 
     // Add the post to the category's "posts" array
