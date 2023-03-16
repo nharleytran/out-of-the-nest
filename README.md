@@ -41,5 +41,4 @@ and run the test for back-end,
 
 The App is deployed [here](https://sp23-oose-project-team-13.vercel.app/).  
 The App (dev branch) is deployed [here](https://sp23-oose-project-team-13-git-dev-team13jhu.vercel.app/).  
-
 The Back-End API is deployed [here](https://sp23-oose-project-team-13.vercel.app/api/).
