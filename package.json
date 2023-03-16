@@ -9,12 +9,19 @@
     "@mantine/form": "^6.0.1",
     "@mantine/hooks": "^6.0.1",
     "@mantine/notifications": "^6.0.1",
+    "@mantine/tiptap": "^6.0.1",
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.12",
     "@mui/styled-engine": "^5.11.11",
+
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
+
     "@testing-library/user-event": "^13.2.1",
+    "@tiptap/extension-link": "^2.0.0-beta.209",
+    "@tiptap/pm": "^2.0.0-beta.220",
+    "@tiptap/react": "^2.0.0-beta.209",
+    "@tiptap/starter-kit": "^2.0.0-beta.209",
     "axios": "^1.3.4",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
@@ -30,7 +37,7 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "client": "PORT=3000 react-scripts start",
+    "client": "react-scripts start",
     "server": "nodemon api/index.js",
     "build": "react-scripts build",
     "test-frontend": "react-scripts test --transformIgnorePatterns 'node_modules/(?!axios/)' --watchAll=false",
@@ -58,6 +65,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.20.2",
     "babel-jest": "^29.5.0",
+    "nodemon": "^2.0.21",
     "supertest": "^6.3.3",
     "vitest": "^0.29.2"
   }

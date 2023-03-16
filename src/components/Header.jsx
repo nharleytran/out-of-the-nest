@@ -1,3 +1,4 @@
+
 import { Button, Text, Title } from "@mantine/core";
 import "../App.css";
 import { useNavigate, useLocation, Link } from "react-router-dom";
@@ -52,20 +53,23 @@ function Header(props) {
     );
   }
 
+
   return (
     <div className="header">
       <Link to={`/`} style={{ textDecoration: 'none' }}>
-        <img src={logo} width= "40%"/>
+        <img src={logo} width="40%" alt="es-lint want to get" />
       </Link>
+
       <div style={{ display: "flex", gap: "10px" }}>
 
         <Button onClick={() => navigate("/create")}>Create post</Button>
         {loginButton}
         {logoutButton}
         {signupButton}
+
       </div>
     </div>
-  );
+  )
 }
 
-export default Header;
+export default Header

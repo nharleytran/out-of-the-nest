@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import * as postApi from "../api/index";
 import { useNavigate } from "react-router-dom";
@@ -5,14 +6,16 @@ import { Anchor, Flex } from "@mantine/core";
 import { useAuth } from "../context/AuthContext";
 import { afterReceiveAuth } from "../api/auth_util";
 
+
 import {
   Box,
-  Input,
-  Checkbox,
+  // Input,
+  // Checkbox,
   Group,
   TextInput,
   Button,
   PasswordInput,
+
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { MantineProvider } from "@mantine/core";
@@ -30,8 +33,9 @@ function Login() {
     },
 
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
     },
+
   });
   const setAuth = useAuth().setIsAuth;
   const handleLogin = async (userFormData) => {
@@ -49,24 +53,24 @@ function Login() {
             navigate(url);
           },
           loading: true,
-          position: "top-right",
-        });
+          position: 'top-right',
+        })
       }
     } catch (err) {
       notifications.show({
-        id: "hello-there",
+        id: 'hello-there',
         withCloseButton: true,
         autoClose: 5000,
-        title: "Login failed",
-        message: "Invalid email or password",
-        color: "red",
-        className: "my-notification-class",
+        title: 'Login failed',
+        message: 'Invalid email or password',
+        color: 'red',
+        className: 'my-notification-class',
         loading: false,
-      });
+      })
 
-      console.log(err);
+      console.log(err)
     }
-  };
+  }
   return (
     <>
       <Box maw={300} mx="auto">
@@ -76,19 +80,20 @@ function Login() {
             label="Email"
             placeholder="your@email.com"
             value="your@email.com"
-            {...form.getInputProps("email")}
-          />{" "}
+            {...form.getInputProps('email')}
+          />{' '}
           <PasswordInput
             placeholder="password"
             label="Password"
             value="sfdf"
-            {...form.getInputProps("password")}
+            {...form.getInputProps('password')}
             withAsterisk
           />
           <Flex justify="flex-end">
-            <Anchor href="/user/create"> Create new account </Anchor>{" "}
-          </Flex>{" "}
+            <Anchor href="/user/create"> Create new account </Anchor>{' '}
+          </Flex>{' '}
           <Group position="right" mt="md">
+
             <Button type="submit"> Sign in </Button>
             <Button
               onClick={() => {
@@ -103,7 +108,7 @@ function Login() {
         </form>{" "}
       </Box>{" "}
     </>
-  );
+  )
 }
 
-export default Login;
+export default Login
