@@ -49,6 +49,7 @@ router.post("/posts", checkPermission, async (req, res) => {
     resume,
     extracurriculars,
     international,
+    anonymous
   } = req.body;
   const user_id = req.user_id;
   try {
@@ -64,6 +65,7 @@ router.post("/posts", checkPermission, async (req, res) => {
       resume,
       extracurriculars,
       international,
+      anonymous
     });
     res.json({
       status: 201,

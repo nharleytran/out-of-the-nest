@@ -43,6 +43,8 @@ const PostSchema = new mongoose.Schema({
   extracurriculars: [String],
 
   international: Boolean,
+
+  anonymous: Boolean
 });
 
 const Post = mongoose.model("Post", PostSchema);
