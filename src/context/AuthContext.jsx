@@ -1,12 +1,12 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import * as postApi from "../api";
-import { Navigate } from "react-router-dom";
-import { notifications, Notifications } from "@mantine/notifications";
-import { Notification } from "@mantine/core";
-import { useNavigate } from "react-router-dom";
-import { Affix, Button, Text, Transition, rem } from "@mantine/core";
+import { createContext, useContext, useState, useEffect } from 'react'
+import * as postApi from '../api'
+// import { Navigate } from "react-router-dom";
+// import { notifications, Notifications } from "@mantine/notifications";
+// import { Notification } from "@mantine/core";
+import { useNavigate } from 'react-router-dom'
+// import { Affix, Button, Text, Transition, rem } from "@mantine/core";
 
-const AuthContext = createContext(false);
+const AuthContext = createContext(false)
 // const useAuth = () => {
 //   const [isAuth, setIsAuth] = useState(false);
 //   useEffect(() => {
@@ -20,35 +20,35 @@ const AuthContext = createContext(false);
 
 function AuthProvider({ children }) {
   // const auth = useAuth();
-  const [isAuth, setIsAuth] = useState(false);
-  console.log("isAuth", isAuth);
+  const [isAuth, setIsAuth] = useState(false)
+  console.log('isAuth', isAuth)
   useEffect(() => {
-    console.log("call useffect isAuth", isAuth);
+    console.log('call useffect isAuth', isAuth)
     postApi.isAuthorized().then((res) => {
-      setIsAuth(res.status === 200);
-      console.log("isAuth inside useeffect", isAuth);
+      setIsAuth(res.status === 200)
+      console.log('isAuth inside useeffect', isAuth)
       // if (!ignore)
       // setStatus(res.status);
-    });
-    return () => {};
-  });
+    })
+    return () => {}
+  })
   // setIsAuth(status===200);
-  return <AuthContext.Provider value={isAuth}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={isAuth}>{children}</AuthContext.Provider>
 }
 
 function RequireAuth({ children }) {
-  const navigate = useNavigate();
-  const useAuth = useContext(AuthContext);
+  const navigate = useNavigate()
+  const useAuth = useContext(AuthContext)
   useEffect(() => {
-    console.log("is auth in requireAuth useeffect", useAuth);
+    console.log('is auth in requireAuth useeffect', useAuth)
     if (!useAuth) {
-      console.log("redirect to login");
-      setTimeout(() => navigate("/login"), 2000);
+      console.log('redirect to login')
+      setTimeout(() => navigate('/login'), 2000)
     }
-    const target_page = useAuth ? "/" : "/login";
-    navigate(target_page);
+    const target_page = useAuth ? '/' : '/login'
+    navigate(target_page)
     // setTimeout(() => navigate(target_page), 2000);
-  },[useAuth]);
+  }, [useAuth]) //eslint-disable-line react-hooks/exhaustive-deps
 
   // if (!useAuth)
   //   return (
@@ -64,7 +64,7 @@ function RequireAuth({ children }) {
   //   );
 
   // return children;
-  return <div>{children}</div>;
+  return <div>{children}</div>
 }
 
-export { AuthProvider, RequireAuth };
+export { AuthProvider, RequireAuth }

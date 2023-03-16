@@ -1,47 +1,49 @@
-import { useState, useEffect } from "react";
-import * as postapi from "../api/index";
+// import { useState, useEffect } from "react";
+import * as postapi from '../api/index'
 
 import {
   Box,
-  Input,
-  Checkbox,
+  // Input,
+  // Checkbox,
   Group,
   TextInput,
   Button,
   PasswordInput,
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { MantineProvider } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
-import { useNavigate } from "react-router-dom";
+} from '@mantine/core'
+import { useForm } from '@mantine/form'
+// import { MantineProvider } from "@mantine/core";
+import { notifications } from '@mantine/notifications'
+import { useNavigate } from 'react-router-dom'
 
 function UserCreate() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const form = useForm({
     initialValues: {
-      email: "",
-      name: "",
-      password: "",
+      email: '',
+      name: '',
+      password: '',
     },
 
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
     },
-  });
+  })
 
   const handleCreateUser = async (userFormData) => {
     try {
-      const user = await postapi.createUser(userFormData);
+      const user = await postapi.createUser(userFormData)
       //Create user successfully then move to login page
-      notifications.show({
-        title: "Create new user successfully",
-        message: "Welcome to Out of the nest",
-        onClose: () => navigate("/login"),
-      });
+      if (user) {
+        notifications.show({
+          title: 'Create new user successfully',
+          message: 'Welcome to Out of the nest',
+          onClose: () => navigate('/login'),
+        })
+      }
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
-  };
+  }
   return (
     <>
       <Box maw={300} mx="auto">
@@ -49,7 +51,7 @@ function UserCreate() {
           <TextInput
             placeholder="Enter your full name"
             label="Your full name"
-            {...form.getInputProps("name")}
+            {...form.getInputProps('name')}
             withAsterisk
           />
           <TextInput
@@ -57,22 +59,22 @@ function UserCreate() {
             label="Email"
             placeholder="your@email.com"
             value="your@email.com"
-            {...form.getInputProps("email")}
-          />{" "}
+            {...form.getInputProps('email')}
+          />{' '}
           <PasswordInput
             placeholder="password"
             label="Password"
-            {...form.getInputProps("password")}
+            {...form.getInputProps('password')}
             withAsterisk
           />
           <Group position="right" mt="md">
-            <Button type="submit"> Create </Button>{" "}
-            <Button type="submit"> Cancel </Button>{" "}
-          </Group>{" "}
-        </form>{" "}
+            <Button type="submit"> Create </Button>{' '}
+            <Button type="submit"> Cancel </Button>{' '}
+          </Group>{' '}
+        </form>{' '}
       </Box>
     </>
-  );
+  )
 }
 
-export default UserCreate;
+export default UserCreate
