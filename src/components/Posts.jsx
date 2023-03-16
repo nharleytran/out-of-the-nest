@@ -4,49 +4,53 @@ import {
   // Grid,
   Badge,
   // Container,
-  Group,
-} from '@mantine/core'
-import { Link } from 'react-router-dom'
-import '../App.css'
-import * as postApi from '../api'
-import React, { useEffect } from 'react'
+  Group
+} from "@mantine/core";
+import { Link } from "react-router-dom";
+import "../App.css";
+import * as postApi from "../api";
+import React, { useEffect } from "react";
 
 function Posts(props) {
-  const { query, posts, setPosts } = props
+  const { query, posts, setPosts } = props;
   useEffect(() => {
     postApi
       .getPostsByCategory(props.category_id)
-      .then((posts) => setPosts(posts))
-  }, []) //eslint-disable-line
+      .then(posts => setPosts(posts));
+  }, []); //eslint-disable-line
   if (!posts) {
-    return null
+    return null;
   }
 
   return (
     <div className="posts-container">
       {posts
         .filter(
-          (post) =>
+          post =>
             post.title.toLowerCase().includes(query.trim().toLowerCase()) ||
             post.content.toLowerCase().includes(query.trim().toLowerCase())
         )
-        .map((post, index) => (
+        .map((post, index) =>
           <Link
             to={`/feed/post`}
             key={index}
             state={{ from: post._id }}
-            style={{ textDecoration: 'none' }}>
+            style={{ textDecoration: "none" }}
+          >
             <Card
               className="post-box"
               shadow="sm"
               radius="md"
               withBorder
-              style={{ zIndex: -99 }}>
+              style={{ zIndex: -99 }}
+            >
               <div className="post-content">
                 <Text size="xl" weight={700}>
                   {post.title}
                 </Text>
-                <Text size="md">{post.description}</Text>
+                <Text size="md">
+                  {post.description}
+                </Text>
                 <Group mt="md" mb="xs">
                   <Badge color="pink" variant="light">
                     {post.outcome}
@@ -58,15 +62,19 @@ function Posts(props) {
                     Test Score {post.testscore}
                   </Badge>
                   <Badge color="gray" variant="light">
-                    {post.date}
+                    {new Date(post.date).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric"
+                    })}
                   </Badge>
                 </Group>
               </div>
             </Card>
           </Link>
-        ))}
+        )}
     </div>
-  )
+  );
 }
 
-export default Posts
+export default Posts;
