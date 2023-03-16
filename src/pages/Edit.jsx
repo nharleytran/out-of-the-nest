@@ -1,14 +1,11 @@
 import { useState, useEffect } from "react";
 import {
   Container,
-  TextInput,
-  Textarea,
-  Divider,
   Button,
-  Select,
   Title,
   Space,
-  Group
+  Group,
+  Grid, SimpleGrid, Skeleton, useMantineTheme, rem
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -20,6 +17,8 @@ import Testscore from "../components/PostContent/Testscore";
 import Extracurriculars from "../components/PostContent/Extracurriculars";
 import EditGPA from "../components/PostContent/EditGPA";
 
+const PRIMARY_COL_HEIGHT = rem(300);
+
 function Edit() {
   const location = useLocation();
   const { from } = location.state;
@@ -30,6 +29,9 @@ function Edit() {
   const [resume, setResume] = useState("");
   const [extra, setExtra] = useState("");
   const [comment, setComment] = useState("");
+
+  const theme = useMantineTheme();
+  const SECONDARY_COL_HEIGHT = `calc(${PRIMARY_COL_HEIGHT} / 2 - ${theme.spacing.md} / 2)`;
 
   const navigate = useNavigate();
   const [postData, setPostdata] = useState({
@@ -63,37 +65,50 @@ function Edit() {
   };
 
   return (
-    <Container>
-      <Title order={2} weight={100} align="center">
-        Edit Your Post
-      </Title>
-      <Outcome
-        outcomevalue={outCome}
-        postData={postData}
-        setPostdata={setPostdata}
-      />
-      <Comments
-        postData={postData}
-        setPostdata={setPostdata}
-        comment={comment}
-      />
-      <EditGPA postData={postData} setPostdata={setPostdata} gpa={gpa} />
-      <Testscore
-        postData={postData}
-        setPostdata={setPostdata}
-        score={score}
-      />
-      <Resume postData={postData} setPostdata={setPostdata} res={resume} />
-      <Extracurriculars
-        postData={postData}
-        setPostdata={setPostdata}
-        extra={extra}
-      />
-      <Space h="sm" />
+  
+    <Container my="md">
       <Group position="apart">
-        <Button>Save draft</Button>
-        <Button onClick={handlePost}>Post</Button>
+        <Title size="h2" color={"blue"}>
+          Edit Your Post
+        </Title>
+        <Button onClick={handlePost}>Click Here to Post!</Button>
       </Group>
+      <Grid>
+        <Grid.Col xs={6}>
+          <Outcome height={SECONDARY_COL_HEIGHT} radius="md" color="red"
+            outcomevalue={outCome}
+            postData={postData}
+            setPostdata={setPostdata}
+          />
+        </Grid.Col>
+        <Grid.Col xs={6}>
+          <EditGPA height={SECONDARY_COL_HEIGHT} radius="md" postData={postData} setPostdata={setPostdata} gpa={gpa} />
+        </Grid.Col>
+        <Grid.Col xs={6}>
+          <Testscore height={SECONDARY_COL_HEIGHT} radius="md"
+            postData={postData}
+            setPostdata={setPostdata}
+            score={score}
+          />
+        </Grid.Col>
+        <Grid.Col xs={6}>
+          <Extracurriculars height={SECONDARY_COL_HEIGHT} radius="md"
+            postData={postData}
+            setPostdata={setPostdata}
+            extra={extra}
+          />
+        </Grid.Col>
+        <Grid.Col xs={12}>
+          <Resume height={SECONDARY_COL_HEIGHT} radius="md" postData={postData} setPostdata={setPostdata} res={resume} />
+        </Grid.Col>
+        <Grid.Col xs={12}>
+          <Comments height={PRIMARY_COL_HEIGHT}
+            postData={postData}
+            setPostdata={setPostdata}
+            comment={comment}
+          />
+        </Grid.Col>
+      </Grid>
     </Container>
   );
 }
