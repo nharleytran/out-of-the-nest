@@ -2,7 +2,7 @@ import axios from "axios";
 
 const baseURL = process.env.REACT_APP_API;
 if (!baseURL) {
-  throw new Error("REACT_APP_API is not defined");
+  console.error("REACT_APP_API is not defined");
 }
 export const axiosInstance = axios.create({
   baseURL: baseURL, // replace with your server's URL
@@ -22,6 +22,17 @@ export async function getAllCategories() {
     const response = await axiosInstance.get("/categories");
     return response.data.data;
   } catch (err) {
+    // window.location = "/login";
+    throw err;
+  }
+}
+
+export async function getAllCategoriesAuth() {
+  try {
+    const response = await axiosInstance.get("/categories");
+    return response.data.data;
+  } catch (err) {
+    console.log("error", err);
     // window.location = "/login";
     throw err;
   }
@@ -90,7 +101,7 @@ export async function login(postData) {
   }
 }
 
-export async function isAuthorized() {
+export async function getAuth() {
   try {
     const response = await axiosInstance.get("/isAuthorized");
     return response.data;

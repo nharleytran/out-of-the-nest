@@ -13,6 +13,7 @@ import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import * as API from "../api";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function Post() {
   const navigate = useNavigate();
@@ -27,27 +28,45 @@ function Post() {
   const [id, setID] = useState("");
   const [resume, setResume] = useState("");
   const [extra, setExtra] = useState("");
+  const [editable, setEditable] = useState(false);
 
   const location = useLocation();
   const { from } = location.state;
 
-  API.getPost(from).then((data) => {
-    setExtra(data.extracurriculars[0]);
-    setAuthor(data.author);
-    setContent(data.content);
-    setTitle(data.title);
-    setScore(data.testscore);
-    setGpa(data.gpa);
-    setOutcome(data.outcome);
-    setDate(data.date);
-    setID(data._id);
-    setResume(data.resume);
+  useEffect(() => {
+    API.getPost(from).then((data) => {
+      console.log(data);
+      setExtra(data.extracurriculars[0]);
+      setAuthor(data.user_name);
+      setContent(data.content);
+      setTitle(data.title);
+      setScore(data.testscore);
+      setGpa(data.gpa);
+      setOutcome(data.outcome);
+      setDate(data.date);
+      setID(data._id);
+      setResume(data.resume);
+      setEditable(data.editable);
+    });
   });
 
   const deleteHandle = (event) => {
     event.preventDefault();
     API.deletePost(id).then(navigate("/"));
   };
+
+  const editBtn = !editable ? null : (
+    <>
+      <Link to={`/edit`} state={{ from: id }}>
+        <Button color="yellow">Edit draft</Button>
+      </Link>
+      <Link to={`/feed`}>
+        <Button color="red" onClick={deleteHandle}>
+          DeletePost
+        </Button>
+      </Link>
+    </>
+  );
 
   return (
     <div>
@@ -72,14 +91,7 @@ function Post() {
           <Badge color="blue" variant="light">
             <a href={resume}>Resume Link</a>
           </Badge>
-          <Link to={`/edit`} state={{ from: id }}>
-            <Button color="yellow">Edit draft</Button>
-          </Link>
-          <Link to={`/feed`}>
-            <Button color="red" onClick={deleteHandle}>
-              DeletePost
-            </Button>
-          </Link>
+          {editBtn}
         </Group>
         <MantineProvider
           theme={{

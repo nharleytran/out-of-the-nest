@@ -12,8 +12,8 @@
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.12",
     "@mui/styled-engine": "^5.11.11",
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^13.0.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^13.2.1",
     "axios": "^1.3.4",
     "bcryptjs": "^2.4.3",
@@ -21,6 +21,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
+    "lorem-ipsum": "^2.0.8",
     "mongoose": "^7.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -32,7 +33,7 @@
     "client": "PORT=3000 react-scripts start",
     "server": "nodemon api/index.js",
     "build": "react-scripts build",
-    "test-frontend": "react-scripts test --watchAll=false",
+    "test-frontend": "react-scripts test --transformIgnorePatterns 'node_modules/(?!axios/)' --watchAll=false",
     "test-backend": "jest api --config=api/jest.config.js --watchAll=false",
     "eject": "react-scripts eject"
   },
@@ -55,6 +56,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.20.2",
     "babel-jest": "^29.5.0",
     "supertest": "^6.3.3",
     "vitest": "^0.29.2"
