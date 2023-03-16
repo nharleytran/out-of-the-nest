@@ -10,12 +10,15 @@ const authRouter = express.Router();
 const userDao = new UserDAO();
 
 const decodeTokenFromRequest = (req) => {
-    const bearerHeader = req.headers["authorization"];
-    const bearer = bearerHeader.split(" ");
-    const token = bearer[1];
-    const secret = process.env.REACT_APP_JWT_SECRET;
+  const bearerHeader = req.headers["authorization"];
+  if (!bearerHeader) {
+    return null;
+  }
+  const bearer = bearerHeader.split(" ");
+  const token = bearer[1];
+  const secret = process.env.REACT_APP_JWT_SECRET;
   console.log("token", token);
-    return (token!== 'null' ? jwt.verify(token, secret): null);
+  return token !== "null" ? jwt.verify(token, secret) : null;
 };
 
 const checkPermission = (req, res, next) => {
@@ -101,5 +104,5 @@ authRouter.post(
 module.exports = {
   authRouter,
   checkPermission,
-  decodeTokenFromRequest
+  decodeTokenFromRequest,
 };
