@@ -108,6 +108,7 @@
 }
 .post-page-detail {
   padding-top: 10vh;
+
 }
 
 .post-box {
@@ -137,22 +138,18 @@
 }
 
 .search-bar {
-  background-color: rgba(204, 240, 231, 0.451);
+  background-color: rgba(170, 164, 239, 0.451);
   position: fixed;
   top: 15%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   width: 80%;
-  height: 10%;
+  height: 6%;
   left: 10%;
   right: 10%;
   border-radius: 10px;
   box-shadow: 0px 10px 20px rgba(115, 116, 125, 0.141);
-  border: 1px solid black;
-  outline-style: solid;
-  outline-color: black;
-  outline-width: thin;
 }
 
 .inputfield{

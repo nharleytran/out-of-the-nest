@@ -29,10 +29,10 @@ function Post() {
   const [resume, setResume] = useState("");
   const [extra, setExtra] = useState("");
   const [editable, setEditable] = useState(false);
-  const [anonymous, setAnonymous] = useState(false);
-
   const location = useLocation();
   const { from } = location.state;
+  const [international, setInternational] = useState(false);
+
 
   useEffect(() => {
     API.getPost(from).then((data) => {
@@ -48,7 +48,8 @@ function Post() {
       setID(data._id);
       setResume(data.resume);
       setEditable(data.editable);
-      setAnonymous(data.anonymous);
+      setInternational(data.international);
+
     });
   });
 
@@ -88,10 +89,14 @@ function Post() {
             Test Score {score}
           </Badge>
           <Badge color="gray" variant="light">
-            {date}
+          {new Date(date).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric"
+                    })}
           </Badge>
-          <Badge color="blue" variant="light">
-            <a href={resume}>Resume Link</a>
+          <Badge color={international ? "blue" : "green"} variant="light">
+            {international ? "International" : "Domestic"}
           </Badge>
           {editBtn}
         </Group>
@@ -110,6 +115,9 @@ function Post() {
               {activity}
             </Badge>
           ))}
+          <Badge color="blue" variant="light">
+            <a href={resume}>Resume Link</a>
+          </Badge>
         </Group>
       </Container>
     </div>

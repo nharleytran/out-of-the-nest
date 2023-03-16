@@ -38,6 +38,7 @@ const empty_post = {
   testscore: "",
   resume: "",
   extracurriculars: "",
+  international: false,
   anonymous: false
 };
 const random_post = () => {
@@ -71,6 +72,7 @@ const PostCreate = () => {
       testscore: "",
       resume: "",
       extracurriculars: "",
+      international: false,
       anonymous: false
     }
   });
@@ -196,6 +198,18 @@ const PostCreate = () => {
           })}
           withAsterisk
         />
+
+        <Checkbox
+          label="I am an International Student"
+          onChange={event => {
+            form.setValues({
+              ...form.values,
+              international: event.currentTarget.checked
+            });
+          }}
+          style={{ marginTop: "10px", marginBottom: "20px" }}
+        />
+
         <Checkbox
           label="Check to make the post anonymous"
           onChange={event => {
