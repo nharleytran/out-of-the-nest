@@ -19,6 +19,10 @@
   margin-left: 70px;
 }
 
+.header.transparent {
+  background-color: rgb(255, 255, 255);
+}
+
 .header {
   position: fixed;
   top: 0;
@@ -56,7 +60,7 @@
 }
 
 .paths-container {
-  max-width: 100vw;
+  width: 100vw;
   max-height: 100vh;
   margin-right: auto;
   margin-left: auto;
@@ -64,7 +68,6 @@
   flex-wrap: wrap;
   justify-content: center;
   margin-top: 0;
-  overflow-y: visible;
   padding-top: 0%;
 }
 
@@ -77,19 +80,18 @@
   justify-content: center;
   flex-grow: 1;
   text-align: center;
-  overflow-wrap: break-word;
+
 }
 .path-title {
   width: auto;
   font-family: 'Lucida Console', 'Courier New', monospace;
-  font-size: 12px;
+  font-size: 25px;
+  font-weight: 1100;
   margin-top: 0.01px;
   margin-bottom: 0.01px;
   margin-left: 1px;
   margin-right: 1px;
-  flex-wrap: wrap;
-  overflow-wrap: normal;
-  overflow-x: visible;
+  white-space: normal;
   color: #fff;
   z-index: 1;
 }

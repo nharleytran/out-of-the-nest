@@ -43,10 +43,7 @@ function Path() {
             <div className="mask"></div>
             <div className="path-content" display="flex" flex-wrap="wrap">
               <Text
-                size="x1"
-                weight={700}
-                display="flex"
-                flex-wrap="wrap"
+      
                 className="path-title">
                 {path.name}
               </Text>

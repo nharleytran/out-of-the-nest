@@ -9,6 +9,7 @@ import * as postApi from "../api";
 import { clearAuth } from "../api/auth_util";
 import logo from "../images/outofthenestlogo.png"
 
+
 function Header(props) {
   const navigate = useNavigate();
   const [showLoginButton, setShowLoginButton] = useState(false);
@@ -55,7 +56,7 @@ function Header(props) {
 
 
   return (
-    <div className="header">
+    <div className={`header ${isFeedPage ? "white" : "transparent"}`}>
       <Link to={`/`} style={{ textDecoration: 'none' }}>
         <img src={logo} width="40%" alt="es-lint want to get" />
       </Link>
