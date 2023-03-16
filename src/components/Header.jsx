@@ -58,12 +58,12 @@ function Header(props) {
   return (
     <div className={`header ${isFeedPage ? "white" : "transparent"}`}>
       <Link to={`/`} style={{ textDecoration: 'none' }}>
-        <img src={logo} width="40%" alt="es-lint want to get" />
+        <img src={logo} width="35%" alt="es-lint want to get" />
       </Link>
 
       <div style={{ display: "flex", gap: "10px" }}>
 
-        <Button onClick={() => navigate("/create")}>Create post</Button>
+        <Button onClick={() => navigate("/create")} style={{ background: "#4d4d8e", color: "white" }}>Create post</Button>
         {loginButton}
         {logoutButton}
         {signupButton}

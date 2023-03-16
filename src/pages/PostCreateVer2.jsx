@@ -10,23 +10,22 @@ import {
   Group,
   Box,
   Select,
-  Radio,
+  Radio
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as postapi from "../api/index";
-import Anonymous from "../components/PostContent/Anonymous";
 
 const lorem = new LoremIpsum({
   sentencesPerParagraph: {
     max: 8,
-    min: 4,
+    min: 4
   },
   wordsPerSentence: {
     max: 16,
-    min: 4,
-  },
+    min: 4
+  }
 });
 
 const empty_post = {
@@ -39,7 +38,7 @@ const empty_post = {
   testscore: "",
   resume: "",
   extracurriculars: "",
-  anonymous: false,
+  anonymous: false
 };
 const random_post = () => {
   return {
@@ -48,7 +47,7 @@ const random_post = () => {
     gpa: 3.5,
     testscore: 1500,
     resume: "https://www.google.com",
-    extracurriculars: ["eng", 'club'],
+    extracurriculars: ["eng", "club"]
   };
 };
 const dummy_generate = () => {
@@ -72,28 +71,28 @@ const PostCreate = () => {
       testscore: "",
       resume: "",
       extracurriculars: "",
-      anonymous: false,
-    },
+      anonymous: false
+    }
   });
   const [categories, setCategories] = useState([]);
 
   const outcomeList = [
     {
       value: "Accepted",
-      label: "Accepted",
+      label: "Accepted"
     },
     {
       value: "Waitlisted",
-      label: "Waitlisted",
+      label: "Waitlisted"
     },
     {
       value: "Ghosted",
-      label: "Ghosted",
+      label: "Ghosted"
     },
     {
       value: "Rejected",
-      label: "Rejected",
-    },
+      label: "Rejected"
+    }
   ];
   useEffect(() => {
     const fetchData = async () => {
@@ -103,41 +102,43 @@ const PostCreate = () => {
       form.setValues(dummy_generate());
       form.setFieldValue("category_id", randomId);
       setCategories(
-        fetchData.map((category) => ({
+        fetchData.map(category => ({
           value: category._id,
-          label: category.name,
+          label: category.name
         }))
       );
     };
-  form.setFieldValue("outcome", outcomeList[Math.floor(Math.random() * 4)].value);
+    form.setFieldValue(
+      "outcome",
+      outcomeList[Math.floor(Math.random() * 4)].value
+    );
     fetchData();
   }, []);
-  const handleSubmit = async (data) => {
+  const handleSubmit = async data => {
     // const data = await postapi.createPost(form.values);
     // navigate(`/post/${data._id}`);
-      await postapi.createPost(data);
-      navigate("/", { state: { data } });
+    await postapi.createPost(data);
+    navigate("/", { state: { data } });
   };
 
   return (
     <Box maw={500} mx="auto">
-        <Title order={2}>Create a post</Title>
+      <Title order={2}>Create a post</Title>
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Select
           label="Select a category to submit your post to"
           value={form.values.category_id}
           placeholder="Pick one"
           data={categories}
-          onChange={(categoryvalue) =>
-            form.setFieldValue("category_id", categoryvalue)
-          }
+          onChange={categoryvalue =>
+            form.setFieldValue("category_id", categoryvalue)}
           withAsterisk
         />
         <TextInput
           placeholder="Your post title"
           label="Post title"
           {...form.getInputProps("title", {
-            type: "text",
+            type: "text"
           })}
           withAsterisk
         />
@@ -145,10 +146,9 @@ const PostCreate = () => {
           label="Outcome"
           value={form.values.outcome}
           data={outcomeList}
-          onChange={(outcomevalue) =>{
+          onChange={outcomevalue => {
             form.setFieldValue("outcome", outcomevalue);
-          }
-          }
+          }}
           withAsterisk
         />
         <Textarea
@@ -156,7 +156,7 @@ const PostCreate = () => {
           label="Comments"
           autosize
           {...form.getInputProps("content", {
-            type: "text",
+            type: "text"
           })}
           withAsterisk
         />
@@ -166,7 +166,7 @@ const PostCreate = () => {
           precision={2}
           min={0.0}
           {...form.getInputProps("gpa", {
-            type: "number",
+            type: "number"
           })}
           step={0.01}
           withAsterisk
@@ -175,7 +175,7 @@ const PostCreate = () => {
           placeholder="Your test score"
           label="Test score"
           {...form.getInputProps("testscore", {
-            type: "text",
+            type: "text"
           })}
           withAsterisk
         />
@@ -183,7 +183,7 @@ const PostCreate = () => {
           placeholder="Your resume"
           label="Please enter a shareable link that contains your resume (ex. Google drive)"
           {...form.getInputProps("resume", {
-            type: "text",
+            type: "text"
           })}
           withAsterisk
         />
@@ -192,23 +192,20 @@ const PostCreate = () => {
           label="Extracurriculars"
           autosize
           {...form.getInputProps("extracurriculars", {
-            type: "text",
+            type: "text"
           })}
           withAsterisk
         />
-
         <Checkbox
           label="Check to make the post anonymous"
-          onChange={(event) => {
+          onChange={event => {
             form.setValues({
               ...form.values,
-              anonymous: event.currentTarget.checked,
+              anonymous: event.currentTarget.checked
             });
           }}
+          style={{ marginTop: "10px", marginBottom: "20px" }}
         />
-
-
-
         <Group position="right" mt="md">
           <Button>Save draft</Button>
           <Button type="submit"> Post </Button>{" "}
