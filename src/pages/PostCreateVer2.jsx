@@ -10,11 +10,13 @@ import {
   Group,
   Box,
   Select,
+  Radio,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as postapi from "../api/index";
+import Anonymous from "../components/PostContent/Anonymous";
 
 const lorem = new LoremIpsum({
   sentencesPerParagraph: {
@@ -37,6 +39,7 @@ const empty_post = {
   testscore: "",
   resume: "",
   extracurriculars: "",
+  anonymous: false,
 };
 const random_post = () => {
   return {
@@ -69,6 +72,7 @@ const PostCreate = () => {
       testscore: "",
       resume: "",
       extracurriculars: "",
+      anonymous: false,
     },
   });
   const [categories, setCategories] = useState([]);
@@ -192,6 +196,19 @@ const PostCreate = () => {
           })}
           withAsterisk
         />
+
+        <Checkbox
+          label="Check to make the post anonymous"
+          onChange={(event) => {
+            form.setValues({
+              ...form.values,
+              anonymous: event.currentTarget.checked,
+            });
+          }}
+        />
+
+
+
         <Group position="right" mt="md">
           <Button>Save draft</Button>
           <Button type="submit"> Post </Button>{" "}

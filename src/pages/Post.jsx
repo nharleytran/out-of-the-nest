@@ -29,6 +29,7 @@ function Post() {
   const [resume, setResume] = useState("");
   const [extra, setExtra] = useState("");
   const [editable, setEditable] = useState(false);
+  const [anonymous, setAnonymous] = useState(false);
 
   const location = useLocation();
   const { from } = location.state;
@@ -37,7 +38,7 @@ function Post() {
     API.getPost(from).then((data) => {
       console.log(data);
       setExtra(data.extracurriculars[0]);
-      setAuthor(data.user_name);
+      setAuthor(data.anonymous ? "Anonymous" : data.user_name);
       setContent(data.content);
       setTitle(data.title);
       setScore(data.testscore);
@@ -47,6 +48,7 @@ function Post() {
       setID(data._id);
       setResume(data.resume);
       setEditable(data.editable);
+      setAnonymous(data.anonymous);
     });
   });
 
