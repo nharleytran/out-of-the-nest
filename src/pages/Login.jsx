@@ -1,7 +1,11 @@
-// import { useState, useEffect } from 'react'
-import * as postapi from '../api/index'
-import { useNavigate } from 'react-router-dom'
-import { Anchor, Flex } from '@mantine/core'
+
+import { useState, useEffect } from "react";
+import * as postApi from "../api/index";
+import { useNavigate } from "react-router-dom";
+import { Anchor, Flex } from "@mantine/core";
+import { useAuth } from "../context/AuthContext";
+import { afterReceiveAuth } from "../api/auth_util";
+
 
 import {
   Box,
@@ -11,38 +15,43 @@ import {
   TextInput,
   Button,
   PasswordInput,
-} from '@mantine/core'
-import { useForm } from '@mantine/form'
-// import { MantineProvider } from '@mantine/core'
-import { notifications } from '@mantine/notifications'
+
+} from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { MantineProvider } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+import { useLocation } from "react-router-dom";
 
 function Login() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const form = useForm({
     initialValues: {
-      email: '',
-      password: '',
+      email: "user@gmail.com",
+      password: "123",
     },
 
     validate: {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
     },
-  })
+
+  });
+  const setAuth = useAuth().setIsAuth;
   const handleLogin = async (userFormData) => {
     try {
-      const response = await postapi.login(userFormData)
+      const response = await postApi.login(userFormData);
       if (response.status === 200) {
-        const token = response.data.token
-        localStorage.setItem('token', token)
-        postapi.axiosInstance.defaults.headers[
-          'Authorization'
-        ] = `Bearer ${localStorage.getItem('token')}`
+        afterReceiveAuth(response.data.user_id, response.data.user_name, response.data.token);
+        const url = location.state ? location.state.from.pathname : "/";
+        setAuth(true);
         notifications.show({
-          title: 'Login successfully',
-          message: 'Redirecting to home page',
+          title: "Login successfully",
+          message: `Redirecting to ${url}`,
           autoClose: 1000,
-          onClose: () => navigate('/'),
+          onClose: () => { 
+            navigate(url);
+          },
           loading: true,
           position: 'top-right',
         })
@@ -84,10 +93,20 @@ function Login() {
             <Anchor href="/user/create"> Create new account </Anchor>{' '}
           </Flex>{' '}
           <Group position="right" mt="md">
-            <Button type="submit"> Sign in </Button> <Button> Cancel </Button>{' '}
-          </Group>{' '}
-        </form>{' '}
-      </Box>{' '}
+
+            <Button type="submit"> Sign in </Button>
+            <Button
+              onClick={() => {
+                navigate("/");
+                setAuth(false);
+              }}
+            >
+              {" "}
+              Cancel{" "}
+            </Button>{" "}
+          </Group>{" "}
+        </form>{" "}
+      </Box>{" "}
     </>
   )
 }

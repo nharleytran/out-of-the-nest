@@ -8,6 +8,7 @@ class PostDAO {
     outcome,
     content,
     author,
+    user_id,
     category_id,
     gpa,
     testscore,
@@ -21,6 +22,7 @@ class PostDAO {
       outcome,
       content,
       author,
+      user_id,
       category_id,
       gpa,
       testscore,
@@ -106,11 +108,15 @@ class PostDAO {
   async getPostsByFilters(
     categoryId,
     sortBy,
-    outcome
+    outcome,
+    international
   ) {
     const filter = { category_id: categoryId };
     if (outcome) {
       filter.outcome = outcome;
+    }
+    if (international) {
+      filter.international = international;
     }
     let sortParam = {};
     if (sortBy === "gpa_desc") {
