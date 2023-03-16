@@ -91,14 +91,7 @@ function Post() {
           <Badge color="blue" variant="light">
             <a href={resume}>Resume Link</a>
           </Badge>
-          <Link to={`/edit`} state={{ from: id }}>
-            <Button color="yellow">Edit draft</Button>
-          </Link>
-          <Link to={`/feed`}>
-            <Button color="red" onClick={deleteHandle}>
-              DeletePost
-            </Button>
-          </Link>
+          {editBtn}
         </Group>
         <MantineProvider
           theme={{
