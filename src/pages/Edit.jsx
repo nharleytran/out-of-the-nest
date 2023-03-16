@@ -1,21 +1,23 @@
 import { useState, useEffect } from 'react'
 import {
   Container,
-  // TextInput,
-  // Textarea,
-  Divider,
   Button,
-  // Select,
-} from '@mantine/core'
-import { useNavigate } from 'react-router-dom'
-import { useLocation } from 'react-router-dom'
-import * as postapi from '../api/index'
-import Comments from '../components/PostContent/Comments'
-import Outcome from '../components/PostContent/Outcome'
-import Resume from '../components/PostContent/Resume'
-import Testscore from '../components/PostContent/Testscore'
-import Extracurriculars from '../components/PostContent/Extracurriculars'
-import EditGPA from '../components/PostContent/EditGPA'
+  Title,
+  Space,
+  Group,
+  Grid, SimpleGrid, Skeleton, useMantineTheme, rem
+} from "@mantine/core";
+import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import * as postapi from "../api/index";
+import Comments from "../components/PostContent/Comments";
+import Outcome from "../components/PostContent/Outcome";
+import Resume from "../components/PostContent/Resume";
+import Testscore from "../components/PostContent/Testscore";
+import Extracurriculars from "../components/PostContent/Extracurriculars";
+import EditGPA from "../components/PostContent/EditGPA";
+
+const PRIMARY_COL_HEIGHT = rem(300);
 
 function Edit() {
   const location = useLocation()
@@ -28,7 +30,10 @@ function Edit() {
   const [extra, setExtra] = useState('')
   const [comment, setComment] = useState('')
 
-  const navigate = useNavigate()
+  const theme = useMantineTheme();
+  const SECONDARY_COL_HEIGHT = `calc(${PRIMARY_COL_HEIGHT} / 2 - ${theme.spacing.md} / 2)`;
+
+  const navigate = useNavigate();
   const [postData, setPostdata] = useState({
     outcome: '',
     content: '',
@@ -60,47 +65,52 @@ function Edit() {
   }
 
   return (
-    <>
-      <Container size="lg">
-        <div className="alignLeft">
-          <h1>Edit Your Post</h1>
-        </div>
-      </Container>
-      <Container>
-        <Outcome
-          outcomevalue={outCome}
-          postData={postData}
-          setPostdata={setPostdata}
-        />
-        <Comments
-          postData={postData}
-          setPostdata={setPostdata}
-          comment={comment}
-        />
-        <EditGPA postData={postData} setPostdata={setPostdata} gpa={gpa} />
-        <Testscore
-          postData={postData}
-          setPostdata={setPostdata}
-          score={score}
-        />
-        <Resume postData={postData} setPostdata={setPostdata} res={resume} />
-        <Extracurriculars
-          postData={postData}
-          setPostdata={setPostdata}
-          extra={extra}
-        />
-      </Container>
-      <Divider my="sm" />
-      <div className="alignButtonRight">
-        <Button.Group>
-          <div className="separateButton">
-            <Button>Save draft</Button>
-          </div>
-          <Button onClick={handlePost}>Post</Button>
-        </Button.Group>
-      </div>
-    </>
-  )
+  
+    <Container my="md">
+      <Group position="apart">
+        <Title size="h2" color={"blue"}>
+          Edit Your Post
+        </Title>
+        <Button onClick={handlePost}>Click Here to Post!</Button>
+      </Group>
+      <Grid>
+        <Grid.Col xs={6}>
+          <Outcome height={SECONDARY_COL_HEIGHT} radius="md" color="red"
+            outcomevalue={outCome}
+            postData={postData}
+            setPostdata={setPostdata}
+          />
+        </Grid.Col>
+        <Grid.Col xs={6}>
+          <EditGPA height={SECONDARY_COL_HEIGHT} radius="md" postData={postData} setPostdata={setPostdata} gpa={gpa} />
+        </Grid.Col>
+        <Grid.Col xs={6}>
+          <Testscore height={SECONDARY_COL_HEIGHT} radius="md"
+            postData={postData}
+            setPostdata={setPostdata}
+            score={score}
+          />
+        </Grid.Col>
+        <Grid.Col xs={6}>
+          <Extracurriculars height={SECONDARY_COL_HEIGHT} radius="md"
+            postData={postData}
+            setPostdata={setPostdata}
+            extra={extra}
+          />
+        </Grid.Col>
+        <Grid.Col xs={12}>
+          <Resume height={SECONDARY_COL_HEIGHT} radius="md" postData={postData} setPostdata={setPostdata} res={resume} />
+        </Grid.Col>
+        <Grid.Col xs={12}>
+          <Comments height={PRIMARY_COL_HEIGHT}
+            postData={postData}
+            setPostdata={setPostdata}
+            comment={comment}
+          />
+        </Grid.Col>
+      </Grid>
+    </Container>
+  );
 }
 
 export default Edit
