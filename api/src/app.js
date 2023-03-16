@@ -9,7 +9,12 @@ const cors = require("cors");
 dotenv.config();
 
 const app = express();
-const api_url = process.env.REACT_APP_API;
+const api_url = process.env.REACT_APP_API_URL;
+
+if (!api_url) {
+  throw new Error("REACT_APP_API_URL must be defined in .env file!");
+}
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

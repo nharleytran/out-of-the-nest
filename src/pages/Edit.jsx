@@ -1,63 +1,63 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react'
 import {
   Container,
-  TextInput,
-  Textarea,
+  // TextInput,
+  // Textarea,
   Divider,
   Button,
-  Select,
-} from "@mantine/core";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
-import * as postapi from "../api/index";
-import Comments from "../components/PostContent/Comments";
-import Outcome from "../components/PostContent/Outcome";
-import Resume from "../components/PostContent/Resume";
-import Testscore from "../components/PostContent/Testscore";
-import Extracurriculars from "../components/PostContent/Extracurriculars";
-import EditGPA from "../components/PostContent/EditGPA";
+  // Select,
+} from '@mantine/core'
+import { useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
+import * as postapi from '../api/index'
+import Comments from '../components/PostContent/Comments'
+import Outcome from '../components/PostContent/Outcome'
+import Resume from '../components/PostContent/Resume'
+import Testscore from '../components/PostContent/Testscore'
+import Extracurriculars from '../components/PostContent/Extracurriculars'
+import EditGPA from '../components/PostContent/EditGPA'
 
 function Edit() {
-  const location = useLocation();
-  const { from } = location.state;
-  const [id, setID] = useState("");
-  const [outCome, setOutcome] = useState("");
-  const [gpa, setGpa] = useState("");
-  const [score, setScore] = useState("");
-  const [resume, setResume] = useState("");
-  const [extra, setExtra] = useState("");
-  const [comment, setComment] = useState("");
+  const location = useLocation()
+  const { from } = location.state || { from: { pathname: '/' } }
+  const [id, setID] = useState('')
+  const [outCome, setOutcome] = useState('')
+  const [gpa, setGpa] = useState('')
+  const [score, setScore] = useState('')
+  const [resume, setResume] = useState('')
+  const [extra, setExtra] = useState('')
+  const [comment, setComment] = useState('')
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const [postData, setPostdata] = useState({
-    outcome: "",
-    content: "",
+    outcome: '',
+    content: '',
     gpa: 0,
-    testscore: "",
-    resume: "",
-    extracurriculars: "",
-  });
+    testscore: '',
+    resume: '',
+    extracurriculars: '',
+  })
 
   useEffect(() => {
     postapi.getPost(from).then((data) => {
-      setID(data._id);
-      setOutcome(data.outcome);
-      setGpa(data.gpa);
-      setScore(data.testscore);
-      setResume(data.resume);
-      setExtra(data.extracurriculars);
-      setComment(data.content);
-    });
-  }, []);
+      setID(data._id)
+      setOutcome(data.outcome)
+      setGpa(data.gpa)
+      setScore(data.testscore)
+      setResume(data.resume)
+      setExtra(data.extracurriculars)
+      setComment(data.content)
+    })
+  }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
   const handlePost = async () => {
     try {
-      await postapi.updatePost(id, postData);
-      navigate("/", { state: { postData } });
+      await postapi.updatePost(id, postData)
+      navigate('/', { state: { postData } })
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
-  };
+  }
 
   return (
     <>
@@ -100,7 +100,7 @@ function Edit() {
         </Button.Group>
       </div>
     </>
-  );
+  )
 }
 
-export default Edit;
+export default Edit

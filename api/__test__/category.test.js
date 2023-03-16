@@ -3,19 +3,23 @@ const supertest = require("supertest");
 const db = require("../src/data/db");
 const userDAO = require("../src/data/UserDAO");
 const dotenv = require("dotenv");
-const { getAuthorizeToken } = require("./dummy_authorize");
-dotenv.config();
+const { getAuthorizeToken, connectDB, getApiUrl } = require("./utils");
+const mongoose = require("mongoose");
 
 const request = new supertest(app);
 const userDao = new userDAO();
 
 describe("Category test", () => {
   beforeAll(async () => {
-    db.connect(process.env.DB_TEST_URI);
-    await userDao.dropAll();
+    await connectDB();
   });
+  afterAll(async () => {
+    await mongoose.connection.close();
+  });
+
   it("GET all category", async () => {
-    const api_url = process.env.REACT_APP_API;
+    const api_url = getApiUrl();
+    console.log("api_url", api_url);
     const token = await getAuthorizeToken();
 
     let response = await request

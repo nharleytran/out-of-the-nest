@@ -1,14 +1,16 @@
 const jsonWebToken = require("jsonwebtoken");
 
 const createToken = ({ user, expiresIn }) => {
-  return jsonWebToken.sign(user, process.env.REACT_APP_JWT_SECRET, {
+  const secret = process.env.REACT_APP_JWT_SECRET;
+  return jsonWebToken.sign(user, secret, {
     algorithm: "HS256",
-    expiresIn: expiresIn || "1h",
+    expiresIn: expiresIn || "2h",
   });
 };
 
 const decodeToken = (token) => {
-  return jsonWebToken.verify(token, process.env.REACT_APP_JWT_SECRET, {
+  const secret = process.env.REACT_APP_JWT_SECRET;
+  return jsonWebToken.verify(token, secret, {
     algorithm: "HS256",
     ignoreNotBefore: true,
   });

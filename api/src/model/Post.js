@@ -17,6 +17,10 @@ const PostSchema = new mongoose.Schema({
 
   author: {
     type: String,
+    required: false,
+  },
+  user_id: {
+    type: String,
     required: true,
   },
 
@@ -32,7 +36,7 @@ const PostSchema = new mongoose.Schema({
 
   gpa: Number,
 
-  testscore: { testname: String, score: Number },
+  testscore: String,
 
   resume: String,
 

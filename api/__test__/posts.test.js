@@ -1,22 +1,27 @@
 const app = require("../src/app");
 const supertest = require("supertest");
 const db = require("../src/data/db");
-const { getAuthorizeToken } = require("./dummy_authorize");
+const { getAuthorizeToken, connectDB, getApiUrl } = require("./utils");
 const UserDAO = require("../src/data/UserDAO");
 const PostDAO = require("../src/data/PostDAO");
+const mongoose = require("mongoose");
+
 const userDAO = new UserDAO();
 const postDAO = new PostDAO();
-
 const request = new supertest(app);
 
 describe("Posts Test", () => {
   beforeAll(async () => {
-    db.connect(process.env.DB_TEST_URI);
-    await userDAO.dropAll();
+    await connectDB();
   });
+
+  afterAll(async () => {
+    await mongoose.connection.close();
+  });
+
   it("Create new post and delete", async () => {
     const token = await getAuthorizeToken();
-    const api_url = process.env.REACT_APP_API;
+    const api_url = getApiUrl();
 
     const response = await request
       .post(`${api_url}/posts`)

@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const baseURL = process.env.PORT
-  ? `http://localhost:${process.env.PORT}${process.env.REACT_APP_API}`
-  : process.env.REACT_APP_API;
-console.log(baseURL);
+const baseURL = process.env.REACT_APP_API;
+if (!baseURL) {
+  console.error("REACT_APP_API is not defined");
+}
 export const axiosInstance = axios.create({
   baseURL: baseURL, // replace with your server's URL
   headers: {
@@ -22,7 +22,18 @@ export async function getAllCategories() {
     const response = await axiosInstance.get("/categories");
     return response.data.data;
   } catch (err) {
-    window.location = "/login";
+    // window.location = "/login";
+    throw err;
+  }
+}
+
+export async function getAllCategoriesAuth() {
+  try {
+    const response = await axiosInstance.get("/categories");
+    return response.data.data;
+  } catch (err) {
+    console.log("error", err);
+    // window.location = "/login";
     throw err;
   }
 }
@@ -83,8 +94,16 @@ export async function createUser(postData) {
 
 export async function login(postData) {
   try {
-    console.log(postData);
     const response = await axiosInstance.post("/login", postData);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function getAuth() {
+  try {
+    const response = await axiosInstance.get("/isAuthorized");
     return response.data;
   } catch (err) {
     throw err;
@@ -101,22 +120,16 @@ export async function testAuthorize(postData) {
   }
 }
 
-export async function getPostsByFilters(
-  categoryId,
-  startDate,
-  endDate,
-  minGPA,
-  maxGPA,
-  testname,
-  outcome
-) {
+export async function getPostsByFilters(filter) {
   try {
     const response = await axiosInstance.get(
-      `/filters/category/${categoryId}`,
-      { startDate, endDate, minGPA, maxGPA, testname, outcome }
+      "/filters/category",
+      { params: filter }
     );
     return response.data.data;
   } catch (err) {
     throw err;
   }
 }
+
+

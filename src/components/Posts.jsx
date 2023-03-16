@@ -1,19 +1,25 @@
-import { Card, Text, Grid, Badge, Container, Group } from "@mantine/core";
-import { Link } from "react-router-dom";
-import "../App.css";
-import * as postApi from "../api";
-import React, { useState, useEffect } from "react";
+import {
+  Card,
+  Text,
+  // Grid,
+  Badge,
+  // Container,
+  Group,
+} from '@mantine/core'
+import { Link } from 'react-router-dom'
+import '../App.css'
+import * as postApi from '../api'
+import React, { useEffect } from 'react'
 
 function Posts(props) {
-  const [posts, setPosts] = useState([]);
-  const { query } = props;
+  const { query, posts, setPosts } = props
   useEffect(() => {
     postApi
       .getPostsByCategory(props.category_id)
-      .then((posts) => setPosts(posts));
-  }, []);
+      .then((posts) => setPosts(posts))
+  }, []) //eslint-disable-line
   if (!posts) {
-    return null;
+    return null
   }
 
   return (
@@ -29,9 +35,13 @@ function Posts(props) {
             to={`/feed/post`}
             key={index}
             state={{ from: post._id }}
-            style={{ textDecoration: "none" }}
-          >
-            <Card className="post-box" shadow="sm" radius="md" withBorder>
+            style={{ textDecoration: 'none' }}>
+            <Card
+              className="post-box"
+              shadow="sm"
+              radius="md"
+              withBorder
+              style={{ zIndex: -99 }}>
               <div className="post-content">
                 <Text size="xl" weight={700}>
                   {post.title}
@@ -56,7 +66,7 @@ function Posts(props) {
           </Link>
         ))}
     </div>
-  );
+  )
 }
 
-export default Posts;
+export default Posts
