@@ -102,7 +102,6 @@ router.get("/posts/:postId", async (req, res) => {
 
     const decoded = decodeTokenFromRequest(req);
 
-    console.log(decoded.id==post.user_id);
     const postUpdate = {
       ...post._doc,
       editable: decoded ? decoded.id == post.user_id : false,
