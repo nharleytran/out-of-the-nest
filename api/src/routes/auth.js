@@ -17,7 +17,7 @@ const decodeTokenFromRequest = (req) => {
   const bearer = bearerHeader.split(" ");
   const token = bearer[1];
   const secret = process.env.REACT_APP_JWT_SECRET;
-  const decoded = null;
+  let decoded = null;
   try {
     decoded = jwt.verify(token, secret);
   } catch (err) {
@@ -88,7 +88,7 @@ authRouter.post("/login", async (req, res, next) => {
       status: 200,
       message: `Successfully signed in!`,
       data: {
-        name: user.name,
+        user_name: user.name,
         user_id: user._id,
         email: user.email,
         token: token,

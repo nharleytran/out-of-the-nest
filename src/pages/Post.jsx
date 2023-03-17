@@ -58,6 +58,7 @@ function Post() {
     API.deletePost(id).then(navigate("/"));
   };
 
+  console.log(editable);
   const editBtn = !editable ? null : (
     <>
       <Link to={`/edit`} state={{ from: id }}>
