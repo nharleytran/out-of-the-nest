@@ -17,8 +17,13 @@ const decodeTokenFromRequest = (req) => {
   const bearer = bearerHeader.split(" ");
   const token = bearer[1];
   const secret = process.env.REACT_APP_JWT_SECRET;
-  console.log("token", token);
-  return token !== "null" ? jwt.verify(token, secret) : null;
+  const decoded = null;
+  try {
+    decoded = jwt.verify(token, secret);
+  } catch (err) {
+    console.error(err);
+  }
+  return token !== "null" ? decoded : null;
 };
 
 const checkPermission = (req, res, next) => {
