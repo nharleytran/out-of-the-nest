@@ -18,6 +18,27 @@ describe("Posts Test", () => {
   afterAll(async () => {
     await mongoose.connection.close();
   });
+  it("Get a post unauthorized", async () => {
+    const token = await getAuthorizeToken();
+    const api_url = getApiUrl();
+
+    const response = await request
+      .post(`${api_url}/posts`)
+      .send({
+        title: "Test Post",
+        content: "Test Content",
+        author: "Test Author",
+      })
+      .set("Authorization", `Bearer ${token}`);
+    expect(response.status).toBe(200); //expect to success create
+
+    const post_id = response._body.data._id;
+    let getpostReponse = await request
+      .get(`${api_url}/posts/` + post_id)
+    expect(getpostReponse.status).toBe(200); //check if it is created
+  });
+
+
 
   it("Create new post and delete", async () => {
     const token = await getAuthorizeToken();
