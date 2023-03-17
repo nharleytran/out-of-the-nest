@@ -137,7 +137,7 @@ router.put("/posts/:postId", checkPermission, async (req, res) => {
 
 router.get(
   "/filters/category",
-  checkPermission,
+  // checkPermission,
   async (req, res) => {
     const { categoryId, sortBy, outcome, international } = req.query;
     try {
