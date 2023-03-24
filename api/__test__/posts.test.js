@@ -6,8 +6,7 @@ const UserDAO = require("../src/data/UserDAO");
 const PostDAO = require("../src/data/PostDAO");
 const mongoose = require("mongoose");
 
-const userDAO = new UserDAO();
-const postDAO = new PostDAO();
+
 const request = new supertest(app);
 
 describe("Posts Test", () => {
