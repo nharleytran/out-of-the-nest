@@ -30,7 +30,6 @@ const lorem = new LoremIpsum({
 
 const empty_post = {
   name: "",
-  outcome: "",
   bio: "",
   address: "",
   email: "",
@@ -42,13 +41,11 @@ const empty_post = {
 };
 const random_post = () => {
   return {
-    title: lorem.generateWords(5),
     bio: lorem.generateParagraphs(2),
-    address: lorem.word(5),
-    gpa: 3.5,
-    testscore: 1500,
+    address: lorem.generateWords(5),
+    school: lorem.generateWords(5),
+    interests: lorem.generateWords(5),
     resume: "https://www.google.com",
-    extracurriculars: ["eng", "club"]
   };
 };
 const dummy_generate = () => {
@@ -64,27 +61,31 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const form = useForm({
     initialValues: {
-      title: "",
-      outcome: "",
       bio: "",
       address: "",
       gpa: 0,
       testscore: "",
       resume: "",
-      extracurriculars: "",
-      international: false,
+      school: "",
+      interests: "",
     }
   });
 
   useEffect(() => {
     const fetchData = async () => {
+      const user_id = localStorage.getItem("user_id");
+      postapi.getUser(user_id).then(data => {
+        form.setValues(data);
+      });
     };
+    form.setValues(dummy_generate());
+    fetchData();
   }, []);
   const handleSubmit = async data => {
-    // const data = await postapi.createPost(form.values);
-    // navigate(`/post/${data._id}`);
-    await postapi.createPost(data);
+    const user_id = localStorage.getItem("user_id");
+    await postapi.updateUserProfile(user_id, data);
     navigate("/", { state: { data } });
+
   };
 
   return (
@@ -92,7 +93,7 @@ const UserProfile = () => {
       <Title order={2}>User Profile</Title>
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <TextInput
-          placeholder="Your post title"
+          placeholder="Your name"
           label="Name"
           {...form.getInputProps("name", {
             type: "text"
@@ -100,28 +101,33 @@ const UserProfile = () => {
           withAsterisk
         />
         <TextInput
-          placeholder="Your post title"
+          placeholder="Your email"
+          disabled
           label="Email"
           {...form.getInputProps("email", {
             type: "text"
           })}
-          withAsterisk
         />
         <TextInput
-          placeholder="Your post title"
+          placeholder="Your address"
           label="Address"
           {...form.getInputProps("address", {
             type: "text"
           })}
-          withAsterisk
+        />
+        <TextInput
+          placeholder="Your school"
+          label="School"
+          {...form.getInputProps("school", {
+            type: "text"
+          })}
         />
         <TextInput
           placeholder="Your post title"
-          label="address"
-          {...form.getInputProps("name", {
+          label="Interests"
+          {...form.getInputProps("interests", {
             type: "text"
           })}
-          withAsterisk
         />
         <Textarea
           placeholder="Add comments"
@@ -131,36 +137,13 @@ const UserProfile = () => {
             type: "text"
           })}
         />
-        <NumberInput
-          placeholder="Your GPA"
-          label="GPA"
-          precision={2}
-          min={0.0}
-          {...form.getInputProps("gpa", {
-            type: "number"
-          })}
-          step={0.01}
-          withAsterisk
-        />
         <TextInput
           placeholder="Your resume"
           label="Please enter a shareable link that contains your resume (ex. Google drive)"
           {...form.getInputProps("resume", {
             type: "text"
           })}
-          withAsterisk
         />
-        <Checkbox
-          label="I am an International Student"
-          onChange={event => {
-            form.setValues({
-              ...form.values,
-              international: event.currentTarget.checked
-            });
-          }}
-          style={{ marginTop: "10px", marginBottom: "20px" }}
-        />
-
         <Group position="right" mt="md">
           <Button type="submit"> Update </Button>{" "}
           <Button onClick={() => navigate("/")}>Cancel</Button>

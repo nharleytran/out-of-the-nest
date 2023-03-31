@@ -24,6 +24,10 @@ class UserDAO {
     return user;
   }
 
+  async updateUserProfile(userId, updatedFields) {
+    const user = await User.findOneAndUpdate({ _id: userId }, updatedFields);
+    return user;
+  }
   async deleteUserByEmail(email) {
     await User.deleteOne({email});
   }
