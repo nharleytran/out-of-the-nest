@@ -19,4 +19,19 @@ function connect(URI) {
   });
 }
 
+function connectGridFs(URI) {
+  const url = config.mongoURI;
+  const connect = mongoose.createConnection(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
+  let gfs;
+  connect.once('open', () => {
+    gfs = new mongoose.mongo.GridFSBucket(connect.db, {
+      bucketName: "uploads"
+    });
+  });
+  return gfs;
+}
+
 module.exports = { connect };

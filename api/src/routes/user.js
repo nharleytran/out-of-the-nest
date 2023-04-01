@@ -3,9 +3,87 @@ const UserDAO = require("../data/UserDAO.js");
 const { hashPassword } = require("../util/password.js");
 const jwt = require("jsonwebtoken");
 const { checkPermission } = require("./auth.js");
+const multer = require('multer');
 
 const router = express.Router();
 const userDao = new UserDAO();
+
+ 
+// var storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, './public/')
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.fieldname + '-' + Date.now())
+//     }
+// });
+ 
+// var upload = multer({ storage: storage });
+const GridFsStorage = require('multer-gridfs-storage');
+// create storage engine
+const storage = new GridFsStorage({
+  url: config.mongoURI,
+  file: (req, file) => {
+      return new Promise((resolve, reject) => {
+          crypto.randomBytes(16, (err, buf) => {
+              if (err) {
+                  return reject(err);
+              }
+              const filename = buf.toString('hex') + path.extname(file.originalname);
+              const fileInfo = {
+                  filename: filename,
+                  bucketName: 'uploads'
+              };
+              resolve(fileInfo);
+          });
+      });
+  }
+});
+
+const upload = multer({ storage });
+
+router.post("/user/image", upload.single('file'), (req, res, next) => {
+    console.log(req.body);
+    // check for existing images
+    Image.findOne({ caption: req.body.caption })
+        .then((image) => {
+            console.log(image);
+            if (image) {
+                return res.status(200).json({
+                    success: false,
+                    message: 'Image already exists',
+                });
+            }
+
+            let newImage = new Image({
+                caption: req.body.caption,
+                filename: req.file.filename,
+                fileId: req.file.id,
+            });
+
+            newImage.save()
+                .then((image) => {
+
+                    res.status(200).json({
+                        success: true,
+                        image,
+                    });
+                })
+                .catch(err => res.status(500).json(err));
+        })
+        .catch(err => res.status(500).json(err));
+})
+.get((req, res, next) => {
+    Image.find({})
+        .then(images => {
+            res.status(200).json({
+                success: true,
+                images,
+            });
+        })
+        .catch(err => res.status(500).json(err));
+});
+
 
 router.post("/user/create", async (req, res) => {
   const { email, name, password } = req.body;
@@ -25,6 +103,7 @@ router.post("/user/create", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
 router.get("/user/profile/:userId", checkPermission, async (req, res) => {
   const userId = req.params.userId;
 
@@ -41,9 +120,11 @@ router.get("/user/profile/:userId", checkPermission, async (req, res) => {
   }
 });
 
-router.put("/user/update/:userId", checkPermission, async (req, res) => {
+router.put("/user/update/:userId", checkPermission, upload.single("profileImage"), async (req, res) => {
   const postId = req.params.userId;
   const updatedFields = req.body;
+  const url = req.protocol + '://' + req.get('host')
+  console.log(61,url)
 
   try {
     const updatedPost = await userDao.updateUserProfile(postId, updatedFields);

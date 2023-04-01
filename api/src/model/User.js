@@ -29,6 +29,9 @@ const UserSchema = new mongoose.Schema({
   linkedin: {
     type: String,
   },
+  profileImage: {
+    type: String,
+  },
 });
 
 const User = mongoose.model("User", UserSchema);

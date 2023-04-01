@@ -63,6 +63,7 @@ const dummy_generate = () => {
 
 const UserProfile = () => {
   const navigate = useNavigate();
+  // const [image, setImage] = useState < File > (null);
   const form = useForm({
     initialValues: {
       bio: "",
@@ -72,7 +73,7 @@ const UserProfile = () => {
       resume: "",
       school: "",
       interests: "",
-      profile_image: "",
+      profileImage: "",
     }
   });
 
@@ -89,6 +90,7 @@ const UserProfile = () => {
   const handleSubmit = async data => {
     const user_id = localStorage.getItem("user_id");
     console.log(data);
+    debugger;
     await postapi.updateUserProfile(user_id, data);
     // navigate("/", { state: { data } });
 
@@ -97,9 +99,16 @@ const UserProfile = () => {
   return (
     <Box maw={500} mx="auto">
       <Title order={2}>User Profile</Title>
-      <form onSubmit={form.onSubmit(handleSubmit)}>
+      <form enctype="multipart/form-data" onSubmit={form.onSubmit(handleSubmit)}>
         <Avatar radius="md" size={200} src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80" />
-        <FileInput label="profile_image" placeholder="Upload files" accept="image/png,image/jpeg" icon={<IconUpload size={rem(14)} />} />
+        {/* <FileInput label="Profile Image" placeholder="Upload files" accept="image/png,image/jpeg" icon={<IconUpload size={rem(14)} />} /> */}
+        <input
+          type="file"
+          className="Upload__Input"
+          onChange={(event) => {
+            console.log(event.target.files[0]);
+          }}
+        />
         <TextInput
           placeholder="Your name"
           label="Name"
@@ -161,3 +170,20 @@ const UserProfile = () => {
   );
 };
 export default UserProfile;
+// import { useState } from 'react';
+// import { FileInput } from '@mantine/core';
+
+
+// function UserProfile() {
+//   return <input
+//     type="file"
+//     className="Upload__Input"
+//     onChange={(event) => {
+//       console.log(event.target.files[0]);
+//     }}
+//   />
+
+// }
+// function UserProfile1() {
+// }
+// export default UserProfile;

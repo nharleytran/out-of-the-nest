@@ -1,5 +1,5 @@
 const User = require("../model/User.js");
-
+const multer = require('multer');
 class UserDAO {
   async createUser({ email, name, password }) {
     const user = await User.create({
