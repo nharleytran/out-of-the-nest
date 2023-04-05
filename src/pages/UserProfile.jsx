@@ -76,6 +76,9 @@ const UserProfile = () => {
       profileImage: "",
     }
   });
+  const [image, setImage] = useState("https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80");
+  const [file, setFile] = useState(null);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -100,13 +103,16 @@ const UserProfile = () => {
     <Box maw={500} mx="auto">
       <Title order={2}>User Profile</Title>
       <form enctype="multipart/form-data" onSubmit={form.onSubmit(handleSubmit)}>
-        <Avatar radius="md" size={200} src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80" />
+        <Avatar radius="md" size={200} src={image} />
         {/* <FileInput label="Profile Image" placeholder="Upload files" accept="image/png,image/jpeg" icon={<IconUpload size={rem(14)} />} /> */}
         <input
           type="file"
           className="Upload__Input"
           onChange={(event) => {
-            console.log(event.target.files[0]);
+            const file = event.target.files[0];
+            const url = URL.createObjectURL(file);
+            setFile(file);
+            setImage(url);
           }}
         />
         <TextInput

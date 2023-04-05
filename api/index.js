@@ -1,5 +1,5 @@
-const db = require("./src/data/db.js");
 const app = require("./src/app.js");
+const db = require("./src/data/db.js");
 db.connect(process.env.REACT_APP_DB_URI);
 
 if (process.env.PORT) {
