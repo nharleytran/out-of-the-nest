@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const {GridFsStorage} = require('multer-gridfs-storage');
+const crypto = require('crypto');
 const multer = require('multer');
 const path = require('path');
 
@@ -21,43 +22,31 @@ function connect(URI) {
   });
 }
 
-const conn = mongoose.createConnection(process.env.REACT_APP_DB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-let gfs;
-conn.once('open', () => {
-  gfs = new mongoose.mongo.GridFSBucket(conn.db, {
-    bucketName: 'images',
-  });
-});
 
 const storage = new GridFsStorage({
   url: process.env.REACT_APP_DB_URI,
   options: { useUnifiedTopology: true },
-  // file: (req, file) => {
-  //   // this function runs every time a new file is created
-  //   return new Promise((resolve, reject) => {
-  //     // use the crypto package to generate some random hex bytes
-  //     crypto.randomBytes(16, (err, buf) => {
-  //       if (err) {
-  //         return reject(err);
-  //       }
-  //       // turn the random bytes into a string and add the file extention at the end of it (.png or .jpg)
-  //       // this way our file names will not collide if someone uploads the same file twice
-  //       const filename = buf.toString('hex') + path.extname(file.originalname);
-  //       const fileInfo = {
-  //         filename: filename,
-  //         bucketName: 'images',
-  //       };
-  //       // resolve these properties so they will be added to the new file document
-  //       resolve(fileInfo);
-  //     });
-  //   });
-  // },
+  file: (req, file) => {
+    // this function runs every time a new file is created
+    return new Promise((resolve, reject) => {
+      // use the crypto package to generate some random hex bytes
+      crypto.randomBytes(16, (err, buf) => {
+        if (err) {
+          return reject(err);
+        }
+        // turn the random bytes into a string and add the file extention at the end of it (.png or .jpg)
+        // this way our file names will not collide if someone uploads the same file twice
+        const filename = buf.toString('hex') + path.extname(file.originalname);
+        const fileInfo = {
+          filename: filename,
+          bucketName: 'ProfilePictures',
+        };
+        // resolve these properties so they will be added to the new file document
+        resolve(fileInfo);
+      });
+    });
+  },
 });
-
 // set up our multer to use the gridfs storage defined above
 const store = multer({
   storage,
@@ -99,6 +88,5 @@ const uploadMiddleware = (req, res, next) => {
     next();
   });
 };
-
 
 module.exports = { connect, uploadMiddleware };

@@ -5,7 +5,6 @@ const posts = require("./routes/posts.js");
 const users = require("./routes/user.js");
 const images = require("./routes/images.js");
 const { authRouter, checkPermission } = require("./routes/auth.js");
-const db = require("./data/db.js");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 

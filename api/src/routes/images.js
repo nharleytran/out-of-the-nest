@@ -1,7 +1,20 @@
 const express = require("express");
-const {uploadMiddleware, gfs} = require('../data/db.js');
+const mongoose = require("mongoose");
+const {uploadMiddleware} = require('../data/db.js');
 const router = express.Router();
-router.post('/image/upload/',uploadMiddleware, async (req, res) => {
+
+const conn = mongoose.createConnection(process.env.REACT_APP_DB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+conn.once('open', () => {
+  gfs = new mongoose.mongo.GridFSBucket(conn.db, {
+    bucketName: 'ProfilePictures',
+  });
+});
+
+router.post('/image/upload/', uploadMiddleware, async (req, res) => {
     // get the .file property from req that was added by the upload middleware
     console.log(req.file);
     console.log(req.body);
@@ -36,13 +49,18 @@ router.get('/image/:id', ({ params: { id } }, res) => {
     if (!id || id === 'undefined') return res.status(400).send('no image id');
     // if there is an id string, cast it to mongoose's objectId type
     const _id = new mongoose.Types.ObjectId(id);
+    console.log('id: ', _id);
     // search for the image by id
+    var files = gfs.find({}).toArray();
+    console.log(files);
     gfs.find({ _id }).toArray((err, files) => {
-        if (!files || files.length === 0)
-            return res.status(400).send('no files exist');
-        // if a file exists, send the data
-        gfs.openDownloadStream(_id).pipe(res);
+        console.log(files);
+      if (!files || files.length === 0)
+        return res.status(400).send('no files exist');
+      // if a file exists, send the data
+      gfs.openDownloadStream(_id).pipe(res);
     });
-});
+  });
+  
 
 module.exports = router;
