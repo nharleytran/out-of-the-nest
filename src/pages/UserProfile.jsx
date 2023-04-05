@@ -20,6 +20,7 @@ import { useForm } from "@mantine/form";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as postapi from "../api/index";
+import { uploadImage } from '../api/image_api';
 
 const lorem = new LoremIpsum({
   sentencesPerParagraph: {
@@ -73,10 +74,10 @@ const UserProfile = () => {
       resume: "",
       school: "",
       interests: "",
-      profileImage: "",
+      profileImageId: "",
     }
   });
-  const [image, setImage] = useState("https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80");
+  const [image, setImage] = useState("");
   const [file, setFile] = useState(null);
 
 
@@ -85,6 +86,8 @@ const UserProfile = () => {
       const user_id = localStorage.getItem("user_id");
       postapi.getUser(user_id).then(data => {
         form.setValues(data);
+        console.log(data.profileImageId)
+        setImage(`http://localhost:8080/api/image/${data.profileImageId}`);
       });
     };
     form.setValues(dummy_generate());
@@ -92,9 +95,17 @@ const UserProfile = () => {
   }, []);
   const handleSubmit = async data => {
     const user_id = localStorage.getItem("user_id");
-    console.log(data);
-    debugger;
-    await postapi.updateUserProfile(user_id, data);
+
+    const fd = new FormData();
+    fd.append('image', file, file.name);
+    //generate random id
+    uploadImage(fd).then(({ data }) => {
+      console.log(data);
+      form.setFieldValue("profileImageId", data)
+      const updateFields = { ...form.values, profileImageId: data };
+      postapi.updateUserProfile(user_id, updateFields);
+    });
+    // await postapi.updateUserProfile(user_id, data);
     // navigate("/", { state: { data } });
 
   };
@@ -102,7 +113,7 @@ const UserProfile = () => {
   return (
     <Box maw={500} mx="auto">
       <Title order={2}>User Profile</Title>
-      <form enctype="multipart/form-data" onSubmit={form.onSubmit(handleSubmit)}>
+      <form onSubmit={form.onSubmit(handleSubmit)}>
         <Avatar radius="md" size={200} src={image} />
         {/* <FileInput label="Profile Image" placeholder="Upload files" accept="image/png,image/jpeg" icon={<IconUpload size={rem(14)} />} /> */}
         <input

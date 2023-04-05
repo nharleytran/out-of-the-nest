@@ -47,8 +47,6 @@ router.get("/user/profile/:userId", checkPermission, async (req, res) => {
 router.put("/user/update/:userId", checkPermission,  async (req, res) => {
   const postId = req.params.userId;
   const updatedFields = req.body;
-  const url = req.protocol + '://' + req.get('host')
-  console.log(61,url)
 
   try {
     const updatedPost = await userDao.updateUserProfile(postId, updatedFields);
