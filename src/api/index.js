@@ -138,7 +138,6 @@ export async function getPostsByFilters(filter) {
 
 export async function getAllComments(postId) {
   try {
-    console.log(baseURL);
     const response = await axiosInstance.get(`/posts/${postId}/comments`);
     return response.data.data;
   } catch (err) {

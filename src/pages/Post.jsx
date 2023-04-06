@@ -61,9 +61,10 @@ function Post() {
       setResume(data.resume);
       setEditable(data.editable);
       setInternational(data.international);
+      // setComments(data.comments);
     });
-    API.getAllComments(from).then((data) => {
-      console.log(data);
+    API.getAllComments(id).then((data) => {
+      setComments(data);
     });
   });
 
@@ -76,6 +77,16 @@ function Post() {
     event.preventDefault();
     console.log(id, postComment);
     API.createComment(id, postComment).then(console.log("API called"));
+  };
+
+  const upvote = (event) => {
+    event.preventDefault();
+    console.log("up");
+  };
+
+  const downvote = (event) => {
+    event.preventDefault();
+    console.log("down");
   };
 
   const editBtn = !editable ? null : (
@@ -150,14 +161,11 @@ function Post() {
           <Title size="h2" color={"blue"}>Comments</Title>
           {comments.map((comment, index) => (
             <Card shadow="sm" radius="md" key={index} withBorder>
-              <Text weight={500}>{comment.author}</Text>
-              <Text size="sm" color="dimmed">{comment.detail}</Text>
+              <Text weight={500}>User ID: {comment.user_id}</Text>
+              <Text size="sm" color="dimmed">{comment.text}</Text>
               <Group position="left" mb="xs">
-                <Badge color="red" variant="filled">Likes:{comment.likes}</Badge>
-                <Badge color="green" variant="filled">Dislikes:{comment.dislikes}</Badge>
-                <Badge color={comment.endorse ? "green" : "red"} variant="dot">
-                  {comment.endorse ? "Endorsed the Post" : "Unendorsed the Post"}
-                </Badge>
+                <Badge color="red" variant="filled" onClick={upvote}>Likes:{comment.like}</Badge>
+                <Badge color="green" variant="filled" onClick={downvote}>Dislikes:{comment.dislike}</Badge>
               </Group>
             </Card>
           ))}
