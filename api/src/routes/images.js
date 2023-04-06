@@ -1,56 +1,59 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const {GridFsStorage} = require('multer-gridfs-storage');
+const { GridFsStorage } = require('multer-gridfs-storage');
 const crypto = require('crypto');
 const multer = require('multer');
 const path = require('path');
 const router = express.Router();
 
-const conn = mongoose.createConnection(process.env.REACT_APP_DB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-conn.once('open', () => {
-  gfs = new mongoose.mongo.GridFSBucket(conn.db, {
-    bucketName: 'ProfilePictures',
+let gfs, store;
+if (process.env.REACT_APP_DB_URI) {
+  const conn = mongoose.createConnection(process.env.REACT_APP_DB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
   });
-});
 
-const storage = new GridFsStorage({
-  url: process.env.REACT_APP_DB_URI,
-  options: { useUnifiedTopology: true },
-  file: (req, file) => {
-    // this function runs every time a new file is created
-    return new Promise((resolve, reject) => {
-      // use the crypto package to generate some random hex bytes
-      crypto.randomBytes(16, (err, buf) => {
-        if (err) {
-          return reject(err);
-        }
-        // turn the random bytes into a string and add the file extention at the end of it (.png or .jpg)
-        // this way our file names will not collide if someone uploads the same file twice
-        const filename = buf.toString('hex') + path.extname(file.originalname);
-        const fileInfo = {
-          filename: filename,
-          bucketName: 'ProfilePictures',
-        };
-        // resolve these properties so they will be added to the new file document
-        resolve(fileInfo);
-      });
+  conn.once('open', () => {
+    gfs = new mongoose.mongo.GridFSBucket(conn.db, {
+      bucketName: 'ProfilePictures',
     });
-  },
-});
-// set up our multer to use the gridfs storage defined above
-const store = multer({
-  storage,
-  // limit the size to 20mb for any files coming in
-  limits: { fileSize: 20000000 },
-  // filer out invalid filetypes
-  fileFilter: function (req, file, cb) {
-    checkFileType(file, cb);
-  },
-});
+  });
+
+  const storage = new GridFsStorage({
+    url: process.env.REACT_APP_DB_URI,
+    options: { useUnifiedTopology: true },
+    file: (req, file) => {
+      // this function runs every time a new file is created
+      return new Promise((resolve, reject) => {
+        // use the crypto package to generate some random hex bytes
+        crypto.randomBytes(16, (err, buf) => {
+          if (err) {
+            return reject(err);
+          }
+          // turn the random bytes into a string and add the file extention at the end of it (.png or .jpg)
+          // this way our file names will not collide if someone uploads the same file twice
+          const filename = buf.toString('hex') + path.extname(file.originalname);
+          const fileInfo = {
+            filename: filename,
+            bucketName: 'ProfilePictures',
+          };
+          // resolve these properties so they will be added to the new file document
+          resolve(fileInfo);
+        });
+      });
+    },
+  });
+  // set up our multer to use the gridfs storage defined above
+  store = multer({
+    storage,
+    // limit the size to 20mb for any files coming in
+    limits: { fileSize: 20000000 },
+    // filer out invalid filetypes
+    fileFilter: function (req, file, cb) {
+      checkFileType(file, cb);
+    },
+  });
+}
 
 function checkFileType(file, cb) {
   // https://youtu.be/9Qzmri1WaaE?t=1515
@@ -82,26 +85,26 @@ const uploadMiddleware = (req, res, next) => {
   });
 };
 router.post('/image/upload/', uploadMiddleware, async (req, res) => {
-    // get the .file property from req that was added by the upload middleware
-    const { file } = req;
-    // and the id of that new image file
-    const { id } = file;
-    // we can set other, smaller file size limits on routes that use the upload middleware
-    // set this and the multer file size limit to whatever fits your project
-    if (file.size > 5000000) {
-        // if the file is too large, delete it and send an error
-        deleteImage(id);
-        return res.status(400).send('file may not exceed 5mb');
-    }
-    return res.send(file.id);
+  // get the .file property from req that was added by the upload middleware
+  const { file } = req;
+  // and the id of that new image file
+  const { id } = file;
+  // we can set other, smaller file size limits on routes that use the upload middleware
+  // set this and the multer file size limit to whatever fits your project
+  if (file.size > 5000000) {
+    // if the file is too large, delete it and send an error
+    deleteImage(id);
+    return res.status(400).send('file may not exceed 5mb');
+  }
+  return res.send(file.id);
 });
 
 const deleteImage = (id) => {
-    if (!id || id === 'undefined') return res.status(400).send('no image id');
-    const _id = new mongoose.Types.ObjectId(id);
-    gfs.delete(_id, (err) => {
-        if (err) return res.status(500).send('image deletion error');
-    });
+  if (!id || id === 'undefined') return res.status(400).send('no image id');
+  const _id = new mongoose.Types.ObjectId(id);
+  gfs.delete(_id, (err) => {
+    if (err) return res.status(500).send('image deletion error');
+  });
 };
 
 // this route will be accessed by any img tags on the front end which have
@@ -109,19 +112,18 @@ const deleteImage = (id) => {
 // <img src="/api/image/123456789" alt="example"/>
 // <img src={`/api/image/${user.profilePic}`} alt="example"/>
 router.get('/image/:id', ({ params: { id } }, res) => {
-    // if no id return error
-    if (!id || id === 'undefined') return res.status(400).send('no image id');
-    // if there is an id string, cast it to mongoose's objectId type
-    const _id = new mongoose.Types.ObjectId(id);
-    // search for the image by id
-    var files = gfs.find({}).toArray();
-    gfs.find({ _id }).toArray((err, files) => {
-      if (!files || files.length === 0)
-        return res.status(400).send('no files exist');
-      // if a file exists, send the data
-      gfs.openDownloadStream(_id).pipe(res);
-    });
+  // if no id return error
+  if (!id || id === 'undefined') return res.status(400).send('no image id');
+  // if there is an id string, cast it to mongoose's objectId type
+  const _id = new mongoose.Types.ObjectId(id);
+  // search for the image by id
+  gfs.find({ _id }).toArray((err, files) => {
+    if (!files || files.length === 0)
+      return res.status(400).send('no files exist');
+    // if a file exists, send the data
+    gfs.openDownloadStream(_id).pipe(res);
   });
-  
+});
+
 
 module.exports = router;
