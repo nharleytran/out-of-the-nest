@@ -63,7 +63,7 @@ function Post() {
       setInternational(data.international);
       // setComments(data.comments);
     });
-    API.getAllComments(id).then((data) => {
+    API.getAllComments(from).then((data) => {
       setComments(data);
     });
   });
