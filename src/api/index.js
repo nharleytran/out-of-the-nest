@@ -135,24 +135,28 @@ export async function getPostsByFilters(filter) {
 //COMMENT
 
 // Get all comments of a post
+
 export async function getAllComments(postId) {
   try {
-  const response = await axiosInstance.get("/posts/${postId}/comments");
-  return response.data;
+    console.log(baseURL);
+    const response = await axiosInstance.get(`/posts/${postId}/comments`);
+    return response.data.data;
   } catch (err) {
-  throw err;
+    throw err;
   }
-  }
+}
   
   // Create a new comment for a post
   export async function createComment(postId, text) {
   try {
-  const response = await axiosInstance.post("/posts/${postId}/comments, { text }");
+  const comment = { text:text }
+  const response = await axiosInstance.post(`/posts/${postId}/comments`, comment);
   return response.data;
   } catch (err) {
   throw err;
   }
   }
+
   
   // Update a comment in a post
   export async function updateComment(postId, commentId, updatedComment) {

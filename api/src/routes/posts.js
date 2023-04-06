@@ -165,24 +165,23 @@ router.get(
 
 // Get all comments of a post
 router.get("/posts/:postId/comments", async (req, res) => {
+  console.log("inside route");
   const postId = req.params.postId;
   try {
+    console.log(postId);
     const comments = await postDao.getComments(postId);
-
+    console.log(comments);
     const decoded = decodeTokenFromRequest(req);
-
     const updatedComments = comments.map(comment => {
-      const editable = decoded ? decoded.id == comment.user_id : false;
-      const user_name = user ? user.name : "";
       return {
-        ...comment._doc,
-        editable,
-        user_name,
+        ...comment?._doc,
+        editable : decoded ? decoded.id == comment.user_id : false,
+        user_name: decoded ? (user?.name ?? "") : ""
       };
     });
     res.json({
       status: 200,
-      message: `Successfully get all comments for post with id: "${postId}"`,
+      message: `Successfully get all comments for post with id: ${postId}`,
       data: updatedComments,
     });
   } catch (error) {
@@ -196,6 +195,8 @@ router.post("/posts/:postId/comments", checkPermission, async (req, res) => {
   const postId = req.params.postId;
   const text = req.body.text;
   const user_id = req.user_id;
+
+  console.log(text);
 
   try {
     const post = await postDao.createComment(postId, text, user_id);

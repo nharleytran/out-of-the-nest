@@ -136,7 +136,10 @@ class PostDAO {
   }
 
   async getComments(postId) {
+
     const post = await Post.findById(postId);
+    console.log(post)
+    console.log(post.comments)
     return post.comments;
   }
 

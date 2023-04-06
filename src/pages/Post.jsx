@@ -39,16 +39,16 @@ function Post() {
   const { from } = location.state;
   const [international, setInternational] = useState(false);
   const [postComment, setPostComment] = useState("");
+  const [comments, setComments] = useState([]);
   
-  const comments = [
-    { author: "Example Author 1", detail: "Example Content 1", endorse: true, likes: 9, dislikes: 2 },
-    { author: "Example Author 2", detail: "Example Content 2", endorse: false, likes: 5, dislikes: 1  },
-    { author: "Example Author 3", detail: "Example Content 3", endorse: true, likes: 12, dislikes: 0  }
-  ];
+  // const comments = [
+  //   { author: "Example Author 1", detail: "Example Content 1", endorse: true, likes: 9, dislikes: 2 },
+  //   { author: "Example Author 2", detail: "Example Content 2", endorse: false, likes: 5, dislikes: 1  },
+  //   { author: "Example Author 3", detail: "Example Content 3", endorse: true, likes: 12, dislikes: 0  }
+  // ];
 
   useEffect(() => {
     API.getPost(from).then((data) => {
-      console.log(data);
       setExtra(data.extracurriculars[0]);
       setAuthor(data.anonymous ? "Anonymous" : data.user_name);
       setContent(data.content);
@@ -61,7 +61,9 @@ function Post() {
       setResume(data.resume);
       setEditable(data.editable);
       setInternational(data.international);
-
+    });
+    API.getAllComments(from).then((data) => {
+      console.log(data);
     });
   });
 
@@ -72,10 +74,10 @@ function Post() {
 
   const submitComment = (event) => {
     event.preventDefault();
-    console.log(postComment);
+    console.log(id, postComment);
+    API.createComment(id, postComment).then(console.log("API called"));
   };
 
-  console.log(editable);
   const editBtn = !editable ? null : (
     <>
       <Link to={`/edit`} state={{ from: id }}>
