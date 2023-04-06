@@ -39,13 +39,9 @@ function Login() {
     try {
       const response = await postApi.login(userFormData)
       if (response.status === 200) {
-        afterReceiveAuth(
-          response.data.user_id,
-          response.data.user_name,
-          response.data.token
-        )
-        const url = location.state ? location.state.from.pathname : '/'
-        setAuth(true)
+        afterReceiveAuth(response.data);
+        const url = location.state ? location.state.from.pathname : "/";
+        setAuth(true);
         notifications.show({
           title: 'Login successfully',
           message: `Redirecting to ${url}`,

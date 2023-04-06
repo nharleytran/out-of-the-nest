@@ -130,11 +130,46 @@ class PostDAO {
     } else if (sortBy === "date_asc") {
       sortParam = { date: 1 };
     }
-  
+
     const filteredPosts = await Post.find(filter).sort(sortParam);
     return filteredPosts;
   }
 
+  async getComments(postId) {
+
+    const post = await Post.findById(postId);
+    return post.comments;
+  }
+
+  async createComment(postId, text, user_id) {
+    const comment = {
+      text: text,
+      user_id: user_id,
+      like: 0,
+      dislike: 0
+    }
+    const post = await Post.findById(postId);
+    post.comments.push(comment);
+    await post.save();
+    return post;
+  }
+  
+  // Update a comment in a post
+  async updateComment(postId, commentId, updatedComment) {
+    const post = await Post.findById(postId);
+    const commentIndex = post.comments.findIndex(comment => comment._id == commentId);
+    post.comments[commentIndex] = updatedComment;
+    await post.save();
+    return post;
+  }
+  
+  // Delete a comment from a post
+  async deleteComment(postId, commentId) {
+    const post = await Post.findById(postId);
+    post.comments = post.comments.filter(comment => comment._id != commentId);
+    await post.save();
+    return post;
+  }
   // Add more functions to retrieve other fields as needed
 }
 
