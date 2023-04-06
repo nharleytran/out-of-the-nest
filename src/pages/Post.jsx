@@ -12,7 +12,8 @@ import {
   SimpleGrid,
   Textarea,
   Space,
-  Switch
+  Switch,
+  UnstyledButton
 } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -40,12 +41,6 @@ function Post() {
   const [international, setInternational] = useState(false);
   const [postComment, setPostComment] = useState("");
   const [comments, setComments] = useState([]);
-  
-  // const comments = [
-  //   { author: "Example Author 1", detail: "Example Content 1", endorse: true, likes: 9, dislikes: 2 },
-  //   { author: "Example Author 2", detail: "Example Content 2", endorse: false, likes: 5, dislikes: 1  },
-  //   { author: "Example Author 3", detail: "Example Content 3", endorse: true, likes: 12, dislikes: 0  }
-  // ];
 
   useEffect(() => {
     API.getPost(from).then((data) => {
@@ -81,7 +76,7 @@ function Post() {
 
   const upvote = (event) => {
     event.preventDefault();
-    console.log("up");
+    console.log(comments);
   };
 
   const downvote = (event) => {
@@ -161,11 +156,15 @@ function Post() {
           <Title size="h2" color={"blue"}>Comments</Title>
           {comments.map((comment, index) => (
             <Card shadow="sm" radius="md" key={index} withBorder>
-              <Text weight={500}>User ID: {comment.user_id}</Text>
+              <Text weight={500}>Author: {comment.user_name}</Text>
               <Text size="sm" color="dimmed">{comment.text}</Text>
               <Group position="left" mb="xs">
-                <Badge color="red" variant="filled" onClick={upvote}>Likes:{comment.like}</Badge>
-                <Badge color="green" variant="filled" onClick={downvote}>Dislikes:{comment.dislike}</Badge>
+                <UnstyledButton onClick={upvote}>
+                  <Badge color="red" variant="filled">Likes:{comment.like}</Badge>
+                </UnstyledButton>
+                <UnstyledButton onClick={downvote}>
+                  <Badge color="green" variant="filled">Dislikes:{comment.dislike}</Badge>
+                </UnstyledButton>
               </Group>
             </Card>
           ))}
