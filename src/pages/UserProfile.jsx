@@ -89,19 +89,25 @@ const UserProfile = () => {
     form.setValues(dummy_generate());
     fetchData();
   }, []);
-  const handleSubmit = async data => {
-    const user_id = localStorage.getItem("user_id");
-
-    const fd = new FormData();
-    fd.append('image', file, file.name);
-    //generate random id
-    uploadImage(fd).then(({ data }) => {
-      console.log(data);
-      form.setFieldValue("profileImageId", data)
-      const updateFields = { ...form.values, profileImageId: data };
+  const user_id = localStorage.getItem("user_id");
+  const updateFieldFunc=(updateFields)=>{
       updateUserProfile(user_id, updateFields);
       navigate("/");
-    });
+  }
+  const handleSubmit = async data => {
+
+    const fd = new FormData();
+    if (file){
+      fd.append('image', file, file.name);
+      uploadImage(fd).then(({ data }) => {
+        localStorage.setItem("profile_image_id", data);
+        form.setFieldValue("profileImageId", data)
+        const updateFields = { ...form.values, profileImageId: data };
+        updateFieldFunc(updateFields);
+      });
+    }else{
+      updateFieldFunc(form.values);
+    }
 
   };
 
