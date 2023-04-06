@@ -7,6 +7,12 @@ import {
   Title,
   Group,
   Badge,
+  Card,
+  Text,
+  SimpleGrid,
+  Textarea,
+  Space,
+  Switch
 } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -32,7 +38,13 @@ function Post() {
   const location = useLocation();
   const { from } = location.state;
   const [international, setInternational] = useState(false);
-
+  const [postComment, setPostComment] = useState("");
+  
+  const comments = [
+    { author: "Example Author 1", detail: "Example Content 1", endorse: true, likes: 9, dislikes: 2 },
+    { author: "Example Author 2", detail: "Example Content 2", endorse: false, likes: 5, dislikes: 1  },
+    { author: "Example Author 3", detail: "Example Content 3", endorse: true, likes: 12, dislikes: 0  }
+  ];
 
   useEffect(() => {
     API.getPost(from).then((data) => {
@@ -58,6 +70,11 @@ function Post() {
     API.deletePost(id).then(navigate("/"));
   };
 
+  const submitComment = (event) => {
+    event.preventDefault();
+    console.log(postComment);
+  };
+
   console.log(editable);
   const editBtn = !editable ? null : (
     <>
@@ -76,19 +93,11 @@ function Post() {
     <div>
       <Header />
       <Container className="post-page-detail">
-        <Title size="h2" color={"blue"}>
-          {title}
-        </Title>
+        <Title size="h2" color={"blue"}>{title}</Title>
         <Group position="apart">
-          <Badge color="pink" variant="light">
-            {outcome}
-          </Badge>
-          <Badge color="gray" variant="light">
-            GPA {gpa}
-          </Badge>
-          <Badge color="gray" variant="light">
-            Test Score {score}
-          </Badge>
+          <Badge color="pink" variant="light">{outcome}</Badge>
+          <Badge color="gray" variant="light">GPA {gpa}</Badge>
+          <Badge color="gray" variant="light">Test Score {score}</Badge>
           <Badge color="gray" variant="light">
           {new Date(date).toLocaleDateString("en-US", {
                       year: "numeric",
@@ -112,14 +121,45 @@ function Post() {
         </MantineProvider>
         <Group mt="md" mb="xs">
           {extra.split(",").map((activity, index) => (
-            <Badge color="green" key={index}>
-              {activity}
-            </Badge>
+            <Badge color="green" key={index}>{activity}</Badge>
           ))}
           <Badge color="blue" variant="light">
             <a href={resume}>Resume Link</a>
           </Badge>
         </Group>
+      </Container>
+      <Container>
+        <SimpleGrid cols={1} verticalSpacing="sm">
+          <Card shadow="sm" radius="sm">
+            <Textarea
+              placeholder="Enter Your Comment Here"
+              label="Post Your comment!"
+              value={postComment}
+              onChange={(event) => setPostComment(event.currentTarget.value)}
+            />
+            <Space h="sm" />
+            <Group position="apart" mb="xs">
+              <Switch onLabel="Yes" offLabel="No" label="I agree with the author"/>
+              <Button variant="light" color="blue" radius="md" onClick={submitComment}>
+                Publish
+              </Button>
+            </Group>
+          </Card>
+          <Title size="h2" color={"blue"}>Comments</Title>
+          {comments.map((comment, index) => (
+            <Card shadow="sm" radius="md" key={index} withBorder>
+              <Text weight={500}>{comment.author}</Text>
+              <Text size="sm" color="dimmed">{comment.detail}</Text>
+              <Group position="left" mb="xs">
+                <Badge color="red" variant="filled">Likes:{comment.likes}</Badge>
+                <Badge color="green" variant="filled">Dislikes:{comment.dislikes}</Badge>
+                <Badge color={comment.endorse ? "green" : "red"} variant="dot">
+                  {comment.endorse ? "Endorsed the Post" : "Unendorsed the Post"}
+                </Badge>
+              </Group>
+            </Card>
+          ))}
+        </SimpleGrid>
       </Container>
     </div>
   );
