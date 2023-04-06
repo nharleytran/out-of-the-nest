@@ -28,15 +28,13 @@ function Header(props) {
   let logoutButton = null;
   let signupButton = null;
   let avatar = null;
-  console.log('useauth', useAuth().isAuth);
-  if (!useAuth().isAuth) {
+  const hasToken = localStorage.getItem("token");
+  if (!hasToken) {
     loginButton = (
       <Button className="login-button" onClick={() => navigate("/login")}>
         Login
       </Button>
     );
-  }
-  if (!useAuth().isAuth) {
     signupButton = (
       <Button className="login-button" onClick={() => navigate("/user/create")}>
         Sign Up
@@ -44,7 +42,7 @@ function Header(props) {
     );
   }
 
-  if (useAuth().isAuth) {
+  if (hasToken) {
     logoutButton = (
       <Button
         className="login-button"
@@ -56,7 +54,8 @@ function Header(props) {
         Logout
       </Button>
     );
-    avatar = (<Avatar radius='xl' src={getImagePathById(localStorage.getItem("profile_image_id"))} href="/user/profile" component="a" alt="no image here" />);
+    const imageURL=getImagePathById(localStorage.getItem("profile_image_id"));
+    avatar = (<Avatar radius='xl' src={imageURL} href="/user/profile" component="a" alt="no image here" />);
   }
 
 
