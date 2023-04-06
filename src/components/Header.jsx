@@ -8,6 +8,8 @@ import { useState, useEffect } from "react";
 import * as postApi from "../api";
 import { clearAuth } from "../api/auth_util";
 import logo from "../images/outofthenestlogo.png"
+import { Avatar } from '@mantine/core';
+import { getImagePathById } from "../api/image_api";
 
 
 function Header(props) {
@@ -25,6 +27,8 @@ function Header(props) {
   let loginButton = null;
   let logoutButton = null;
   let signupButton = null;
+  let avatar = null;
+  console.log('useauth', useAuth().isAuth);
   if (!useAuth().isAuth) {
     loginButton = (
       <Button className="login-button" onClick={() => navigate("/login")}>
@@ -52,6 +56,7 @@ function Header(props) {
         Logout
       </Button>
     );
+    avatar = (<Avatar radius='xl' src={getImagePathById(localStorage.getItem("profile_image_id"))} href="/user/profile" component="a" alt="no image here" />);
   }
 
 
@@ -67,6 +72,7 @@ function Header(props) {
         {loginButton}
         {logoutButton}
         {signupButton}
+        {avatar}
 
       </div>
     </div>
