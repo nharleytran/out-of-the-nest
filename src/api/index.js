@@ -169,16 +169,16 @@ export async function getAllComments(postId) {
   }
 }
   
-  // Create a new comment for a post
-  export async function createComment(postId, text) {
+// Create a new comment for a post
+export async function createComment(postId, text) {
   try {
-  const comment = { text:text }
-  const response = await axiosInstance.post(`/posts/${postId}/comments`, comment);
-  return response.data;
+    const comment = { text:text }
+    const response = await axiosInstance.post(`/posts/${postId}/comments`, comment);
+    return response.data;
   } catch (err) {
-  throw err;
+    throw err;
   }
-  }
+}
 
   
   // Update a comment in a post
@@ -191,15 +191,15 @@ export async function getAllComments(postId) {
   }
   }
   
-  // Delete a comment from a post
-  export async function deleteComment(postId, commentId) {
+// Delete a comment from a post
+export async function deleteComment(postId, commentId) {
   try {
-  const response = await axiosInstance.delete("/posts/${postId}/comments/${commentId}");
-  return response.data;
+    const response = await axiosInstance.delete(`/posts/${postId}/comments/${commentId}`);
+    return response.data;
   } catch (err) {
-  throw err;
+    throw err;
   }
-  }
+}
 
 
   // like a comment from a post

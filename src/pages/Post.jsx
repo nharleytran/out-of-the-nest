@@ -14,7 +14,8 @@ import {
   SimpleGrid,
   Textarea,
   Space,
-  Switch
+  Switch,
+  UnstyledButton
 } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -42,6 +43,7 @@ function Post() {
   const [international, setInternational] = useState(false);
   const [postComment, setPostComment] = useState("");
   const [comments, setComments] = useState([]);
+
   const [likedId, setlikedId] = useState([]);
   const [postlike, setPostLike] = useState(0);
   // const [commentlike, setCommentLike] = useState(0);
@@ -54,6 +56,7 @@ function Post() {
   //   { author: "Example Author 2", detail: "Example Content 2", endorse: false, likes: 5, dislikes: 1  },
   //   { author: "Example Author 3", detail: "Example Content 3", endorse: true, likes: 12, dislikes: 0  }
   // ];
+
 
   const user_id = localStorage.getItem("user_id");
 
@@ -76,6 +79,7 @@ function Post() {
       setlikedId(data.liked_id);
       // setCommentLike(data.comments.like);
       // setcommentlikedId(data.comments.liked_id);
+
     });
     API.getAllComments(from).then((data) => {
       setComments(data);
@@ -86,11 +90,12 @@ function Post() {
     event.preventDefault();
     API.deletePost(id).then(navigate("/"));
   };
-
+  
   const submitComment = (event) => {
     event.preventDefault();
     API.createComment(id, postComment).then(console.log("API called"));
   };
+
 
   // const likeComment = async (event) => {
   //   const test = await API.likeComment(id);
@@ -120,6 +125,7 @@ function Post() {
     } else {
       setPostLike((prevState) => prevState + 1);
     }
+
   };
 
   const dislikePost = async (event) => {
@@ -211,8 +217,22 @@ function Post() {
           <Title size="h2" color={"blue"}>Comments</Title>
           {comments.map((comment, index) => (
             <Card shadow="sm" radius="md" key={index} withBorder>
-              <Text weight={500}>User ID: {comment.user_id}</Text>
+              <Text weight={500}>Author: {comment.user_id}</Text>
               <Text size="sm" color="dimmed">{comment.text}</Text>
+              <Group position="left" mb="xs">
+                <UnstyledButton onClick={upvote}>
+                  <Badge color="red" variant="filled">Likes:{comment.like}</Badge>
+                </UnstyledButton>
+                <UnstyledButton onClick={downvote}>
+                  <Badge color="green" variant="filled">Dislikes:{comment.dislike}</Badge>
+                </UnstyledButton>
+                <Button color="red" disabled={comment.editable ? false : true} onClick={(event) => {
+                  event.preventDefault();
+                  API.deleteComment(from, comment._id);
+                }}>
+                  Delete Comment
+                </Button>
+              </Group>
             </Card>
           ))}
         </SimpleGrid>
