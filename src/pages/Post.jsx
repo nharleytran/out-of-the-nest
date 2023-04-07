@@ -56,7 +56,6 @@ function Post() {
       setResume(data.resume);
       setEditable(data.editable);
       setInternational(data.international);
-      // setComments(data.comments);
     });
     API.getAllComments(from).then((data) => {
       setComments(data);
@@ -67,7 +66,7 @@ function Post() {
     event.preventDefault();
     API.deletePost(id).then(navigate("/"));
   };
-
+  
   const submitComment = (event) => {
     event.preventDefault();
     console.log(id, postComment);
@@ -156,7 +155,7 @@ function Post() {
           <Title size="h2" color={"blue"}>Comments</Title>
           {comments.map((comment, index) => (
             <Card shadow="sm" radius="md" key={index} withBorder>
-              <Text weight={500}>Author: {comment.user_name}</Text>
+              <Text weight={500}>Author: {comment.user_id}</Text>
               <Text size="sm" color="dimmed">{comment.text}</Text>
               <Group position="left" mb="xs">
                 <UnstyledButton onClick={upvote}>
@@ -165,6 +164,12 @@ function Post() {
                 <UnstyledButton onClick={downvote}>
                   <Badge color="green" variant="filled">Dislikes:{comment.dislike}</Badge>
                 </UnstyledButton>
+                <Button color="red" disabled={comment.editable ? false : true} onClick={(event) => {
+                  event.preventDefault();
+                  API.deleteComment(from, comment._id);
+                }}>
+                  Delete Comment
+                </Button>
               </Group>
             </Card>
           ))}

@@ -169,12 +169,12 @@ export async function getAllComments(postId) {
   
   // Delete a comment from a post
   export async function deleteComment(postId, commentId) {
-  try {
-  const response = await axiosInstance.delete("/posts/${postId}/comments/${commentId}");
-  return response.data;
-  } catch (err) {
-  throw err;
-  }
+    try {
+      const response = await axiosInstance.delete(`/posts/${postId}/comments/${commentId}`);
+      return response.data;
+    } catch (err) {
+      throw err;
+    }
   }
 
 
