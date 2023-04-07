@@ -17,11 +17,9 @@ const PostSchema = new mongoose.Schema({
 
   author: {
     type: String,
-    required: false,
   },
   user_id: {
     type: String,
-    required: true,
   },
 
   date: {
@@ -51,11 +49,9 @@ const PostSchema = new mongoose.Schema({
       text: String,
       author: {
         type: String,
-        required: false,
       },
       user_id: {
         type: String,
-        required: true,
       },
       like: {
         type: Number,
@@ -65,6 +61,7 @@ const PostSchema = new mongoose.Schema({
         type: Number,
         default: 0,
       },
+      liked_id: [String]
     },
   ],
   like: {
@@ -75,6 +72,8 @@ const PostSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+
+  liked_id: [String]
 });
 
 const Post = mongoose.model("Post", PostSchema);

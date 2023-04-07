@@ -83,6 +83,30 @@ export async function updatePost(postId, updatedFields) {
   }
 }
 
+export async function likePost(postId) {
+  try {
+    console.log("HELLO")
+    const response = await axiosInstance.put(`/likeposts/${postId}`);
+    console.log(response.data)
+
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function dislikePost(postId) {
+  try {
+
+    const response = await axiosInstance.put(`/dislikeposts/${postId}`);
+    console.log(response.data)
+
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
 export async function createUser(postData) {
   try {
     const response = await axiosInstance.post("/user/create", postData);
@@ -176,5 +200,26 @@ export async function deleteComment(postId, commentId) {
     throw err;
   }
 }
+
+
+  // like a comment from a post
+  export async function likeComment(postId, commentId) {
+    try {
+    const response = await axiosInstance.put("/posts/${postId}/likecomments/${commentId}");
+    return response.data;
+    } catch (err) {
+    throw err;
+    }
+    }
+
+      // dislike a comment from a post
+  export async function dislikeComment(postId, commentId) {
+    try {
+    const response = await axiosInstance.put("/posts/${postId}/dislikecomments/${commentId}");
+    return response.data;
+    } catch (err) {
+    throw err;
+    }
+    }
 
 

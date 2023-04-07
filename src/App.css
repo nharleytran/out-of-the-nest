@@ -367,3 +367,7 @@ video {
 .postcreate .postcreatebox .title h2 {
   display: inline-block;
 }
+
+.like_dislike {
+  margin-right: 400px;
+}
