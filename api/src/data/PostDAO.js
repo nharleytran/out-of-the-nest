@@ -1,5 +1,6 @@
 const Post = require("../model/Post.js");
 const Category = require("../model/Category.js");
+const User = require("../model/User.js");
 
 class PostDAO {
   async createPost({
@@ -180,8 +181,12 @@ class PostDAO {
   }
 
   async createComment(postId, text, user_id) {
+    const user = await User.findOne({ _id: user_id });
+
+
     const comment = {
       text: text,
+      author: user.name,
       user_id: user_id,
       like: 0,
       dislike: 0

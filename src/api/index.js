@@ -172,6 +172,7 @@ export async function getAllComments(postId) {
 // Create a new comment for a post
 export async function createComment(postId, text) {
   try {
+    console.log("APIIII HERE");
     const comment = { text:text }
     const response = await axiosInstance.post(`/posts/${postId}/comments`, comment);
     return response.data;

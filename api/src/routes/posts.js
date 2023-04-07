@@ -222,10 +222,10 @@ router.get("/posts/:postId/comments", async (req, res) => {
 
 // Create a new comment for a post
 router.post("/posts/:postId/comments", checkPermission, async (req, res) => {
+
   const postId = req.params.postId;
   const text = req.body.text;
   const user_id = req.user_id;
-
   try {
     const post = await postDao.createComment(postId, text, user_id);
     res.json({

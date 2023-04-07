@@ -21,6 +21,7 @@ import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import * as API from "../api";
+import { getUser } from "../api/user_api";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -84,16 +85,20 @@ function Post() {
     API.getAllComments(from).then((data) => {
       setComments(data);
     });
-  },[]);
+  });
 
   const deleteHandle = (event) => {
     event.preventDefault();
     API.deletePost(id).then(navigate("/"));
   };
   
-  const submitComment = (event) => {
+  const submitComment = async (event) => {
     event.preventDefault();
-    API.createComment(id, postComment).then(console.log("API called"));
+    const test = await API.createComment(id, postComment).then(console.log(comments));
+    if (test.status === 401){
+      alert("You need to login in order to endorse");
+      navigate("/login");
+    }
   };
 
 
@@ -208,7 +213,6 @@ function Post() {
             />
             <Space h="sm" />
             <Group position="apart" mb="xs">
-              <Switch onLabel="Yes" offLabel="No" label="I agree with the author"/>
               <Button variant="light" color="blue" radius="md" onClick={submitComment}>
                 Publish
               </Button>
@@ -217,21 +221,17 @@ function Post() {
           <Title size="h2" color={"blue"}>Comments</Title>
           {comments.map((comment, index) => (
             <Card shadow="sm" radius="md" key={index} withBorder>
-              <Text weight={500}>Author: {comment.user_id}</Text>
-              <Text size="sm" color="dimmed">{comment.text}</Text>
+              <Text weight={500}>{comment.text}</Text>
+              <Text size="sm" color="dimmed">{comment.author}</Text>
               <Group position="left" mb="xs">
-                <UnstyledButton onClick={upvote}>
-                  <Badge color="red" variant="filled">Likes:{comment.like}</Badge>
-                </UnstyledButton>
-                <UnstyledButton onClick={downvote}>
-                  <Badge color="green" variant="filled">Dislikes:{comment.dislike}</Badge>
-                </UnstyledButton>
-                <Button color="red" disabled={comment.editable ? false : true} onClick={(event) => {
-                  event.preventDefault();
-                  API.deleteComment(from, comment._id);
-                }}>
-                  Delete Comment
-                </Button>
+              {comment.editable && 
+              <Button color="red" onClick={(event) => {
+                event.preventDefault();
+                API.deleteComment(from, comment._id);
+              }}>
+                Delete Comment
+              </Button>
+              }
               </Group>
             </Card>
           ))}

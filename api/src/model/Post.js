@@ -49,6 +49,7 @@ const PostSchema = new mongoose.Schema({
       text: String,
       author: {
         type: String,
+        default: "Anonymous",
       },
       user_id: {
         type: String,
