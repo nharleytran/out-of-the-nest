@@ -1,4 +1,6 @@
 import Header from "../components/Header";
+import LikeDislike from "../components/LikeDislike.jsx";
+
 import {
   Container,
   Blockquote,
@@ -40,12 +42,21 @@ function Post() {
   const [international, setInternational] = useState(false);
   const [postComment, setPostComment] = useState("");
   const [comments, setComments] = useState([]);
-  
+  const [likedId, setlikedId] = useState([]);
+  const [postlike, setPostLike] = useState(0);
+  // const [commentlike, setCommentLike] = useState(0);
+  // const [commentlikedId, setcommentlikedId] = useState([]);
+  // const [commentId, setCommentId] = useState("");
+
+
   // const comments = [
   //   { author: "Example Author 1", detail: "Example Content 1", endorse: true, likes: 9, dislikes: 2 },
   //   { author: "Example Author 2", detail: "Example Content 2", endorse: false, likes: 5, dislikes: 1  },
   //   { author: "Example Author 3", detail: "Example Content 3", endorse: true, likes: 12, dislikes: 0  }
   // ];
+
+  const user_id = localStorage.getItem("user_id");
+
 
   useEffect(() => {
     API.getPost(from).then((data) => {
@@ -61,12 +72,15 @@ function Post() {
       setResume(data.resume);
       setEditable(data.editable);
       setInternational(data.international);
-      // setComments(data.comments);
+      setPostLike(data.like);
+      setlikedId(data.liked_id);
+      // setCommentLike(data.comments.like);
+      // setcommentlikedId(data.comments.liked_id);
     });
     API.getAllComments(from).then((data) => {
       setComments(data);
     });
-  });
+  },[]);
 
   const deleteHandle = (event) => {
     event.preventDefault();
@@ -75,18 +89,48 @@ function Post() {
 
   const submitComment = (event) => {
     event.preventDefault();
-    console.log(id, postComment);
     API.createComment(id, postComment).then(console.log("API called"));
   };
 
-  const upvote = (event) => {
-    event.preventDefault();
-    console.log("up");
+  // const likeComment = async (event) => {
+  //   const test = await API.likeComment(id);
+  //   if (test.status === 401){
+  //     alert("You need to login in order to endorse");
+  //     navigate("/login");
+  //   } else {
+  //     setCommentLike((prevState) => prevState + 1);
+  //   }
+  // };
+
+  // const dislikeComment = async (event) => {
+  //   const test = await API.dislikeComment(id);
+  //   if (test.status === 401){
+  //     alert("You need to login in order to endorse");
+  //     navigate("/login");
+  //   } else {
+  //     setCommentLike((prevState) => prevState - 1);
+  //   }
+  // };
+
+  const likePost = async (event) => {
+    const test = await API.likePost(id);
+    if (test.status === 401){
+      alert("You need to login in order to endorse");
+      navigate("/login");
+    } else {
+      setPostLike((prevState) => prevState + 1);
+    }
   };
 
-  const downvote = (event) => {
-    event.preventDefault();
-    console.log("down");
+  const dislikePost = async (event) => {
+    const test = await API.dislikePost(id);
+    if (test.status === 401){
+      alert("You need to login in order to endorse");
+      navigate("/login");
+
+    } else {
+      setPostLike((prevState) => prevState - 1);
+    }
   };
 
   const editBtn = !editable ? null : (
@@ -139,6 +183,12 @@ function Post() {
           <Badge color="blue" variant="light">
             <a href={resume}>Resume Link</a>
           </Badge>
+          <LikeDislike 
+              like = {postlike} 
+              handleLike={likePost}
+              handleDislike={dislikePost}
+              likedId = {likedId}
+              />
         </Group>
       </Container>
       <Container>
@@ -163,10 +213,6 @@ function Post() {
             <Card shadow="sm" radius="md" key={index} withBorder>
               <Text weight={500}>User ID: {comment.user_id}</Text>
               <Text size="sm" color="dimmed">{comment.text}</Text>
-              <Group position="left" mb="xs">
-                <Badge color="red" variant="filled" onClick={upvote}>Likes:{comment.like}</Badge>
-                <Badge color="green" variant="filled" onClick={downvote}>Dislikes:{comment.dislike}</Badge>
-              </Group>
             </Card>
           ))}
         </SimpleGrid>

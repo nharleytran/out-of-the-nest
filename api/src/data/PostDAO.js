@@ -107,6 +107,44 @@ class PostDAO {
     return updatedPost;
   }
 
+  async likePost(postId, user_id) {
+    try {
+      const post = await Post.findById(postId);
+      if (!post) {
+        throw new Error("Post not found");
+      }
+      post.like++;
+      post.liked_id.push(user_id)
+      await post.save(); // save the updated post to the database
+      console.log(post);
+      return post;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async dislikePost(postId, user_id) {
+    try {
+      console.log("HELLLO");
+
+      const post = await Post.findById(postId);
+      if (!post) {
+        throw new Error("Post not found");
+      }
+      post.like--;
+      post.liked_id = post.liked_id.filter((id) => id !== user_id);
+      console.log(post);
+      await post.save(); // save the updated post to the database
+      console.log(post);
+      return post;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+
   async getPostsByFilters(
     categoryId,
     sortBy,
@@ -169,6 +207,42 @@ class PostDAO {
     post.comments = post.comments.filter(comment => comment._id != commentId);
     await post.save();
     return post;
+  }
+
+  async likeComment(postId, commentId) {
+    try {
+      const post = await Post.findById(postId);
+      const commentIndex = post.comments.findIndex(comment => comment._id == commentId);
+      if (!post) {
+        throw new Error("Post not found");
+      }
+      post.comments[commentIndex].like++;
+      post.comments[commentIndex].push(user_id);
+      await post.save(); // save the updated post to the database
+      console.log(post);
+      return post;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async dislikeComment(postId, commentId) {
+
+    try {
+      const post = await Post.findById(postId);
+      const commentIndex = post.comments.findIndex(comment => comment._id == commentId);
+      if (!post) {
+        throw new Error("Post not found");
+      }
+      post.comments[commentIndex].like--;
+      post.comments[commentIndex].liked_id = post.comments[commentIndex].liked_id.filter((id) => id !== user_id);
+      await post.save(); // save the updated post to the database
+      return post;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
   // Add more functions to retrieve other fields as needed
 }
