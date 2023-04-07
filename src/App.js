@@ -15,7 +15,7 @@ function App() {
       <Route path="/feed" element={<Feed /> } />
       <Route path="/create" element={<RequireAuth> <PostCreate /> </RequireAuth> } />
       <Route path="/user/create" element={<UserCreate />} />
-      <Route path="/user/profile" element={<UserProfile />} />
+      <Route path="/user/profile" element={<RequireAuth><UserProfile /></RequireAuth>} />
       <Route path="/login" element={<Login />} />
       <Route path="/feed/post" element={<Post /> } />
       <Route path="/edit" element={<Edit />} />
