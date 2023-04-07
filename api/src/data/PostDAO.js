@@ -209,42 +209,42 @@ class PostDAO {
     return post;
   }
 
-  async likeComment(postId, commentId) {
-    try {
-      const post = await Post.findById(postId);
-      const commentIndex = post.comments.findIndex(comment => comment._id == commentId);
-      if (!post) {
-        throw new Error("Post not found");
-      }
-      post.comments[commentIndex].like++;
-      post.comments[commentIndex].push(user_id);
-      await post.save(); // save the updated post to the database
-      console.log(post);
-      return post;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  }
+  // async likeComment(postId, commentId) {
+  //   try {
+  //     const post = await Post.findById(postId);
+  //     const commentIndex = post.comments.findIndex(comment => comment._id == commentId);
+  //     if (!post) {
+  //       throw new Error("Post not found");
+  //     }
+  //     post.comments[commentIndex].like++;
+  //     post.comments[commentIndex].push(user_id);
+  //     await post.save(); // save the updated post to the database
+  //     console.log(post);
+  //     return post;
+  //   } catch (error) {
+  //     console.error(error);
+  //     throw error;
+  //   }
+  // }
 
-  async dislikeComment(postId, commentId) {
+  // async dislikeComment(postId, commentId) {
 
-    try {
-      const post = await Post.findById(postId);
-      const commentIndex = post.comments.findIndex(comment => comment._id == commentId);
-      if (!post) {
-        throw new Error("Post not found");
-      }
-      post.comments[commentIndex].like--;
-      post.comments[commentIndex].liked_id = post.comments[commentIndex].liked_id.filter((id) => id !== user_id);
-      await post.save(); // save the updated post to the database
-      return post;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  }
-  // Add more functions to retrieve other fields as needed
+  //   try {
+  //     const post = await Post.findById(postId);
+  //     const commentIndex = post.comments.findIndex(comment => comment._id == commentId);
+  //     if (!post) {
+  //       throw new Error("Post not found");
+  //     }
+  //     post.comments[commentIndex].like--;
+  //     post.comments[commentIndex].liked_id = post.comments[commentIndex].liked_id.filter((id) => id !== user_id);
+  //     await post.save(); // save the updated post to the database
+  //     return post;
+  //   } catch (error) {
+  //     console.error(error);
+  //     throw error;
+  //   }
+  // }
+  // // Add more functions to retrieve other fields as needed
 }
 
 module.exports = PostDAO;

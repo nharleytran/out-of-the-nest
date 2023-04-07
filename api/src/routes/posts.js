@@ -278,40 +278,40 @@ router.delete("/posts/:postId/comments/:commentId", checkPermission, async (req,
   }
 });
 
-// like a comment in a post
-router.put("/posts/:postId/likecomments/:commentId", checkPermission, async (req, res) => {
-  const postId = req.params.postId;
-  const commentId = req.params.commentId;
-  try {
-    const post = await postDao.likeComment(postId, commentId);
+// // like a comment in a post
+// router.put("/posts/:postId/likecomments/:commentId", checkPermission, async (req, res) => {
+//   const postId = req.params.postId;
+//   const commentId = req.params.commentId;
+//   try {
+//     const post = await postDao.likeComment(postId, commentId);
 
-    res.json({
-      status: 200,
-      message: `Successfully updated comment with ID ${commentId} for post with title: "${post.title}"`,
-      data: post,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: error.message });
-  }
-});
+//     res.json({
+//       status: 200,
+//       message: `Successfully updated comment with ID ${commentId} for post with title: "${post.title}"`,
+//       data: post,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ message: error.message });
+//   }
+// });
 
-// dislike a comment in a post
-router.put("/posts/:postId/dislikecomments/:commentId", checkPermission, async (req, res) => {
-  const postId = req.params.postId;
-  const commentId = req.params.commentId;
-  try {
-    const post = await postDao.dislikeComment(postId, commentId);
-    res.json({
-      status: 200,
-      message: `Successfully updated comment with ID ${commentId} for post with title: "${post.title}"`,
-      data: post,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: error.message });
-  }
-});
+// // dislike a comment in a post
+// router.put("/posts/:postId/dislikecomments/:commentId", checkPermission, async (req, res) => {
+//   const postId = req.params.postId;
+//   const commentId = req.params.commentId;
+//   try {
+//     const post = await postDao.dislikeComment(postId, commentId);
+//     res.json({
+//       status: 200,
+//       message: `Successfully updated comment with ID ${commentId} for post with title: "${post.title}"`,
+//       data: post,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ message: error.message });
+//   }
+// });
 
 
 // Add more routes to retrieve other fields as needed
