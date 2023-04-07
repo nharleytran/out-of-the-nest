@@ -53,10 +53,15 @@ const checkPermission = (req, res, next) => {
 
 authRouter.get("/isAuthorized", checkPermission, async (req, res, next) => {
   try {
+    const user = await userDao.findUserById(req.user_id);
     res.json({
       status: 200,
       message: `Authorized!`,
+      data: {
+        profileImageId: user.profileImageId,
+      }
     });
+
   } catch (err) {
     console.log("err isauthorize", err);
     next(err);
@@ -91,6 +96,7 @@ authRouter.post("/login", async (req, res, next) => {
         user_name: user.name,
         user_id: user._id,
         email: user.email,
+        profile_image_id: user.profileImageId,
         token: token,
       },
     });
