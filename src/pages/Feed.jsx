@@ -2,6 +2,7 @@ import Header from '../components/Header'
 import Posts from '../components/Posts'
 // import Search from "../components/Search";
 import SearchBar from '../components/SearchBar'
+import Personalize from "../components/Personalize"
 import '../App.css'
 import { useLocation } from 'react-router-dom'
 import React, { useState } from 'react'
@@ -21,6 +22,9 @@ function Feed() {
         category_id={category_id}
         posts={posts}
         setPosts={setPosts}
+      />
+      <Personalize 
+        posts={posts}
       />
       <Posts
         category_id={category_id}

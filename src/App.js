@@ -6,6 +6,8 @@ import UserCreate from "./pages/UserCreate";
 import Login from "./pages/Login";
 import Post from "./pages/Post";
 import Edit from "./pages/Edit";
+import Questionnaire from "./pages/Questionnaire";
+import Results from "./pages/Results";
 import UserProfile from "./pages/UserProfile";
 import {RequireAuth} from "./context/AuthContext";
 function App() {
@@ -19,6 +21,8 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/feed/post" element={<Post /> } />
       <Route path="/edit" element={<Edit />} />
+      <Route path="/questionnaire" element={<Questionnaire />} />
+      <Route path="/results" element={<Results />} />
     </Routes>
   );
 }

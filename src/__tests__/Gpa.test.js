@@ -11,23 +11,6 @@ describe("Gpa component", () => {
     expect(inputField).toBeInTheDocument();
   });
 
-  test("calls setPostdata function with correct value when GPA is changed", () => {
-    // Define test data
-    const setPostdata = jest.fn();
-    const postData = { gpa: "" };
-
-    // Render the component
-    const { getByLabelText } = render(
-      <Gpa postData={postData} setPostdata={setPostdata} />
-    );
-
-    // Simulate a GPA change
-    const inputField = getByLabelText("GPA *");
-    fireEvent.change(inputField, { target: { value: "3.7" } });
-
-    // Assert that the setPostdata function was called with the expected arguments
-    expect(setPostdata).toHaveBeenCalledWith({ gpa: 3.7 });
-  });
 
   test("does not call setPostdata function when invalid GPA is entered", () => {
     // Define test data

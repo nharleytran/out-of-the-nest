@@ -302,6 +302,104 @@ video {
 .ProseMirror {
   min-height: 400px;
 }
+
+.personalize-button {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: 210px;
+
+}
+
+.submit-questionnaire-button {
+  padding-top: 10px;
+  justify-content: center;
+  position: relative;
+}
+
+.results {
+  padding-top: 80px;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+}
+.input-box {
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 5px;
+
+}
+
+.input-container {
+  padding-top: 20px;
+}
+
+.gpa {
+  padding-bottom: 10px;
+}
+
+.questions {
+  max-width: 1300px;
+  justify-content: center;
+}
+
+.buttons {
+  padding-top: 10px;
+  padding-left: 200px;
+}
+
+.gpa-card {
+  padding-left: 50px;
+}
+
+.test-score-card {
+  padding-left: 50px;
+}
+
+.cards {
+  padding-left: 50px;
+}
+
+.test-score-card {
+  padding-left: 50px;
+}
+
+.questionnaire {
+  padding-top: 45px;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, rgb(71, 158, 254), rgb(64, 190, 254));
+}
+.questionnaire .questionnairebox {
+  background-color: #fff;
+}
+.questionnaire .questionnairebox form {
+  padding: 0 30px 30px;
+}
+
+.results-container {
+  display: flex;
+  padding-top: 80px;
+}
+
+.column {
+  flex-basis: 0;
+  flex-grow: 1;
+  padding: 0 20px;
+}
+
+.scroll-area {
+  height: 100vh;
+}
+
+.note {
+  padding-top: 80px;
+}
+
 .loginpage {
   height: 100vh;
   background: url(./images/loginbackground.gif) center center no-repeat;
