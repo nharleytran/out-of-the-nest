@@ -1,26 +1,21 @@
 import {
     TextInput,
-    Container,
-    Title,
     Textarea,
     NumberInput,
-    Checkbox,
     Button,
     Group,
     Box,
-    Select,
-    Radio,
-    Flex
+    ActionIcon, 
+    Text,
+    Modal
   } from "@mantine/core";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import logo from "../images/outofthenestlogo.png"
 import { useState } from "react";
 import { useForm } from '@mantine/form';
-import { Switch,ActionIcon, Text, Code } from '@mantine/core';
 import { randomId } from '@mantine/hooks';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
-import { Modal} from '@mantine/core';
 
 function Questionnaire() {
   const location = useLocation();

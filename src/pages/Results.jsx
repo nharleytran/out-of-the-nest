@@ -1,23 +1,11 @@
 import {
-    TextInput,
-    Container,
-    Title,
-    Textarea,
-    NumberInput,
-    Checkbox,
-    Button,
-    Group,
-    Box,
-    Select,
-    Radio,
     Card,
     Text,
     Avatar,
-    Stack,
     ScrollArea,
     Badge
   } from "@mantine/core";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import logo from "../images/outofthenestlogo.png"
 
 
@@ -34,22 +22,6 @@ function Results() {
         { key: '5', content: 'On-campus job' }
 
       ];
-    const compareGpa = () => {
-        if (gpa < hardCodedGpa) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    const compareTestScore = () => {
-        if (testscore < hardCodedTestScore) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    console.log(extracurriculars)
 
     return (
         <>
