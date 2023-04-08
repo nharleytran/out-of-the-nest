@@ -1,11 +1,10 @@
-
-import { useState, useEffect } from "react";
-import * as postApi from "../api/index";
-import { useNavigate } from "react-router-dom";
-import { Anchor, Flex } from "@mantine/core";
-import { useAuth } from "../context/AuthContext";
-import { afterReceiveAuth } from "../api/auth_util";
-
+import { useState, useEffect } from 'react'
+import * as postApi from '../api/index'
+import { useNavigate, Link } from 'react-router-dom'
+import { Anchor, Flex } from '@mantine/core'
+import { useAuth } from '../context/AuthContext'
+import { afterReceiveAuth } from '../api/auth_util'
+import logo from '../images/outofthenestlogo.png'
 
 import {
   Box,
@@ -15,42 +14,40 @@ import {
   TextInput,
   Button,
   PasswordInput,
-
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { MantineProvider } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
-import { useLocation } from "react-router-dom";
+} from '@mantine/core'
+import { useForm } from '@mantine/form'
+import { MantineProvider } from '@mantine/core'
+import { notifications } from '@mantine/notifications'
+import { useLocation } from 'react-router-dom'
 
 function Login() {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const form = useForm({
     initialValues: {
-      email: "user@gmail.com",
-      password: "123",
+      email: 'user@gmail.com',
+      password: '123',
     },
 
     validate: {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
     },
-
-  });
-  const setAuth = useAuth().setIsAuth;
+  })
+  const setAuth = useAuth().setIsAuth
   const handleLogin = async (userFormData) => {
     try {
-      const response = await postApi.login(userFormData);
+      const response = await postApi.login(userFormData)
       if (response.status === 200) {
-        afterReceiveAuth(response.data.user_id, response.data.user_name, response.data.token);
+        afterReceiveAuth(response.data);
         const url = location.state ? location.state.from.pathname : "/";
         setAuth(true);
         notifications.show({
-          title: "Login successfully",
+          title: 'Login successfully',
           message: `Redirecting to ${url}`,
           autoClose: 1000,
-          onClose: () => { 
-            navigate(url);
+          onClose: () => {
+            navigate(url)
           },
           loading: true,
           position: 'top-right',
@@ -72,9 +69,14 @@ function Login() {
     }
   }
   return (
-    <>
+    <div className="loginpage">
       <Box maw={300} mx="auto">
         <form onSubmit={form.onSubmit(handleLogin)}>
+          <div className="loginlogo">
+            <Link to={`/`} style={{ textDecoration: 'none' }}>
+              <img src={logo} width="30%" alt="es-lint want to get" />
+            </Link>
+          </div>
           <TextInput
             withAsterisk
             label="Email"
@@ -88,26 +90,25 @@ function Login() {
             value="sfdf"
             {...form.getInputProps('password')}
             withAsterisk
+            mt={10}
           />
-          <Flex justify="flex-end">
+          <Flex justify="flex-start" mt={10}>
             <Anchor href="/user/create"> Create new account </Anchor>{' '}
           </Flex>{' '}
-          <Group position="right" mt="md">
-
+          <Group position="center" mt="md">
             <Button type="submit"> Sign in </Button>
             <Button
               onClick={() => {
-                navigate("/");
-                setAuth(false);
-              }}
-            >
-              {" "}
-              Cancel{" "}
-            </Button>{" "}
-          </Group>{" "}
-        </form>{" "}
-      </Box>{" "}
-    </>
+                navigate('/')
+                setAuth(false)
+              }}>
+              {' '}
+              Cancel{' '}
+            </Button>{' '}
+          </Group>{' '}
+        </form>{' '}
+      </Box>{' '}
+    </div>
   )
 }
 

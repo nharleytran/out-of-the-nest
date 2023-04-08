@@ -25,7 +25,6 @@ function RequireAuth({ children }) {
   useEffect(() => {
     if (!localStorage.getItem("token")) {
       postApi.getAuth().then((res) => {
-        console.log(res);
         if (res.status === 200) {
           setIsAuth(true);
         } else {
