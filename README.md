@@ -6,7 +6,7 @@ We want to create a platform that allows graduates and upperclassmen to post sub
 
 ## Installing / Getting started
 
-We first need to install the packages. 
+We first need to install the packages, 
 
 ```
   $ yarn install
