@@ -8,6 +8,7 @@ import Post from "./pages/Post";
 import Edit from "./pages/Edit";
 import Questionnaire from "./pages/Questionnaire";
 import Results from "./pages/Results";
+import UserProfile from "./pages/UserProfile";
 import {RequireAuth} from "./context/AuthContext";
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Route path="/feed" element={<Feed /> } />
       <Route path="/create" element={<RequireAuth> <PostCreate /> </RequireAuth> } />
       <Route path="/user/create" element={<UserCreate />} />
+      <Route path="/user/profile" element={<RequireAuth><UserProfile /></RequireAuth>} />
       <Route path="/login" element={<Login />} />
       <Route path="/feed/post" element={<Post /> } />
       <Route path="/edit" element={<Edit />} />

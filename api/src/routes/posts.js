@@ -107,6 +107,7 @@ router.get("/posts/:postId", async (req, res) => {
       editable: decoded ? decoded.id == post.user_id : false,
       user_name: user?user.name:"",
     };
+
     res.json({
       status: 200,
       message: `Successfully retrieved post with ID ${postId}`,
@@ -133,6 +134,39 @@ router.put("/posts/:postId", checkPermission, async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 });
+//LIKE a post
+router.put("/likeposts/:postId", checkPermission, async (req, res) => {
+  const postId = req.params.postId;
+  const user_id = req.user_id;
+
+  try {
+    const updatedPost = await postDao.likePost(postId, user_id);
+    res.json({
+      status: 200,
+      message: "Post liked successfully",
+      data: updatedPost,
+    });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+});
+//Dislike a post:
+router.put("/dislikeposts/:postId", checkPermission, async (req, res) => {
+  const postId = req.params.postId;
+  const user_id = req.user_id;
+
+  try {
+    const updatedPost = await postDao.dislikePost(postId, user_id);
+    res.json({
+      status: 200,
+      message: "Post disliked successfully",
+      data: updatedPost,
+    });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+});
+
 
 router.get(
   "/filters/category",
@@ -157,6 +191,128 @@ router.get(
     }
   }
 );
+
+
+
+
+
+// Get all comments of a post
+router.get("/posts/:postId/comments", async (req, res) => {
+  const postId = req.params.postId;
+  try {
+    const comments = await postDao.getComments(postId);
+    const decoded = decodeTokenFromRequest(req);
+    const updatedComments = comments.map(comment => {
+      return {
+        ...comment?._doc,
+        editable : decoded ? decoded.id == comment.user_id : false,
+        user_name: decoded?decoded.name:"",
+      };
+    });
+    res.json({
+      status: 200,
+      message: `Successfully get all comments for post with id: ${postId}`,
+      data: updatedComments,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
+})
+
+// Create a new comment for a post
+router.post("/posts/:postId/comments", checkPermission, async (req, res) => {
+
+  const postId = req.params.postId;
+  const text = req.body.text;
+  const user_id = req.user_id;
+  try {
+    const post = await postDao.createComment(postId, text, user_id);
+    res.json({
+      status: 200,
+      message: `Successfully created a new comment for post with title: "${post.title}"`,
+      data: post,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Update a comment in a post
+router.put("/posts/:postId/comments/:commentId", checkPermission, async (req, res) => {
+  const postId = req.params.postId;
+  const commentId = req.params.commentId;
+  const updatedComment = req.body.updatedComment;
+
+  try {
+    const post = await postDao.updateComment(postId, commentId, updatedComment);
+
+    res.json({
+      status: 200,
+      message: `Successfully updated comment with ID ${commentId} for post with title: "${post.title}"`,
+      data: post,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Delete a comment from a post
+router.delete("/posts/:postId/comments/:commentId", checkPermission, async (req, res) => {
+  const postId = req.params.postId;
+  const commentId = req.params.commentId;
+
+  try {
+    const post = await postDao.deleteComment(postId, commentId);
+
+    res.json({
+      status: 200,
+      message: `Successfully deleted comment with ID ${commentId} from post with title: "${post.title}"`,
+      data: post,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// // like a comment in a post
+// router.put("/posts/:postId/likecomments/:commentId", checkPermission, async (req, res) => {
+//   const postId = req.params.postId;
+//   const commentId = req.params.commentId;
+//   try {
+//     const post = await postDao.likeComment(postId, commentId);
+
+//     res.json({
+//       status: 200,
+//       message: `Successfully updated comment with ID ${commentId} for post with title: "${post.title}"`,
+//       data: post,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ message: error.message });
+//   }
+// });
+
+// // dislike a comment in a post
+// router.put("/posts/:postId/dislikecomments/:commentId", checkPermission, async (req, res) => {
+//   const postId = req.params.postId;
+//   const commentId = req.params.commentId;
+//   try {
+//     const post = await postDao.dislikeComment(postId, commentId);
+//     res.json({
+//       status: 200,
+//       message: `Successfully updated comment with ID ${commentId} for post with title: "${post.title}"`,
+//       data: post,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ message: error.message });
+//   }
+// });
+
 
 // Add more routes to retrieve other fields as needed
 

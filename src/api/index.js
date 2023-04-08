@@ -2,7 +2,7 @@ import axios from "axios";
 
 const baseURL = process.env.REACT_APP_API;
 if (!baseURL) {
-  console.error("REACT_APP_API is not defined");
+  console.log("REACT_APP_API is not defined");
 }
 export const axiosInstance = axios.create({
   baseURL: baseURL, // replace with your server's URL
@@ -83,6 +83,30 @@ export async function updatePost(postId, updatedFields) {
   }
 }
 
+export async function likePost(postId) {
+  try {
+    console.log("HELLO")
+    const response = await axiosInstance.put(`/likeposts/${postId}`);
+    console.log(response.data)
+
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function dislikePost(postId) {
+  try {
+
+    const response = await axiosInstance.put(`/dislikeposts/${postId}`);
+    console.log(response.data)
+
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
 export async function createUser(postData) {
   try {
     const response = await axiosInstance.post("/user/create", postData);
@@ -131,5 +155,72 @@ export async function getPostsByFilters(filter) {
     throw err;
   }
 }
+
+//COMMENT
+
+// Get all comments of a post
+
+export async function getAllComments(postId) {
+  try {
+    const response = await axiosInstance.get(`/posts/${postId}/comments`);
+    return response.data.data;
+  } catch (err) {
+    throw err;
+  }
+}
+  
+// Create a new comment for a post
+export async function createComment(postId, text) {
+  try {
+    console.log("APIIII HERE");
+    const comment = { text:text }
+    const response = await axiosInstance.post(`/posts/${postId}/comments`, comment);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+  
+  // Update a comment in a post
+  export async function updateComment(postId, commentId, updatedComment) {
+  try {
+  const response = await axiosInstance.put("/posts/${postId}/comments/${commentId}, { updatedComment }");
+  return response.data;
+  } catch (err) {
+  throw err;
+  }
+  }
+  
+// Delete a comment from a post
+export async function deleteComment(postId, commentId) {
+  try {
+    const response = await axiosInstance.delete(`/posts/${postId}/comments/${commentId}`);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+
+  // like a comment from a post
+  export async function likeComment(postId, commentId) {
+    try {
+    const response = await axiosInstance.put("/posts/${postId}/likecomments/${commentId}");
+    return response.data;
+    } catch (err) {
+    throw err;
+    }
+    }
+
+      // dislike a comment from a post
+  export async function dislikeComment(postId, commentId) {
+    try {
+    const response = await axiosInstance.put("/posts/${postId}/dislikecomments/${commentId}");
+    return response.data;
+    } catch (err) {
+    throw err;
+    }
+    }
 
 

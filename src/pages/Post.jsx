@@ -1,4 +1,6 @@
 import Header from "../components/Header";
+import LikeDislike from "../components/LikeDislike.jsx";
+
 import {
   Container,
   Blockquote,
@@ -7,11 +9,19 @@ import {
   Title,
   Group,
   Badge,
+  Card,
+  Text,
+  SimpleGrid,
+  Textarea,
+  Space,
+  Switch,
+  UnstyledButton
 } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import * as API from "../api";
+import { getUser } from "../api/user_api";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -32,11 +42,28 @@ function Post() {
   const location = useLocation();
   const { from } = location.state;
   const [international, setInternational] = useState(false);
+  const [postComment, setPostComment] = useState("");
+  const [comments, setComments] = useState([]);
+
+  const [likedId, setlikedId] = useState([]);
+  const [postlike, setPostLike] = useState(0);
+  // const [commentlike, setCommentLike] = useState(0);
+  // const [commentlikedId, setcommentlikedId] = useState([]);
+  // const [commentId, setCommentId] = useState("");
+
+
+  // const comments = [
+  //   { author: "Example Author 1", detail: "Example Content 1", endorse: true, likes: 9, dislikes: 2 },
+  //   { author: "Example Author 2", detail: "Example Content 2", endorse: false, likes: 5, dislikes: 1  },
+  //   { author: "Example Author 3", detail: "Example Content 3", endorse: true, likes: 12, dislikes: 0  }
+  // ];
+
+
+  const user_id = localStorage.getItem("user_id");
 
 
   useEffect(() => {
     API.getPost(from).then((data) => {
-      console.log(data);
       setExtra(data.extracurriculars[0]);
       setAuthor(data.anonymous ? "Anonymous" : data.user_name);
       setContent(data.content);
@@ -49,7 +76,14 @@ function Post() {
       setResume(data.resume);
       setEditable(data.editable);
       setInternational(data.international);
+      setPostLike(data.like);
+      setlikedId(data.liked_id);
+      // setCommentLike(data.comments.like);
+      // setcommentlikedId(data.comments.liked_id);
 
+    });
+    API.getAllComments(from).then((data) => {
+      setComments(data);
     });
   });
 
@@ -57,8 +91,59 @@ function Post() {
     event.preventDefault();
     API.deletePost(id).then(navigate("/"));
   };
+  
+  const submitComment = async (event) => {
+    event.preventDefault();
+    const test = await API.createComment(id, postComment).then(console.log(comments));
+    if (test.status === 401){
+      alert("You need to login in order to endorse");
+      navigate("/login");
+    }
+  };
 
-  console.log(editable);
+
+  // const likeComment = async (event) => {
+  //   const test = await API.likeComment(id);
+  //   if (test.status === 401){
+  //     alert("You need to login in order to endorse");
+  //     navigate("/login");
+  //   } else {
+  //     setCommentLike((prevState) => prevState + 1);
+  //   }
+  // };
+
+  // const dislikeComment = async (event) => {
+  //   const test = await API.dislikeComment(id);
+  //   if (test.status === 401){
+  //     alert("You need to login in order to endorse");
+  //     navigate("/login");
+  //   } else {
+  //     setCommentLike((prevState) => prevState - 1);
+  //   }
+  // };
+
+  const likePost = async (event) => {
+    const test = await API.likePost(id);
+    if (test.status === 401){
+      alert("You need to login in order to endorse");
+      navigate("/login");
+    } else {
+      setPostLike((prevState) => prevState + 1);
+    }
+
+  };
+
+  const dislikePost = async (event) => {
+    const test = await API.dislikePost(id);
+    if (test.status === 401){
+      alert("You need to login in order to endorse");
+      navigate("/login");
+
+    } else {
+      setPostLike((prevState) => prevState - 1);
+    }
+  };
+
   const editBtn = !editable ? null : (
     <>
       <Link to={`/edit`} state={{ from: id }}>
@@ -76,19 +161,11 @@ function Post() {
     <div>
       <Header />
       <Container className="post-page-detail">
-        <Title size="h2" color={"blue"}>
-          {title}
-        </Title>
+        <Title size="h2" color={"blue"}>{title}</Title>
         <Group position="apart">
-          <Badge color="pink" variant="light">
-            {outcome}
-          </Badge>
-          <Badge color="gray" variant="light">
-            GPA {gpa}
-          </Badge>
-          <Badge color="gray" variant="light">
-            Test Score {score}
-          </Badge>
+          <Badge color="pink" variant="light">{outcome}</Badge>
+          <Badge color="gray" variant="light">GPA {gpa}</Badge>
+          <Badge color="gray" variant="light">Test Score {score}</Badge>
           <Badge color="gray" variant="light">
           {new Date(date).toLocaleDateString("en-US", {
                       year: "numeric",
@@ -112,14 +189,53 @@ function Post() {
         </MantineProvider>
         <Group mt="md" mb="xs">
           {extra.split(",").map((activity, index) => (
-            <Badge color="green" key={index}>
-              {activity}
-            </Badge>
+            <Badge color="green" key={index}>{activity}</Badge>
           ))}
           <Badge color="blue" variant="light">
             <a href={resume}>Resume Link</a>
           </Badge>
+          <LikeDislike 
+              like = {postlike} 
+              handleLike={likePost}
+              handleDislike={dislikePost}
+              likedId = {likedId}
+              />
         </Group>
+      </Container>
+      <Container>
+        <SimpleGrid cols={1} verticalSpacing="sm">
+          <Card shadow="sm" radius="sm">
+            <Textarea
+              placeholder="Enter Your Comment Here"
+              label="Post Your comment!"
+              value={postComment}
+              onChange={(event) => setPostComment(event.currentTarget.value)}
+            />
+            <Space h="sm" />
+            <Group position="apart" mb="xs">
+              <Button variant="light" color="blue" radius="md" onClick={submitComment}>
+                Publish
+              </Button>
+            </Group>
+          </Card>
+          <Title size="h2" color={"blue"}>Comments</Title>
+          {comments.map((comment, index) => (
+            <Card shadow="sm" radius="md" key={index} withBorder>
+              <Text weight={500}>{comment.text}</Text>
+              <Text size="sm" color="dimmed">{comment.author}</Text>
+              <Group position="left" mb="xs">
+              {comment.editable && 
+              <Button color="red" onClick={(event) => {
+                event.preventDefault();
+                API.deleteComment(from, comment._id);
+              }}>
+                Delete Comment
+              </Button>
+              }
+              </Group>
+            </Card>
+          ))}
+        </SimpleGrid>
       </Container>
     </div>
   );

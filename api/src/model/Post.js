@@ -17,11 +17,9 @@ const PostSchema = new mongoose.Schema({
 
   author: {
     type: String,
-    required: false,
   },
   user_id: {
     type: String,
-    required: true,
   },
 
   date: {
@@ -44,7 +42,39 @@ const PostSchema = new mongoose.Schema({
 
   international: Boolean,
 
-  anonymous: Boolean
+  anonymous: Boolean,
+
+  comments: [
+    {
+      text: String,
+      author: {
+        type: String,
+        default: "Anonymous",
+      },
+      user_id: {
+        type: String,
+      },
+      like: {
+        type: Number,
+        default: 0,
+      },
+      dislike: {
+        type: Number,
+        default: 0,
+      },
+      liked_id: [String]
+    },
+  ],
+  like: {
+    type: Number,
+    default: 0,
+  },
+  dislike: {
+    type: Number,
+    default: 0,
+  },
+
+  liked_id: [String]
 });
 
 const Post = mongoose.model("Post", PostSchema);

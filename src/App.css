@@ -30,7 +30,7 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: 8%; 
+  height: 8%;
   padding: 4px 16px;
   background-color: #fff;
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
@@ -80,7 +80,6 @@
   justify-content: center;
   flex-grow: 1;
   text-align: center;
-
 }
 .path-title {
   width: auto;
@@ -98,7 +97,7 @@
 
 .posts-container {
   max-width: 100vw;
-  max-height:75vh;
+  max-height: 75vh;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -108,7 +107,6 @@
 }
 .post-page-detail {
   padding-top: 10vh;
-
 }
 
 .post-box {
@@ -144,20 +142,20 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  width: 80%;
-  height: 6%;
-  left: 10%;
-  right: 10%;
+  width: 90%;
+  height: 10%;
+  left: 5%;
+  right: 5%;
   border-radius: 10px;
   box-shadow: 0px 10px 20px rgba(115, 116, 125, 0.141);
 }
 
-.inputfield{
+.inputfield {
   width: 40%;
   left: -4%;
 }
 
-.filterfield{
+.filterfield {
   width: 40%;
   columns: 5;
   justify-content: space-between;
@@ -400,4 +398,74 @@ video {
 
 .note {
   padding-top: 80px;
+}
+
+.loginpage {
+  height: 100vh;
+  background: url(./images/loginbackground.gif) center center no-repeat;
+  background-size: 100% 100%;
+  position: relative;
+}
+.loginpage .loginlogo {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.loginpage form {
+  background-color: #fff;
+  padding: 30px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 20px;
+  box-shadow: 0 2px 3px 3px #f6f5f5;
+}
+.postcreate {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, rgb(71, 158, 254), rgb(64, 190, 254));
+}
+.postcreate .postcreatebox {
+  background-color: #fff;
+}
+.postcreate .postcreatebox form {
+  padding: 0 30px 30px;
+}
+.postcreate .postcreatebox form > div:nth-of-type(1) label,
+.postcreate .postcreatebox form > div:nth-of-type(2) label,
+.postcreate .postcreatebox form > div:nth-of-type(3) label,
+.postcreate .postcreatebox form > div:nth-of-type(4) label,
+.postcreate .postcreatebox form > div:nth-of-type(5) label,
+.postcreate .postcreatebox form > div:nth-of-type(6) label,
+.postcreate .postcreatebox form > div:nth-of-type(7) label,
+.postcreate .postcreatebox form > div:nth-of-type(8) label{
+  background: linear-gradient(to right, rgb(71, 158, 254), rgb(64, 190, 254));
+  color: #fff;
+  margin-bottom: 4px;
+}
+.postcreate .postcreatebox form label {
+  padding: 6px;
+}
+.postcreate .postcreatebox .title {
+  padding: 10px 30px;
+  border-radius: 0 0 30px 30px;
+  background: linear-gradient(to right, rgb(71, 158, 254), rgb(64, 190, 254));
+  color: #fff;
+  width: 400px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.postcreate .postcreatebox .title img {
+  width: 24px;
+  height: 24px;
+  margin-right: 6px;
+  vertical-align: sub;
+}
+.postcreate .postcreatebox .title h2 {
+  display: inline-block;
+}
+
+.like_dislike {
+  margin-right: 400px;
 }
