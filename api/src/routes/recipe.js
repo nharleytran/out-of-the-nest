@@ -8,11 +8,9 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 router.post("/recipe", async (req, res) => {
     try {
-
-        const query = req.body.query;
         const completion = await openai.createCompletion({
             model: "text-davinci-003",
-            prompt: generatePrompt(query),
+            prompt: generatePrompt(req.body),
             temperature: 0.6,
             max_tokens: 128,
         });
@@ -34,8 +32,9 @@ router.post("/recipe", async (req, res) => {
     }
 
 });
-function generatePrompt(queryData) {
-    return "suggesstion for a student have gpa 4.0 and want to get into big company like google, facebook, amazon, apple, microsoft, etc. Be brief and concise. \n";
+function generatePrompt({gpa, testscore, extracurriculars, comment}) {
+  return "I have a gpa of " + gpa + " and a test score of " + testscore + " and extracurriculars of " + extracurriculars + ". " + comment + ". Can you make some suggestion? Be brief and concise. \n";
+    // return "suggesstion for a student have gpa 4.0 and want to get into big company like google, facebook, amazon, apple, microsoft, etc. Be brief and concise. \n";
 }
 
 module.exports = router;

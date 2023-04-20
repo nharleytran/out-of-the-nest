@@ -34,6 +34,7 @@ function Questionnaire() {
       gpa: 0,
       testscore: "",
       extracurriculars: [{ content: '', key: randomId() }],
+      comment: "",
     },
     validate: {
       gpa: (value) => (value.length < 1 ? 'GPA is required' : null || value < 0 ? 'GPA cannot be negative' : null),
@@ -69,7 +70,7 @@ const fields = form.values.extracurriculars.map((item, index) => (
 ));
 
 
-  const { gpa, testscore, extracurriculars } = form.values;
+  const { gpa, testscore, extracurriculars,comment } = form.values;
 
   return (
     <>
@@ -114,12 +115,21 @@ const fields = form.values.extracurriculars.map((item, index) => (
               
 
               {fields}
+                <TextInput
+                  placeholder="Ex: I want to get into companies like Google, Facebook, etc."
+                  label="Other Comments"
+                  {...form.getInputProps("comment", {
+                    type: "text"
+                  })}
+                  withAsterisk
+                  className="input-box"
+                />
               </div>
 
               <div className="submit-questionnaire-button">
                 <Button size="md" onClick={() => {
                   if (form.isValid()) {
-                    navigate("/results", { state: { posts, gpa, testscore, extracurriculars } })
+                    navigate("/results", { state: { posts, gpa, testscore, extracurriculars, comment } })
                   } else {
                     form.validate();
                   }

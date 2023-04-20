@@ -13,7 +13,7 @@ import { getSuggestion } from "../api/recipe";
 
 function Results() {
     const location = useLocation();
-    const { posts, gpa, testscore, extracurriculars } = location.state;
+    const { posts, gpa, testscore, extracurriculars,comment } = location.state;
     const hardCodedGpa = 3.7
     const hardCodedTestScore = "521"
     const hardCodedExtracurricular = [
@@ -25,8 +25,9 @@ function Results() {
 
     ];
     const [response, setResponse] = useState("");
+    const extracurricular_string = extracurriculars.map((item) => item.content).join(', ');
     useEffect(() => {
-        getSuggestion("some query").then(data=>{
+        getSuggestion({'gpa': gpa, 'testscore':testscore, 'extracurriculars': extracurricular_string, 'comment': comment}).then(data=>{
             setResponse(data.result);
         })
     },[]);
