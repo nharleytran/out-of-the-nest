@@ -8,6 +8,9 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 router.post("/recipe", async (req, res) => {
     try {
+
+        console.log(req.body)
+        // console.log(generatePrompt(req.body))
         const completion = await openai.createCompletion({
             model: "text-davinci-003",
             prompt: generatePrompt(req.body),

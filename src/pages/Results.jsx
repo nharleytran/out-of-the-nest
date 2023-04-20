@@ -28,6 +28,7 @@ function Results() {
     const extracurricular_string = extracurriculars.map((item) => item.content).join(', ');
     useEffect(() => {
         getSuggestion({'gpa': gpa, 'testscore':testscore, 'extracurriculars': extracurricular_string, 'comment': comment}).then(data=>{
+            console.log(data.result)
             setResponse(data.result);
         })
     },[]);
