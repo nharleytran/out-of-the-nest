@@ -8,7 +8,8 @@ import {
   Title,
   LoadingOverlay,
   Container,
-  Notification
+  Notification,
+  Loader
 } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks';
 import { useLocation, Link } from 'react-router-dom'
@@ -32,23 +33,18 @@ function Results() {
   ]
   const extracurricular_string = extracurriculars.map((item) => item.content).join(', ');
   const [response, setResponse] = useState("");
+  const [loader, setLoader] = useState(<Loader  variant="bars"/>);
 
   useEffect(() => {
     getSuggestion({ 'gpa': gpa, 'testscore': testscore, 'extracurriculars': extracurricular_string, 'comment': comment }).then(data => {
       setResponse(data.result);
-      toggle();
+      // toggle();
+      setLoader(<></>);
     })
   }, []);
   
   return (
     <div className="results">
-                        <Notification
-        loading
-        title="Uploading data to the server"
-        withCloseButton={false}
-      >
-        Please wait until data is uploaded, you cannot close this notification yet
-      </Notification>
       <div className="resultsbg"></div>
       {/* ParticlesBg type: "color","ball","lines","thick","circle","cobweb","polygon","square","tadpole","fountain","random","custom" */}
       <ParticlesBg type="cobweb" bg={true} />
@@ -116,6 +112,7 @@ function Results() {
 
                   <Text align='justify'>
                   {/* <LoadingOverlay visible={visible} overlayBlur={2} /> */}
+                  {loader}
                     {response}
                   </Text>
                 </ScrollArea>
