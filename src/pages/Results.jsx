@@ -17,6 +17,7 @@ import ParticlesBg from 'particles-bg'
 import logo from '../images/outofthenestlogo.png'
 import { useEffect, useState } from 'react'
 import { getSuggestion } from "../api/recipe";
+import * as API from "../api";
 
 function Results() {
   const location = useLocation()
@@ -33,10 +34,17 @@ function Results() {
   ]
   const extracurricular_string = extracurriculars.map((item) => item.content).join(', ');
   const [response, setResponse] = useState("");
-  const [loader, setLoader] = useState(<Loader variant="bars" />);
+  const [loader, setLoader] = useState(<Loader variant="dots" />);
   const [suggestTitle, setSuggestTitle] = useState("");
+  const [avgGpa, setAvgGpa] = useState(0);
 
   useEffect(() => {
+    API.getAverageGPA().then(data => {
+      const avgGpa = data.data[0].averageGPA;
+      setAvgGpa(Math.round(avgGpa * 100) / 100);
+      
+    })
+    
     getSuggestion({
       'gpa': gpa, 'testscore': testscore, 'extracurriculars': extracurricular_string,
       'experience': experience, 'comment': comment
@@ -45,7 +53,6 @@ function Results() {
       // toggle();
       setLoader(<></>);
       setSuggestTitle("Our suggestion for you,")
-    
     })
   }, []);
 
@@ -87,6 +94,7 @@ function Results() {
                   {gpa.toFixed(2)}
                 </Avatar>
                 <Text align="center" style={{ marginTop: 10 }}>
+                    out of 4.0
                 </Text>
               </div>
             </Grid.Col>
@@ -102,7 +110,7 @@ function Results() {
                     size="xl"
                     className="results-avatar"
                     style={{ color: '#000' }}>
-                    {hardCodedGpa.toFixed(2)}
+                    {avgGpa}
                   </Avatar>
                   <Text align="center" style={{ marginTop: 10 }}>
                     out of 4.0

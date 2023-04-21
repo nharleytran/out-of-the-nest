@@ -250,6 +250,18 @@ class PostDAO {
   //   }
   // }
   // // Add more functions to retrieve other fields as needed
+
+  async getAverageGPA() {
+    const averageGPA = await Post.aggregate([
+      {
+        $group: {
+          _id: null,
+          averageGPA: { $avg: "$gpa" },
+        },
+      },
+    ]);
+    return averageGPA;
+  }
 }
 
 module.exports = PostDAO;

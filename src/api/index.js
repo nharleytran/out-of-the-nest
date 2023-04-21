@@ -223,4 +223,13 @@ export async function deleteComment(postId, commentId) {
     }
     }
 
+export async function getAverageGPA() {
+  try {
+    const response = await axiosInstance.get("/posts/avgGPA");
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
 
