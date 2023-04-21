@@ -4,6 +4,7 @@ const express = require("express");
 const posts = require("./routes/posts.js");
 const users = require("./routes/user.js");
 const images = require("./routes/images.js");
+const jobpost = require("./routes/jobpost.js");
 const { authRouter, checkPermission } = require("./routes/auth.js");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -28,6 +29,7 @@ app.use(`${api_url}`, posts);
 app.use(`${api_url}`, users);
 app.use(`${api_url}`, authRouter);
 app.use(`${api_url}`, images);
+app.use(`${api_url}`, jobpost);
 
 app.use((err, req, res, next) => {
   if (err) {

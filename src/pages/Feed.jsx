@@ -6,6 +6,7 @@ import Personalize from "../components/Personalize"
 import '../App.css'
 import { useLocation } from 'react-router-dom'
 import React, { useState } from 'react'
+import JobPost from '../components/JobPost'
 
 function Feed() {
   const obj = useLocation()
@@ -25,6 +26,10 @@ function Feed() {
       />
       <Personalize 
         posts={posts}
+      />
+      <JobPost
+        category_id={category_id}
+
       />
       <Posts
         category_id={category_id}
