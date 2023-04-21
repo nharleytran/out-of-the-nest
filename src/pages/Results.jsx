@@ -33,7 +33,7 @@ function Results() {
   ]
   const extracurricular_string = extracurriculars.map((item) => item.content).join(', ');
   const [response, setResponse] = useState("");
-  const [loader, setLoader] = useState(<Loader  variant="bars"/>);
+  const [loader, setLoader] = useState(<Loader variant="bars" />);
 
   useEffect(() => {
     getSuggestion({ 'gpa': gpa, 'testscore': testscore, 'extracurriculars': extracurricular_string, 'comment': comment }).then(data => {
@@ -42,7 +42,7 @@ function Results() {
       setLoader(<></>);
     })
   }, []);
-  
+
   return (
     <div className="results">
       <div className="resultsbg"></div>
@@ -106,13 +106,15 @@ function Results() {
             </Grid.Col>
 
             <Grid.Col span={12} >
-              
+
               <Card>
                 <ScrollArea>
-
+                  <Title order={3} mt={10}>
+                    Our suggestion for you
+                  </Title>
                   <Text align='justify'>
-                  {/* <LoadingOverlay visible={visible} overlayBlur={2} /> */}
-                  {loader}
+                    {/* <LoadingOverlay visible={visible} overlayBlur={2} /> */}
+                    {loader}
                     {response}
                   </Text>
                 </ScrollArea>
