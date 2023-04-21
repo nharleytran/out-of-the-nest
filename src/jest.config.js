@@ -7,6 +7,7 @@ module.exports = {
   moduleNameMapper: {
     '^axios$': require.resolve('axios'),
   },
+  setupFiles: ["<rootDir>/__test__/setup.js"],
 };
 
 
