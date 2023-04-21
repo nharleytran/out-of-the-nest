@@ -1,7 +1,9 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { render, fireEven, screen } from "@testing-library/react";
+import { useNavigate, useLocation, BrowserRouter, MemoryRouter } from "react-router-dom";
 import Header from "../components/Header";
+import { AuthProvider } from '../context/AuthContext';
+
 
 jest.mock("react-router-dom", () => ({
   useNavigate: jest.fn(),
@@ -18,42 +20,33 @@ describe("Header component", () => {
     expect(true).toBe(true);
   });
 
-  // test("Renders search component when on feed page", () => {
-  //   useLocation.mockReturnValueOnce({ pathname: "/feed" });
-  //   const { getByPlaceholderText } = render(<Header />);
-  //   expect(getByPlaceholderText("Look for posts")).toBeInTheDocument();
-  // });
+  test("renders Create post button", () => {
+    useLocation.mockReturnValueOnce({ pathname: "/feed" });
+    render(<Header />);
+    const createPostButton = screen.getByText("Create post");
+    expect(createPostButton).toBeInTheDocument();
+  });
 
-  // test("Navigates to create post page when create post button is clicked", () => {
-  //   const navigateMock = jest.fn();
-  //   useNavigate.mockReturnValueOnce(navigateMock);
-  //   useLocation.mockReturnValueOnce({ pathname: "/" });
-  //   const { getByText } = render(<Header />);
-  //   fireEvent.click(getByText("Create post"));
-  //   expect(navigateMock).toHaveBeenCalledWith("/create");
-  // });
-
-  // test("Sign Up button renders on home page", () => {
-  //   const navigateMock = jest.fn();
-  //   useNavigate.mockReturnValueOnce(navigateMock);
-  //   useLocation.mockReturnValueOnce({ pathname: "/" });
-  //   const { getByText } = render(<Header />);
-  //   expect(getByText("Sign Up"));
-  // });
-  //
-  // test("Login button renders on home page", () => {
-  //   const navigateMock = jest.fn();
-  //   useNavigate.mockReturnValueOnce(navigateMock);
-  //   useLocation.mockReturnValueOnce({ pathname: "/" });
-  //   const { getByText } = render(<Header />);
-  //   expect(getByText("Login"));
-  // });
-
-  // test("Create post button renders on home page", () => {
-  //   const navigateMock = jest.fn();
-  //   useNavigate.mockReturnValueOnce(navigateMock);
-  //   useLocation.mockReturnValueOnce({ pathname: "/" });
-  //   const { getByText } = render(<Header />);
-  //   expect(getByText("Create post"));
-  // });
+  test('renders log in button when user is not logged in', () => {
+    useLocation.mockReturnValueOnce({ pathname: "/feed" });
+    const userIsLoggedIn = false;
+  
+    const authValue = {
+      user: userIsLoggedIn ? { name: 'Test User' } : null,
+    };
+  
+    render(
+      <AuthProvider value={authValue}>
+        <Header />
+      </AuthProvider>
+    );
+  
+    if (userIsLoggedIn) {
+      const logOutButton = screen.getByText('Logout');
+      expect(logOutButton).toBeInTheDocument();
+    } else {
+      const logInButton = screen.getByText('Login');
+      expect(logInButton).toBeInTheDocument();
+    }
+  });
 });
