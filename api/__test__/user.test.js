@@ -98,7 +98,8 @@ describe("User Test", () => {
     const name = "Test user";
     const password = "123456";
     const api_url = getApiUrl();
-    let response = await request.post(`${api_url}/user/create`).send({
+    let response = await request.delete(`${api_url}/user/email/delete/${email}`);
+    response = await request.post(`${api_url}/user/create`).send({
       name: name,
       email: email,
       password: password,

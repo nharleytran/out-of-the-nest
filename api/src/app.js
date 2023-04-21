@@ -5,6 +5,8 @@ const posts = require("./routes/posts.js");
 const users = require("./routes/user.js");
 const images = require("./routes/images.js");
 const jobpost = require("./routes/jobpost.js");
+const recipe = require("./routes/recipe.js");
+
 const { authRouter, checkPermission } = require("./routes/auth.js");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -30,6 +32,7 @@ app.use(`${api_url}`, users);
 app.use(`${api_url}`, authRouter);
 app.use(`${api_url}`, images);
 app.use(`${api_url}`, jobpost);
+app.use(`${api_url}`, recipe);
 
 app.use((err, req, res, next) => {
   if (err) {
