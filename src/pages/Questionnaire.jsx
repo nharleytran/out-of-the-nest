@@ -8,6 +8,7 @@ import {
   ActionIcon,
   Text,
   Modal,
+  Stack
 } from '@mantine/core'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import logo from '../images/outofthenestlogo.png'
@@ -33,14 +34,16 @@ function Questionnaire() {
       gpa: 0,
       testscore: '',
       extracurriculars: [{ content: '', key: randomId() }],
+      comments: '',
+      experience: '',
     },
     validate: {
       gpa: (value) =>
         value.length < 1
           ? 'GPA is required'
           : null || value < 0
-          ? 'GPA cannot be negative'
-          : null,
+            ? 'GPA cannot be negative'
+            : null,
       testscore: (value) =>
         value.length < 1 ? 'Test score is required' : null,
     },
@@ -83,7 +86,7 @@ function Questionnaire() {
     </Group>
   ))
 
-  const { gpa, testscore, extracurriculars } = form.values
+  const { gpa, testscore, extracurriculars, experience, comment } = form.values
 
   return (
     <>
@@ -107,7 +110,7 @@ function Questionnaire() {
           <div className="questions">
             <form onSubmit={form.onSubmit()}>
               <div className="input-container">
-                <div className="gpa">
+                <Stack spacing="xs">
                   <NumberInput
                     placeholder="Enter your GPA"
                     label="GPA"
@@ -119,7 +122,6 @@ function Questionnaire() {
                     withAsterisk
                     className="input-box"
                   />
-                </div>
                 <TextInput
                   placeholder="Enter your test score (N/A if no test score)"
                   label="Test score"
@@ -130,7 +132,24 @@ function Questionnaire() {
                   className="input-box"
                 />
 
+                <TextInput
+                  placeholder="Please state your experience."
+                  label="Experiences"
+                  {...form.getInputProps("experience", {
+                    type: "text"
+                  })}
+                  className="input-box"
+                />
                 {fields}
+                <TextInput
+                  placeholder="Ex: I want to get into companies like Google, Facebook, etc."
+                  label="Other Comments"
+                  {...form.getInputProps("comment", {
+                    type: "text"
+                  })}
+                  className="input-box"
+                />
+              </Stack>
               </div>
 
               <div className="submit-questionnaire-button">
@@ -138,9 +157,7 @@ function Questionnaire() {
                   size="md"
                   onClick={() => {
                     if (form.isValid()) {
-                      navigate('/results', {
-                        state: { posts, gpa, testscore, extracurriculars },
-                      })
+                      navigate("/results", { state: { posts, gpa, testscore, extracurriculars, experience, comment } })
                     } else {
                       form.validate()
                     }

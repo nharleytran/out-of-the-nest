@@ -6,14 +6,21 @@ import {
   Badge,
   Grid,
   Title,
+  LoadingOverlay,
+  Container,
+  Notification
 } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks';
 import { useLocation, Link } from 'react-router-dom'
 import ParticlesBg from 'particles-bg'
 import logo from '../images/outofthenestlogo.png'
+import { useEffect, useState } from 'react'
+import { getSuggestion } from "../api/recipe";
 
 function Results() {
   const location = useLocation()
-  const { gpa, testscore, extracurriculars } = location.state
+  const { posts, gpa, testscore, extracurriculars, comment } = location.state;
+  const [visible, { toggle }] = useDisclosure(true);
   const hardCodedGpa = 3.7
   const hardCodedTestScore = '521'
   const hardCodedExtracurricular = [
@@ -23,9 +30,25 @@ function Results() {
     { key: '4', content: 'Student government' },
     { key: '5', content: 'On-campus job' },
   ]
+  const extracurricular_string = extracurriculars.map((item) => item.content).join(', ');
+  const [response, setResponse] = useState("");
 
+  useEffect(() => {
+    getSuggestion({ 'gpa': gpa, 'testscore': testscore, 'extracurriculars': extracurricular_string, 'comment': comment }).then(data => {
+      setResponse(data.result);
+      toggle();
+    })
+  }, []);
+  
   return (
     <div className="results">
+                        <Notification
+        loading
+        title="Uploading data to the server"
+        withCloseButton={false}
+      >
+        Please wait until data is uploaded, you cannot close this notification yet
+      </Notification>
       <div className="resultsbg"></div>
       {/* ParticlesBg type: "color","ball","lines","thick","circle","cobweb","polygon","square","tadpole","fountain","random","custom" */}
       <ParticlesBg type="cobweb" bg={true} />
@@ -37,62 +60,69 @@ function Results() {
       {/* <Paper className="note" shadow="lg" radius="lg" p="md">
             Note: This page currently contains hardcoded data for the statistics shown for other people. In addition, the maximum test score in 'Your Statistics' column is hardcoded right now. This will be changed after the algorithm for this page is created in the next iteration.
             </Paper> */}
+
       <div className="results-main">
         <Title order={1} align="center" className="results-main-title">
           Success Recipe
         </Title>
-        <Grid
-          gutter={5}
-          gutterXs="md"
-          gutterMd="xl"
-          gutterXl={50}
-          className="results-container">
-          <Grid.Col span={4}>
-            <div className="flipInX animated results-circle results-circle1">
-              <Text align="center" mt={25}>
-                Your GPA is
-              </Text>
-              <Avatar
-                size="xl"
-                className="results-avatar"
-                style={{ color: '#000' }}>
-                {gpa.toFixed(2)}
-              </Avatar>
-              <Text align="center" style={{ marginTop: 10 }}>
-                out of 4.0
-              </Text>
-            </div>
-          </Grid.Col>
-          <Grid.Col span={4}>
-            <div className="flipInX animated results-circle results-circle2">
-              <Card.Section>
+        <Container size="lg">
+          <Grid
+            gutter={5}
+            gutterXs="md"
+            gutterMd="xl"
+            gutterXl={50}
+            className="results-container" pos="relative">
+
+            <Grid.Col span={6}>
+              <div className="flipInX animated results-circle results-circle1">
                 <Text align="center" mt={25}>
-                  Average GPA is
+                  Your GPA is
                 </Text>
-              </Card.Section>
-              <Card.Section align="center">
                 <Avatar
                   size="xl"
                   className="results-avatar"
                   style={{ color: '#000' }}>
-                  {hardCodedGpa.toFixed(2)}
+                  {gpa.toFixed(2)}
                 </Avatar>
                 <Text align="center" style={{ marginTop: 10 }}>
-                  out of 4.0
                 </Text>
-              </Card.Section>
-            </div>
-          </Grid.Col>
-          <Grid.Col span={4}>
-            <Card>
-              <ScrollArea h={190}>
-                <Title order={3}>Our suggestion</Title>
-                <Text>
-                </Text>
-              </ScrollArea>
-            </Card>
-          </Grid.Col>
-        </Grid>
+              </div>
+            </Grid.Col>
+            <Grid.Col span={6}>
+              <div className="flipInX animated results-circle results-circle2">
+                <Card.Section>
+                  <Text align="center" mt={25}>
+                    Average GPA is
+                  </Text>
+                </Card.Section>
+                <Card.Section align="center">
+                  <Avatar
+                    size="xl"
+                    className="results-avatar"
+                    style={{ color: '#000' }}>
+                    {hardCodedGpa.toFixed(2)}
+                  </Avatar>
+                  <Text align="center" style={{ marginTop: 10 }}>
+                    out of 4.0
+                  </Text>
+                </Card.Section>
+              </div>
+            </Grid.Col>
+
+            <Grid.Col span={12} >
+              
+              <Card>
+                <ScrollArea>
+
+                  <Text align='justify'>
+                  {/* <LoadingOverlay visible={visible} overlayBlur={2} /> */}
+                    {response}
+                  </Text>
+                </ScrollArea>
+              </Card>
+            </Grid.Col>
+          </Grid>
+        </Container>
       </div>
     </div>
   )

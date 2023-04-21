@@ -15,7 +15,7 @@ router.post("/recipe", async (req, res) => {
             model: "text-davinci-003",
             prompt: generatePrompt(req.body),
             temperature: 0.6,
-            max_tokens: 128,
+            max_tokens: 256,
         });
         console.log(completion.data.choices)
         res.status(200).json({ result: completion.data.choices[0].text });
@@ -36,7 +36,8 @@ router.post("/recipe", async (req, res) => {
 
 });
 function generatePrompt({gpa, testscore, extracurriculars, comment}) {
-  return "I have a gpa of " + gpa + " and a test score of " + testscore + " and extracurriculars of " + extracurriculars + ". " + comment + ". Can you make some suggestion? Be brief and concise. \n";
+  return "I have a gpa of " + gpa + " and a test score of " + testscore + " and extracurriculars of " + extracurriculars + ". " + comment + ". \
+  Can you recommend extracurriculars? \n";
     // return "suggesstion for a student have gpa 4.0 and want to get into big company like google, facebook, amazon, apple, microsoft, etc. Be brief and concise. \n";
 }
 
