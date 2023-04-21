@@ -97,7 +97,7 @@ function Questionnaire() {
         </Link>
       </div>
       <div className="questionnaire">
-        <Box maw={800} mx="auto" className="questionnairebox">
+        <Box maw={800} mx="auto" mt="5rem" className="questionnairebox">
           <div style={{ textAlign: 'center' }}>
             <h2 style={{ fontWeight: 'bold' }}>Enter your information below</h2>
             <p>

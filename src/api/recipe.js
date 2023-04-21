@@ -1,9 +1,8 @@
 import { axiosInstance } from './index'
 
-async function getSuggestion({gpa, testscore, extracurriculars, comment}) {
+async function getSuggestion({gpa, testscore, extracurriculars, experience, comment}) {
     try {
-        console.log(gpa, testscore, extracurriculars, comment)
-        const response = await axiosInstance.post(`/recipe`, {gpa, testscore, extracurriculars, comment});
+        const response = await axiosInstance.post(`/recipe`, {gpa, testscore, extracurriculars, experience, comment});
         return response.data;
     } catch (err) {
         throw err;

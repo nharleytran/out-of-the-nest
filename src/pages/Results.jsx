@@ -20,7 +20,7 @@ import { getSuggestion } from "../api/recipe";
 
 function Results() {
   const location = useLocation()
-  const { posts, gpa, testscore, extracurriculars, comment } = location.state;
+  const { posts, gpa, testscore, extracurriculars, experience, comment } = location.state;
   const [visible, { toggle }] = useDisclosure(true);
   const hardCodedGpa = 3.7
   const hardCodedTestScore = '521'
@@ -34,12 +34,18 @@ function Results() {
   const extracurricular_string = extracurriculars.map((item) => item.content).join(', ');
   const [response, setResponse] = useState("");
   const [loader, setLoader] = useState(<Loader variant="bars" />);
+  const [suggestTitle, setSuggestTitle] = useState("");
 
   useEffect(() => {
-    getSuggestion({ 'gpa': gpa, 'testscore': testscore, 'extracurriculars': extracurricular_string, 'comment': comment }).then(data => {
+    getSuggestion({
+      'gpa': gpa, 'testscore': testscore, 'extracurriculars': extracurricular_string,
+      'experience': experience, 'comment': comment
+    }).then(data => {
       setResponse(data.result);
       // toggle();
       setLoader(<></>);
+      setSuggestTitle("Our suggestion for you,")
+    
     })
   }, []);
 
@@ -110,7 +116,7 @@ function Results() {
               <Card>
                 <ScrollArea>
                   <Title order={3} mt={10}>
-                    Our suggestion for you
+                    {suggestTitle}
                   </Title>
                   <Text align='justify'>
                     {/* <LoadingOverlay visible={visible} overlayBlur={2} /> */}

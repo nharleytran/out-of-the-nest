@@ -9,15 +9,14 @@ const openai = new OpenAIApi(configuration);
 router.post("/recipe", async (req, res) => {
     try {
 
-        console.log(req.body)
-        // console.log(generatePrompt(req.body))
+        const prompt = generatePrompt(req.body);
+
         const completion = await openai.createCompletion({
             model: "text-davinci-003",
-            prompt: generatePrompt(req.body),
+            prompt: prompt,
             temperature: 0.6,
             max_tokens: 256,
         });
-        console.log(completion.data.choices)
         res.status(200).json({ result: completion.data.choices[0].text });
     }
     catch (error) {
@@ -35,9 +34,9 @@ router.post("/recipe", async (req, res) => {
     }
 
 });
-function generatePrompt({gpa, testscore, extracurriculars, comment}) {
+function generatePrompt({gpa, testscore, extracurriculars, experience, comment}) {
   return "I have a gpa of " + gpa + " and a test score of " + testscore + " and extracurriculars of " + extracurriculars + ". " + comment + ". \
-  Can you recommend extracurriculars? \n";
+  I have experience: " + experience+". Can you recommend how to improve my profile? \n";
     // return "suggesstion for a student have gpa 4.0 and want to get into big company like google, facebook, amazon, apple, microsoft, etc. Be brief and concise. \n";
 }
 
