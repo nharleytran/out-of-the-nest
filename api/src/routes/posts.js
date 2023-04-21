@@ -22,6 +22,20 @@ router.get("/categories", async (req, res) => {
   }
 });
 
+router.get("/posts/avgGPA", async (req, res) => {
+  try {
+    const avgGPA = await postDao.getAverageGPA();
+    res.json({
+      status: 200,
+      message: `Successfully retrieved average GPA!`,
+      data: avgGPA,
+    });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+});
+
+
 router.get("/posts/category/:categoryId", async (req, res) => {
   const categoryId = req.params.categoryId;
   try {
