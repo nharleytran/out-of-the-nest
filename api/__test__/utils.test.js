@@ -1,8 +1,14 @@
+const mongoose = require("mongoose");
 const { getApiUrl, getAuthorizeToken, connectDB } = require("./utils");
 
 describe('getAuthorizeToken', () => {
   beforeAll(async () => {
     await connectDB();
+  });
+
+  afterAll(async () => {
+    await mongoose.connection.close();
+    await mongoose.disconnect();
   });
 
   it('should return an authorization token', async () => {
@@ -15,6 +21,7 @@ describe('getAuthorizeToken', () => {
 describe('connectDB', () => {
   it('should connect to the database', async () => {
     await expect(connectDB()).resolves.not.toThrow();
+    await mongoose.connection.close();
   });
 });
 

@@ -16,6 +16,7 @@ describe("Posts Test", () => {
 
   afterAll(async () => {
     await mongoose.connection.close();
+    await mongoose.disconnect();
   });
   it("Get a post unauthorized", async () => {
     const token = await getAuthorizeToken();

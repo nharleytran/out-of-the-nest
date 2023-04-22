@@ -15,6 +15,7 @@ describe("Category test", () => {
   });
   afterAll(async () => {
     await mongoose.connection.close();
+    await mongoose.disconnect();
   });
 
   it("GET all category", async () => {
