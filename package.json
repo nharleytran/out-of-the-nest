@@ -47,7 +47,7 @@
     "client": "react-scripts start",
     "server": "nodemon api/index.js",
     "build": "react-scripts build",
-    "test-frontend": "react-scripts test --transformIgnorePatterns 'node_modules/(?!axios/)' --watchAll=false",
+    "test-frontend": "react-scripts test --watchAll=false",
     "test-backend": "jest api --config=api/jest.config.js --watchAll=false",
     "eject": "react-scripts eject"
   },
