@@ -26,8 +26,8 @@ function Login() {
 
   const form = useForm({
     initialValues: {
-      email: 'user@gmail.com',
-      password: '123',
+      email: '',
+      password: '',
     },
 
     validate: {
@@ -44,7 +44,7 @@ function Login() {
         setAuth(true);
         notifications.show({
           title: 'Login successfully',
-          message: `Redirecting to ${url}`,
+          message: `Redirecting to Home Page`,
           autoClose: 1000,
           onClose: () => {
             navigate(url)
