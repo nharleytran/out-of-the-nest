@@ -103,7 +103,7 @@
   flex-wrap: wrap;
   justify-content: center;
   overflow-y: auto;
-  margin-top: 30%;
+  margin-top: 60vh;
 }
 .post-page-detail {
   padding-top: 15vh;
@@ -138,7 +138,7 @@
 .search-bar {
   background-color: rgba(170, 164, 239, 0.451);
   position: fixed;
-  top: 11%;
+  margin-top: 11vh;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -310,7 +310,7 @@ video {
   left: 5%;
   right: 5%;
   justify-content: center;
-  top: 23%;
+  top: 23vh;
 }
 
 .submit-questionnaire-button {
@@ -556,7 +556,7 @@ video {
 .job-container {
   background-color: rgba(133, 127, 194, 0);
   position: fixed;
-  top: 29%;
+  top: 29vh;
   display: flex;
   align-items: flex-start;
   justify-content: space-evenly;

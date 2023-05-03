@@ -2,7 +2,7 @@ const PostDAO = require('../src/data/PostDAO');
 const Post = require('../src/model/Post');
 const Category = require('../src/model/Category');
 const User = require('../src/model/User');
-
+const mongoose = require("mongoose");
 jest.mock('../src/model/Post');
 jest.mock('../src/model/Category');
 jest.mock('../src/model/User');
@@ -82,4 +82,10 @@ describe('PostDAO', () => {
       await expect(dao.getPostsByCategory('cat1')).rejects.toThrow('Post not found');
     });
   })
+
+  
+
+  
+  
 });
+
