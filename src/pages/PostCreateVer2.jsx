@@ -103,7 +103,7 @@ const PostCreate = () => {
       const fetchData = await postapi.getAllCategories()
       const randomId =
         fetchData[Math.floor(Math.random() * fetchData.length)]._id
-      form.setValues(dummy_generate())
+      // form.setValues(dummy_generate())
       form.setFieldValue('category_id', randomId)
       setCategories(
         fetchData.map((category) => ({
