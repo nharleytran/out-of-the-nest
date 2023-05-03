@@ -10,7 +10,6 @@ import {
   Group,
   Box,
   Select,
-  Radio,
   Flex,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
@@ -232,7 +231,6 @@ const PostCreate = () => {
             mt={10}
           />
           <Group position="center" mt={20}>
-            <Button>Save draft</Button>
             <Button type="submit"> Post </Button>{' '}
             <Button onClick={() => navigate('/')}>Cancel</Button>
           </Group>{' '}

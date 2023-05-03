@@ -525,7 +525,7 @@ video {
 }
 .postcreate .postcreatebox form label,
 .userprofile .userprofilebox form label {
-  padding: 6px;
+  padding: px;
 }
 .postcreate .postcreatebox .title,
 .userprofile .userprofilebox .title {
