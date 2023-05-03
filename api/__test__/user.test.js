@@ -33,6 +33,7 @@ describe("User Test", () => {
   afterEach(async () => {});
   afterAll(async () => {
     // await userDao.dropAll();
+    await mongoose.disconnect();
     await mongoose.connection.close();
   });
 
