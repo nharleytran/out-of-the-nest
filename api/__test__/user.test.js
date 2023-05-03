@@ -34,7 +34,6 @@ describe("User Test", () => {
   afterAll(async () => {
     // await userDao.dropAll();
     await mongoose.connection.close();
-    await mongoose.disconnect();
   });
 
   it("Create new user", async () => {
@@ -124,3 +123,7 @@ describe("User Test", () => {
     expect(verifyPassword(password2, hash)).toBe(false);
   });
 });
+
+
+
+
