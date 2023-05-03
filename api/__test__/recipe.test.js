@@ -22,7 +22,7 @@ describe("POST /api/recipe", () => {
         assert(res.body.result);
         done();
       });
-  }, 12000);
+  }, 20000);
 
   it("should return a 500 status code and an error message if there is an error with the OpenAI API request", (done) => {
     const requestData = {
@@ -46,5 +46,5 @@ describe("POST /api/recipe", () => {
         openaiApiStub.mockRestore();
         done();
       });
-  }, 10000);
+  }, 20000);
 });
