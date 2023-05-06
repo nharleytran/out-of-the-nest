@@ -14,19 +14,19 @@ function JobPost(props) {
         let search;
         switch (category_id) {
           case '63fd102f40bb0716fa58eb78':
-            search = 'consulting';
+            search = 'business analyst';
             break;
           case '63fd0ff740bb0716fa58eb76':
             search = 'software engineer';
             break;
           case '63fd104240bb0716fa58eb79':
-            search = 'engineer';
+            search = 'chemical';
             break;
           case '63fd100f40bb0716fa58eb77':
             search = 'biology';
             break;
           case '63fd0fc240bb0716fa58eb75':
-            search = 'research';
+            search = 'laboratory';
             break;
           default:
             search = 'software engineer';

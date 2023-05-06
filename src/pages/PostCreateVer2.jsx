@@ -10,7 +10,6 @@ import {
   Group,
   Box,
   Select,
-  Radio,
   Flex,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
@@ -45,12 +44,12 @@ const empty_post = {
 }
 const random_post = () => {
   return {
-    title: lorem.generateWords(5),
-    content: lorem.generateParagraphs(2),
-    gpa: 3.5,
-    testscore: 1500,
-    resume: 'https://www.google.com',
-    extracurriculars: ['eng', 'club'],
+    title: "",
+    content: "",
+    gpa: 3.00,
+    testscore: '',
+    resume: '',
+    extracurriculars: null,
   }
 }
 const dummy_generate = () => {
@@ -186,21 +185,19 @@ const PostCreate = () => {
             mt={10}
           />
           <TextInput
-            placeholder="Your test score"
+            placeholder="Your test score - optional"
             label="Test score"
             {...form.getInputProps('testscore', {
               type: 'text',
             })}
-            withAsterisk
             mt={10}
           />
           <TextInput
-            placeholder="Your resume"
+            placeholder="Your resume - optional"
             label="Please enter a shareable link that contains your resume (ex. Google drive)"
             {...form.getInputProps('resume', {
               type: 'text',
             })}
-            withAsterisk
             mt={10}
           />
           <Textarea
@@ -234,7 +231,6 @@ const PostCreate = () => {
             mt={10}
           />
           <Group position="center" mt={20}>
-            <Button>Save draft</Button>
             <Button type="submit"> Post </Button>{' '}
             <Button onClick={() => navigate('/')}>Cancel</Button>
           </Group>{' '}

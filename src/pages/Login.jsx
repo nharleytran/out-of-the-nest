@@ -44,7 +44,7 @@ function Login() {
         setAuth(true);
         notifications.show({
           title: 'Login successfully',
-          message: `Redirecting to ${url}`,
+          message: `Redirecting to Home Page`,
           autoClose: 1000,
           onClose: () => {
             navigate(url)

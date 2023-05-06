@@ -101,27 +101,6 @@ function Post() {
     }
   };
 
-
-  // const likeComment = async (event) => {
-  //   const test = await API.likeComment(id);
-  //   if (test.status === 401){
-  //     alert("You need to login in order to endorse");
-  //     navigate("/login");
-  //   } else {
-  //     setCommentLike((prevState) => prevState + 1);
-  //   }
-  // };
-
-  // const dislikeComment = async (event) => {
-  //   const test = await API.dislikeComment(id);
-  //   if (test.status === 401){
-  //     alert("You need to login in order to endorse");
-  //     navigate("/login");
-  //   } else {
-  //     setCommentLike((prevState) => prevState - 1);
-  //   }
-  // };
-
   const likePost = async (event) => {
     const test = await API.likePost(id);
     if (test.status === 401){
