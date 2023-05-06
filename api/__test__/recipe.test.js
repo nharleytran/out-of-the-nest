@@ -2,8 +2,13 @@ const assert = require("assert");
 const request = require("supertest");
 const app = require("../src/app");
 const { OpenAIApi } = require("openai");
+const mongoose = require("mongoose");
 
 describe("POST /api/recipe", () => {
+  afterAll(async () => {
+    await mongoose.connection.close();
+    await mongoose.disconnect();
+  });
   it("should return a 200 status code and a result", (done) => {
     const requestData = {
       gpa: 3.8,
@@ -22,7 +27,7 @@ describe("POST /api/recipe", () => {
         assert(res.body.result);
         done();
       });
-  }, 12000);
+  }, 20000);
 
   it("should return a 500 status code and an error message if there is an error with the OpenAI API request", (done) => {
     const requestData = {
@@ -46,5 +51,5 @@ describe("POST /api/recipe", () => {
         openaiApiStub.mockRestore();
         done();
       });
-  }, 10000);
+  }, 20000);
 });
