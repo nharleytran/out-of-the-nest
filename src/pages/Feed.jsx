@@ -17,26 +17,27 @@ function Feed() {
   return (
     <>
       <Header />
-      <SearchBar
-        query={query}
-        setQuery={setQuery}
-        category_id={category_id}
-        posts={posts}
-        setPosts={setPosts}
-      />
-      <Personalize 
-        posts={posts}
-      />
-      <JobPost
-        category_id={category_id}
-
-      />
-      <Posts
-        category_id={category_id}
-        query={query}
-        posts={posts}
-        setPosts={setPosts}
-      />
+      <div className='feed-container'>
+        <SearchBar
+          query={query}
+          setQuery={setQuery}
+          category_id={category_id}
+          posts={posts}
+          setPosts={setPosts}
+        />
+        <Personalize 
+          posts={posts}
+        />
+        <JobPost
+          category_id={category_id}
+        />
+        <Posts
+          category_id={category_id}
+          query={query}
+          posts={posts}
+          setPosts={setPosts}
+        />
+      </div>
     </>
   )
 }
