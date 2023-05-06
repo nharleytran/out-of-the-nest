@@ -20,4 +20,6 @@ describe("Outcome component", () => {
     expect(selectField).toHaveAttribute("placeholder", "");
     expect(selectField).toHaveAttribute("value", "");
   });
+
+  
 });

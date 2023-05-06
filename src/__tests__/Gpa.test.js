@@ -1,32 +1,36 @@
-import { render, fireEvent } from "@testing-library/react";
-import Gpa from "../components/PostContent/Gpa";
+import React from 'react';
+import { render, fireEvent } from '@testing-library/react';
+import Gpa from '../components/PostContent/Gpa';
 
-describe("Gpa component", () => {
-  test("renders the input field correctly", () => {
-    const setPostdata = jest.fn();
-    const { getByLabelText } = render(
-      <Gpa postData={{}} setPostdata={setPostdata} />
-    );
-    const inputField = getByLabelText("GPA *");
-    expect(inputField).toBeInTheDocument();
+describe('Gpa component', () => {
+  it('should render input field with label "GPA"', () => {
+    const { getByLabelText } = render(<Gpa />);
+    const input = getByLabelText('GPA *');
+    expect(input).toBeInTheDocument();
   });
 
-
-  test("does not call setPostdata function when invalid GPA is entered", () => {
-    // Define test data
+  it('should update post data when input value changes', () => {
     const setPostdata = jest.fn();
-    const postData = { gpa: "" };
+    const { getByLabelText } = render(<Gpa postData={{}} setPostdata={setPostdata} />);
+    const input = getByLabelText('GPA *');
+    const newValue = 3.75;
+    fireEvent.change(input, { target: { value: newValue } });
+    expect(setPostdata).toHaveBeenCalledWith({ gpa: newValue });
+  });
 
-    // Render the component
-    const { getByLabelText } = render(
-      <Gpa postData={postData} setPostdata={setPostdata} />
-    );
+  it('should accept only numbers with up to two decimal places', () => {
+    const setPostdata = jest.fn();
+    const { getByLabelText } = render(<Gpa postData={{}} setPostdata={setPostdata} />);
+    const input = getByLabelText('GPA *');
+    fireEvent.change(input, { target: { value: '3.999' } });
+    expect(input.value).toBe('4.00');
+  });
 
-    // Simulate an invalid GPA change
-    const inputField = getByLabelText("GPA *");
-    fireEvent.change(inputField, { target: { value: "abc" } });
-
-    // Assert that the setPostdata function was not called
-    expect(setPostdata).not.toHaveBeenCalled();
+  it('should convert negative numbers to zero', () => {
+    const setPostdata = jest.fn();
+    const { getByLabelText } = render(<Gpa postData={{}} setPostdata={setPostdata} />);
+    const input = getByLabelText('GPA *');
+    fireEvent.change(input, { target: { value: '-3.75' } });
+    expect(input.value).toBe('0.00');
   });
 });
