@@ -105,6 +105,10 @@
   margin-top: 52vh;
 }
 
+.post-page-detail {
+  margin-top: 12vh;
+}
+
 .post-box {
   position: flex;
   display: flex;
