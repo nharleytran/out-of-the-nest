@@ -5,7 +5,7 @@ Embarking on a life journey after undergrad is challenging, and the journey come
 We want to create a platform that allows graduates and upperclassmen to post submissions about their admissions and job recruiting journeys, offering connection and insight to others in the same boat. This information includes GPA, extracurricular activities, essays, resume, and other personal recommendations that we believe will be helpful in guiding underclassmen to pursue their aspiring career pathway properly.
 
 ## Installing / Getting started
-
+ 
 We first need to install the packages, 
 
 ```
